@@ -18,7 +18,6 @@
   <div>
       <FullCalendar
         :options="calendarPlugins"
-        
       />
   </div>
 </template>
@@ -49,20 +48,55 @@ export default {
           // timeGridDay: 'Dan',
         },
         locale: 'sr-latn',
+        dayCellContent: this.dayCellContentCallback,
+
         events: [
-    { // this object will be "parsed" into an Event Object
-      title: 'The Title', // a property!
-      start: '2024-01-01', // a property!
-      end: '2024-01-01' // a property! ** see important note below about 'end' **
-    }
-  ]
+          { // this object will be "parsed" into an Event Object
+            title: 'The Title', // a property!
+            start: '2024-01-01', // a property!
+            end: '2024-01-01' // a property! ** see important note below about 'end' **
+          }
+        ]
       },
     }
   },
+
+  methods: {
+    dayCellContentCallback(arg) {
+      const date = arg.date.getDate();
+      return {
+        html: `
+        <div class="custom-date-container">
+          <span class="custom-date-num">${date}</span>
+          <span class="custom-date-price">$50</span>
+        </div>
+        `
+      }
+    }
+  }, 
 }
 </script>
 
 <style>
+.custom-date-container {
+  position: relative;
+}
+
+.custom-date-price {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  top:150px;
+}
+
+
+.custom-date-num {
+  margin-bottom: 10px;
+  margin-right: 15px;
+  font-size: 25px;
+}
+
+
 .fc {
   height: 1200px;
 }
