@@ -1,5 +1,5 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 150vh">
+    <a href="/kalendar" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
             <use xlink:href="#bootstrap"></use>
         </svg>
@@ -9,10 +9,12 @@
     <ul class="nav nav-pills flex-column mb-auto">
         {{-- Kalendar --}}
         <li class="nav-item">
-            <a href="#" class="nav-link text-white" aria-current="page">
-                <i class="fa-regular fa-calendar fa-lg" style="color: #4eb3ac; margin-right: 15px"></i><span style="color: #4eb3ac;">Kalendar</span>
+            <a href="/kalendar" class="nav-link text-white" aria-current="page">
+                <span style="color: 
+                    <?php echo ($_SERVER['REQUEST_URI'] == '/kalendar') ? '#4eb3ac' : 'white'; ?>;"><i class="fa-regular fa-calendar fa-lg" style=" margin-right: 15px"></i>Kalendar
+                </span>
             </a>
-        <hr>
+            <hr>
         </li>
         {{-- Apartmani --}}
         <li class="nav-item dropdown">
@@ -31,7 +33,7 @@
 
 
         <li>
-            <a href="#" class="nav-link text-white">
+            <a href="/" class="nav-link text-white">
                 <svg class="bi me-2" width="16" height="16">
                     <use xlink:href="#table"></use>
                 </svg>
