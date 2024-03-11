@@ -85,8 +85,8 @@ export default {
 .custom-date-price {
   position: absolute;
   bottom: 0;
-  right: 10px;
-  top:150px;
+  right: 15px;
+  top:140px;
 }
 
 
@@ -133,7 +133,8 @@ export default {
   --fc-button-hover-border-color: #1a252f;
   --fc-button-active-bg-color: #1a252f;
   --fc-button-active-border-color: #151e27;
-  --fc-border-color: #4eb3ac;
+  /* --fc-border-color: #D3D3D3; ovo ce biti moja okvira kalendara*/
+  --fc-border-color: gray;
 }
 
 .theme-color-dark {

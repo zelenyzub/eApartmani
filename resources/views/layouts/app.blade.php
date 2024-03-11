@@ -9,20 +9,6 @@
 </head>
 
 <body>
-    {{-- <div id="app">
-        @include('layouts.sections.nav')
-        <div class="row">
-            <div class="col-2">
-                @include('layouts.sections.sidebar')
-            </div>
-            <div class="col-8">
-                @yield('content')
-            </div>
-        </div>
-
-
-    </div> --}}
-
     @include('layouts.sections.nav')
     <div id="app">
         <div id="layoutSidenav">
@@ -33,10 +19,10 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('theme/js/jQuery.min.js') }}"></script>
+    <script src="{{ asset('theme/js/popper.min.js') }}"></script>
     <script src="{{ asset('theme/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('theme/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('theme/js/popper.min.js') }}"></script>
-    <script src="{{ asset('theme/js/jQuery.min.js') }}"></script>
     <script src="https://kit.fontawesome.com/bc0adc73e3.js" crossorigin="anonymous"></script>
     <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
     <style>
