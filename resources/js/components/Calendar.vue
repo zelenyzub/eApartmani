@@ -1,24 +1,43 @@
 <template>
-  <div class="row mt-3 mb-5">
-    <div class="col-6"></div>
+  <div class="row mt-3 mb-5 d-flex justify-content-end">
     <div class="col-6 d-flex justify-content-end">
-      <div class="dropdown">
-        <button type="button" class="btn btn-primary theme-color-green"><i class="fa-solid fa-info fa-sm"></i>  Legenda</button>
-        <button class="btn btn-secondary dropdown-toggle theme-color-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Odabir apartmana
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </div>
+      <button type="button" id="btnLegenda" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#modalLegend"><i class="fa-solid fa-info fa-sm"></i>
+        Legenda</button>
+    </div>
+    <div class="col-3" style="text-align-last: center;">
+      <select class="form-select theme-color-dark col-2" v-model="selectedApartment" aria-label="Odabir apartmana">
+        <option value="0" disabled selected>Odaberite apartman</option>
+        <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id">
+          {{ apartment.apartmentName }}
+        </option>
+      </select>
     </div>
   </div>
   <div>
-      <FullCalendar
-        :options="calendarPlugins"
-      />
+    <FullCalendar :options="calendarPlugins" />
+  </div>
+
+  <!-- Modal za legendu kalendara -->
+  <div class="modal" tabindex="-1" id="modalLegend">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Legenda</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <i class="fa-solid fa-circle mt-3 mb-3" style="color: #FF385C;"></i><label>&nbsp;Rezervacije sa
+            Airbnb-a</label><br>
+          <i class="fa-solid fa-circle mb-3" style="color: #0057b8;"></i><label>&nbsp;Rezervacije sa
+            Booking-a</label><br>
+          <i class="fa-solid fa-circle mb-3" style="color: #4eb3ac;"></i><label>&nbsp;Privatne rezervacije</label><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +47,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
+import axios from 'axios';
 
 export default {
   components: { FullCalendar }, // corrected component name
@@ -58,7 +78,14 @@ export default {
           }
         ]
       },
+
+      apartments: [],
+      selectedApartment: 0
     }
+  },
+
+  mounted() {
+    this.getApartName();
   },
 
   methods: {
@@ -72,8 +99,20 @@ export default {
         </div>
         `
       }
-    }
-  }, 
+    },
+
+    async getApartName() {
+      let th = this;
+      try {
+
+        const response = await axios.post('/kalendar/apartName');
+        th.apartments = response.data;
+
+      } catch (error) {
+        console.error('Došlo je do greške prilikom dohvatanja naziva apartmana: ', error);
+      }
+    },
+  },
 }
 </script>
 
@@ -86,7 +125,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 15px;
-  top:140px;
+  top: 140px;
 }
 
 
@@ -104,6 +143,7 @@ export default {
 .fc-toolbar-title {
   text-transform: uppercase;
 }
+
 .fc-col-header-cell-cushion {
   text-transform: lowercase;
   color: rgb(33 37 41);
@@ -153,6 +193,7 @@ export default {
   background-color: #215c58;
   border-color: #215c58;
 }
+
 /* ovo je eventualna stilizacija za buttone
  :root {
   --fc-button-text-color: black;
@@ -188,8 +229,3 @@ export default {
   border-color: var(--fc-button-active-border-color);
 } */
 </style>
-
-
-
-
-
