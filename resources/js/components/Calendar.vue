@@ -39,6 +39,7 @@
       </div>
     </div>
   </div>
+  <!-- Kraj modala za legendu -->
 </template>
 
 <script>

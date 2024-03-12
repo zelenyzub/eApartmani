@@ -1,4 +1,5 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 170vh">
+    {{-- Naslov aplikacije --}}
     <a href="/kalendar" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
             <use xlink:href="#bootstrap"></use>
@@ -49,7 +50,7 @@
 
         {{-- Finansije --}}
         <li class="nav-item mb-2">
-            <a class="nav-link" data-bs-toggle="collapse" href="#collapseFinansije" role="button" aria-expanded="false"
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#collapseFinansije" href="#collapseFinansije" role="button" aria-expanded="false"
                 aria-controls="collapseFinansije">
                 <span style="color: 
                 <?php echo $_SERVER['REQUEST_URI'] == '/lista-prihoda' || $_SERVER['REQUEST_URI'] == '/lista-rashoda' ? '#4eb3ac' : 'white'; ?>;"><i class="fa-regular fa-credit-card fa-sm"
