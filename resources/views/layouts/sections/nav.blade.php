@@ -9,10 +9,12 @@
                 </button> --}}
                 <div class="d-flex">
                     <div class="dropdown me-1">
-                        <a class="" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,70">
+                        <a class="" href="#" data-bs-toggle="dropdown" aria-expanded="false"
+                            data-bs-offset="0,70">
                             <i class="fa-regular fa-bell fa-lg" style="color: #4eb3ac;"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-lg-end scrollable" style="width: 370px;">
+                        <ul class="dropdown-menu dropdown-menu-lg-end scrollable"
+                            style="width: 370px; top: calc(100% + 12px);">
                             <li class="text-center mt-1"><strong>Notifikacije</strong></li>
                             <hr>
                             <li class="d-grid gap-2 col-6 mx-auto mb-4" style="width: 90%;"><a href="#"
@@ -124,6 +126,16 @@
                         class="rounded-circle me-2">
                     <strong>Savo</strong>
                 </a>
+                <ul class="dropdown-menu dropdown-menu-lg-end scrollable" style="width: 250px;">
+                    {{-- Ovde treba prikazati role korisnika --}}
+                    <li class="text-center mt-1"><strong>Korisnik</strong></li>
+                    <hr>
+                    <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="#" type="button"
+                            class="dropdown-item"><i class="fa-solid fa-gear" style="color: #4eb3ac;"></i>&nbsp;&nbsp;Korisnička podešavanja</a></li>
+                    <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="#" type="button"
+                            class="dropdown-item"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #4eb3ac;"></i>&nbsp;&nbsp;Odjavi se</a></li>
+                    <hr>
+                </ul>
             </div>
             <div class="col-2"></div>
         </div>
