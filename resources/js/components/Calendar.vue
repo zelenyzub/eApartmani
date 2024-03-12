@@ -1,6 +1,12 @@
 <template>
   <div class="row mt-3 mb-5 d-flex justify-content-end">
-    <div class="col-6 d-flex justify-content-end">
+    <div class="col-6">
+      <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">Kalendar</li>
+            <li class="breadcrumb-item active">{{ selectedApartment ? apartments.find(apartment => apartment.id === selectedApartment).apartmentName : '' }}</li>
+        </ol>
+    </div>
+    <div class="col-3 d-flex justify-content-end">
       <button type="button" id="btnLegenda" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#modalLegend"><i class="fa-solid fa-info fa-sm"></i>
         Legenda</button>

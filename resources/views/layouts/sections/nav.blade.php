@@ -27,7 +27,7 @@
                                     <div class="col-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
+                                            id="select-all-checkbox">
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                 </div>
             </div>
             {{-- Korisnik --}}
-            <div class="col-6">
+            <div class="col-4">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="" width="32" height="32"
@@ -137,7 +137,7 @@
                     <hr>
                 </ul>
             </div>
-            <div class="col-2"></div>
+            <div class="col-4"></div>
         </div>
         {{-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -191,3 +191,12 @@
         overflow-y: auto;
     }
 </style>
+<script>
+    // JavaScript kod za selektovanje svih checkboxova kada se selektuje "Obeležite sve notifikacije kao pročitane"
+    document.getElementById("select-all-checkbox").addEventListener("change", function() {
+        var checkboxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = event.target.checked;
+        });
+    });
+</script>
