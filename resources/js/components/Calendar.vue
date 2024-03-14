@@ -2,9 +2,10 @@
   <div class="row mt-3 mb-5 d-flex justify-content-end">
     <div class="col-6">
       <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item">Kalendar</li>
-            <li class="breadcrumb-item active">{{ selectedApartment ? apartments.find(apartment => apartment.id === selectedApartment).apartmentName : '' }}</li>
-        </ol>
+        <li class="breadcrumb-item">Kalendar</li>
+        <li class="breadcrumb-item active">{{ selectedApartment ? apartments.find(apartment => apartment.id ===
+          selectedApartment).apartmentName : '' }}</li>
+      </ol>
     </div>
     <div class="col-3 d-flex justify-content-end">
       <button type="button" id="btnLegenda" class="btn btn-primary" data-bs-toggle="modal"
@@ -12,9 +13,10 @@
         Legenda</button>
     </div>
     <div class="col-3" style="text-align-last: center;">
-      <select class="form-select theme-color-dark col-2" v-model="selectedApartment" aria-label="Odabir apartmana">
+      <select class="form-select theme-color-dark col-2" v-model="selectedApartment" id="apartDD"
+        aria-label="Odabir apartmana">
         <option value="0" disabled selected>Odaberite apartman</option>
-        <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id">
+        <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id" apart-id="apartment.id">
           {{ apartment.apartmentName }}
         </option>
       </select>
@@ -40,12 +42,105 @@
           <i class="fa-solid fa-circle mb-3" style="color: #4eb3ac;"></i><label>&nbsp;Privatne rezervacije</label><br>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zatvori</button>
         </div>
       </div>
     </div>
   </div>
   <!-- Kraj modala za legendu -->
+
+  <!-- Informacije o gostu modal -->
+  <div class="modal" tabindex="-1" id="guestInfoModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Informacije o gostu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="m-1">
+                <label style="font-weight:700;">Apartman:</label>
+                <p style="font-size: 14px;">{{ selectedApartment ? apartments.find(apartment => apartment.id ===
+          selectedApartment).apartmentName : '' }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Ime gosta:</label>
+                <p style="font-size: 14px;">{{ guestFirstName + ' ' + guestLastName }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Period boravka:</label>
+                <p style="font-size: 14px;">{{ startDate + ' - ' + endDate }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Cena boravka:</label>
+                <p style="font-size: 14px;">{{ fullPrice }}&nbsp;<i class="fa-solid fa-euro-sign fa-sm"></i></p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Vreme dolaska:</label>
+                <p style="font-size: 14px;">{{ arrivalTime }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Broj gostiju:</label>
+                <p style="font-size: 14px;">{{ guestNumber }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Cena takse:</label>
+                <p style="font-size: 14px;">{{ taxPrice }}&nbsp;<i class="fa-solid fa-euro-sign fa-sm"></i></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div v-if="guestRegistered == 0" class="m-1">
+                <label style="font-weight:700;">Gost prijavljen:</label><br>
+                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Nije prijavljen</label>
+              </div>
+
+              <div v-else class="m-1">
+                <label style="font-weight:700;">Gost prijavljen:</label><br>
+                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Prijavljen</label>
+              </div>
+              <div v-if="guestPaid == 0" class="m-1">
+                <label style="font-weight:700;">Gost platio:</label><br>
+                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Nije platio</label>
+              </div>
+
+              <div v-else class="m-1">
+                <label style="font-weight:700;">Gost platio:</label><br>
+                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Platio</label>
+              </div>
+              <div v-if="guestPaid == 0" class="m-1">
+                <label style="font-weight:700;">Gost dolazi autom:</label><br>
+                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Ne</label>
+              </div>
+
+              <div v-else class="m-1">
+                <label style="font-weight:700;">Gost dolazi autom:</label><br>
+                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Da</label>
+              </div>
+              <div v-if="guestDescription == ''" class="m-1">
+                <label style="font-weight:700;">Opis:</label><br>
+                <p>/</p>
+              </div>
+
+              <div v-else class="m-1">
+                <label style="font-weight:700;">Opis:</label><br>
+                <p style="font-size: 14px;">{{ guestDescription }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight:700;">Datum rezervisanja:</label>
+                <p style="font-size: 14px;">{{ reservationSetDay }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zatvori</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- kraj informacija o gostu modal -->
 </template>
 
 <script>
@@ -55,6 +150,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import axios from 'axios';
+import { getRelevantEvents } from '@fullcalendar/core/internal'
 
 export default {
   components: { FullCalendar }, // corrected component name
@@ -77,22 +173,42 @@ export default {
         locale: 'sr-latn',
         dayCellContent: this.dayCellContentCallback,
 
-        events: [
-          { // this object will be "parsed" into an Event Object
-            title: 'The Title', // a property!
-            start: '2024-01-01', // a property!
-            end: '2024-01-01' // a property! ** see important note below about 'end' **
-          }
-        ]
+        events: [],
+        eventContent: this.renderEventContent,
+        eventClick: this.guestInfoModal,
       },
 
       apartments: [],
-      selectedApartment: 0
+      apartID: null,
+      selectedApartment: 0,
+
+      reservations: [],
+
+      guestFirstName: null,
+      guestLastName: null,
+      fullPrice: null,
+      taxPrice: null,
+      guestNumber: null,
+      arrivalTime: null,
+      guestRegistered: null,
+      guestPaid: null,
+      guestHasCar: null,
+      guestDescription: null,
+      reservationSetDay: null,
+      startDate: null,
+      endDate: null,
     }
   },
 
   mounted() {
+    let th = this;
+
     this.getApartName();
+
+    $('#apartDD').change(function () {
+      const selectedApartment = $(this).val();
+      th.getReservations(selectedApartment);
+    });
   },
 
   methods: {
@@ -119,6 +235,98 @@ export default {
         console.error('Došlo je do greške prilikom dohvatanja naziva apartmana: ', error);
       }
     },
+
+    async getReservations(selectedApartment) {
+      let th = this;
+
+      try {
+        const response = await axios.post('/kalendar/reservations', { apartID: selectedApartment });
+        th.reservations = response.data.map(reservation => {
+
+          let reservationType;
+
+          // Postavite reservationType na osnovu podataka iz baze
+
+          return {
+            title: `${reservation.guestFirstName} ${reservation.guestLastName} ${reservation.fullPrice} <i class="fa-solid fa-euro-sign fa-sm"></i>`,
+            start: reservation.date_start,
+            end: reservation.date_end,
+            guestFirstName: reservation.guestFirstName,
+            guestLastName: reservation.guestLastName,
+            fullPrice: reservation.fullPrice,
+            reservationType: reservation.reservationType,
+            taxPrice: reservation.taxPrice,
+            guestNumber: reservation.guestNumber,
+            arrivalTime: reservation.arrivalTime,
+            guestRegistered: reservation.guestRegistered,
+            guestPaid: reservation.guestPaid,
+            guestHasCar: reservation.guestHasCar,
+            guestDescription: reservation.guestDescription,
+            reservationSetDay: reservation.created_at,
+            dateStart: reservation.date_start,
+            dateEnd: reservation.date_end,
+          };
+        });
+
+        th.calendarPlugins.events = th.reservations;
+      } catch (error) {
+        console.error('Došlo je do greške prilikom dohvatanja naziva apartmana: ', error);
+      }
+    },
+
+    renderEventContent(arg) {
+      this.guestFirstName = arg.event.extendedProps.guestFirstName;
+      const reservationType = arg.event.extendedProps.reservationType;
+      let color;
+      switch (reservationType) {
+        case 'airbnb':
+          color = '#FF385C'; //Roze Airbnb
+          break;
+        case 'booking':
+          color = '#0057b8'; //Plava Booking.com
+          break;
+        case 'private':
+          color = '#4eb3ac'; //Zelena privatne rezervacije
+          break;
+        default:
+          color = '#000000';
+          break;
+      }
+
+      return {
+        html: `
+        <div style="background-color: ${color};">${arg.event.title}</div>
+      `
+      };
+    },
+
+    guestInfoModal(clickedEventInfo) {
+      const event = clickedEventInfo.event;
+      this.guestFirstName = event.extendedProps.guestFirstName;
+      this.guestLastName = event.extendedProps.guestLastName;
+      this.fullPrice = event.extendedProps.fullPrice;
+      this.taxPrice = event.extendedProps.taxPrice;
+      this.guestNumber = event.extendedProps.guestNumber;
+      this.arrivalTime = event.extendedProps.arrivalTime;
+      this.guestRegistered = event.extendedProps.guestRegistered;
+      this.guestPaid = event.extendedProps.guestPaid;
+      this.guestHasCar = event.extendedProps.guestHasCar;
+      this.guestDescription = event.extendedProps.guestDescription;
+      this.reservationSetDay = this.formatDate(event.extendedProps.reservationSetDay);
+      this.startDate = this.formatDate(event.extendedProps.dateStart);
+      this.endDate = this.formatDate(event.extendedProps.dateEnd);
+      $('#guestInfoModal').modal('show')
+    },
+
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
+    },
+
+
   },
 }
 </script>
@@ -132,7 +340,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 15px;
-  top: 140px;
+  top: 130px;
 }
 
 

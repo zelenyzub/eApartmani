@@ -19,4 +19,7 @@ Route::get('/', function () {
 
 Route::get('/kalendar', [App\Http\Controllers\CalendarController::class, 'calendar'])->name('kalendar');
 Route::post('/kalendar/apartName', [App\Http\Controllers\ApartmentController::class, 'getApartmentName'])->name('apartName');
+Route::post('/kalendar/reservations', [App\Http\Controllers\ReservationController::class, 'getReservations'])->name('getReservations');
+
+
 
