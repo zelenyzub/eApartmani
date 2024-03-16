@@ -133,7 +133,7 @@
                     <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="#" type="button"
                             class="dropdown-item"><i class="fa-solid fa-gear" style="color: #4eb3ac;"></i>&nbsp;&nbsp;Korisnička podešavanja</a></li>
                     <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="#" type="button"
-                            class="dropdown-item"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #4eb3ac;"></i>&nbsp;&nbsp;Odjavi se</a></li>
+                            class="dropdown-item" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #4eb3ac;"></i>&nbsp;&nbsp;Odjavi se</a></li>
                     <hr>
                 </ul>
             </div>
@@ -197,6 +197,23 @@
         var checkboxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]');
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = event.target.checked;
+        });
+    });
+
+    //Logout funkcija
+    document.getElementById("logoutBtn").addEventListener("click", function(event) {
+        event.preventDefault(); 
+
+        axios.post('/logout', {}, {
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }).then(response => {
+            if (response.request.responseURL !== window.location.href) {
+                window.location.href = response.request.responseURL;
+            }
+        }).catch(error => {
+            console.error('Error:', error);
         });
     });
 </script>
