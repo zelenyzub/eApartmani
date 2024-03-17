@@ -22,6 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/kalendar/reservations', [App\Http\Controllers\ReservationController::class, 'getReservations'])->name('getReservations');
 });
 
+Route::middleware('checkrole')->group(function () {
+    
+});
+
 Auth::routes();
 
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
