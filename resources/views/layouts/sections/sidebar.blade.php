@@ -50,8 +50,8 @@
 
         {{-- Finansije --}}
         <li class="nav-item mb-2">
-            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#collapseFinansije" href="#collapseFinansije" role="button" aria-expanded="false"
-                aria-controls="collapseFinansije">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#collapseFinansije" href="#collapseFinansije"
+                role="button" aria-expanded="false" aria-controls="collapseFinansije">
                 <span style="color: 
                 <?php echo $_SERVER['REQUEST_URI'] == '/lista-prihoda' || $_SERVER['REQUEST_URI'] == '/lista-rashoda' ? '#4eb3ac' : 'white'; ?>;"><i class="fa-regular fa-credit-card fa-sm"
                         style="margin-right: 12px;"></i> Finansije</span>
@@ -81,6 +81,18 @@
                 </span>
             </a>
         </li>
+
+        {{-- @dd(session('user')->role) --}}
+        @if (session('user')->role == 'SUPERADMIN')
+            <li class="nav-item mb-2">
+                <a href="/administracija-korisnika" class="nav-link" aria-current="page">
+                    <span style="color: 
+                    <?php echo $_SERVER['REQUEST_URI'] == '/administracija-korisnika' ? '#4eb3ac' : 'white'; ?>;"><i
+                            class="fa-solid fa-address-card fa-lg" style="margin-right: 13px;"></i>Administracija korisnika
+                    </span>
+                </a>
+            </li>
+        @endif
     </ul>
     <hr>
     {{-- <div class="dropdown">
