@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 
 class LoginController extends Controller
 {
@@ -37,6 +38,14 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Čuvanje podataka korisnika u sesiji
+        Session::put('user', $user);
+
+        return redirect($this->redirectTo);
     }
 
     public function logout(Request $request)
