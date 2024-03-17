@@ -129,11 +129,17 @@
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-user fa-lg" style="color: #4eb3ac;"></i>&nbsp;&nbsp;
-                    <strong>{{ session('user')->name }}</strong>
+                    <strong>{{ substr(session('user')->name, 0, 1) . '' . substr(session('user')->surname, 0, 1) }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg-end scrollable" style="width: 270px;">
                     {{-- Ovde treba prikazati role korisnika --}}
+                    @if(session('user')->role == 'SUPERADMIN')
+                    <li class="text-center mt-1"><strong>Super administrator</strong></li>
+                    @elseif (session('user')->role == 'ADMIN')
+                    <li class="text-center mt-1"><strong>Administrator</strong></li>
+                    @else
                     <li class="text-center mt-1"><strong>Korisnik</strong></li>
+                    @endif
                     <hr>
                     @if (session('user')->role == 'SUPERADMIN')
                         <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="/register"
