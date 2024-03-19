@@ -23,7 +23,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('checkrole')->group(function () {
-    
+    Route::get('/administracija-korisnika', [App\Http\Controllers\UserAdministrationController::class, 'userAdministration'])->name('userAdministration');
+    Route::post('/administracija-korisnika/getUserData', [App\Http\Controllers\UserAdministrationController::class, 'getUserData'])->name('getUserData');
+    Route::post('/administracija-korisnika/deleteUser', [App\Http\Controllers\UserAdministrationController::class, 'deleteUser'])->name('deleteUser');
 });
 
 Auth::routes();

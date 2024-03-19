@@ -19,6 +19,8 @@ import ExampleComponent from './components/ExampleComponent.vue';
 app.component('example-component', ExampleComponent);
 import Calendar from './components/Calendar.vue';
 app.component('calendar-component', Calendar);
+import UserAdministration from './components/UserAdministration.vue';
+app.component('user-administration-component', UserAdministration);
 
 /**
  * The following block of code may be used to automatically register your

@@ -152,13 +152,13 @@
                                         </div>
                                     </div> --}}
 
-                                    <div class="row mt-3">
-                                        <div class="col-md-6 offset-md-4">
-                                            <button type="button" class="btn btn-primary" id="confirmButton">
-                                                {{ __('Registrujte novog korisnika') }}
-                                            </button>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6 offset-md-4">
+                                                <button type="submit" class="btn btn-primary" id="confirmButton">
+                                                    {{ __('Registrujte novog korisnika') }}
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
                                     </form>
                                 </div>
                                 <div class="col-md-4">
@@ -185,7 +185,7 @@
 
 
 </body>
-<script>
+{{-- <script>
     document.getElementById('confirmButton').addEventListener('click', function() {
         Swal.fire({
             title: 'Da li ste sigurni?',
@@ -199,15 +199,17 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Ovde možete staviti kod za registraciju korisnika ili druge akcije
-                Swal.fire(
-                    'Registrovano!',
-                    'Novi korisnik je uspešno registrovan.',
-                    'success'
-                );
+                Swal.fire({
+                    icon: "success",
+                    text: "Uspešno obrisano.",
+                    timer: 5000,
+                    confirmButton: "confirmationBtn",
+                    confirmButtonColor: "#4eb3ac"
+                });
             }
         });
     });
-</script>
+</script> --}}
 <style>
     input[type="email"],
     input[type="password"] {
