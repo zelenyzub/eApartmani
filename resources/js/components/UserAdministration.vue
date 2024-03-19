@@ -86,11 +86,26 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="editName" class="form-label">Ime</label>
-                            <input type="text" class="form-control" id="editName">
+                            <input type="text" class="form-control" v-model="editName" id="editName">
                         </div>
                         <div class="col-md-6">
                             <label for="editSurname" class="form-label">Prezime</label>
-                            <input type="text" class="form-control" id="editSurname">
+                            <input type="text" class="form-control" v-model="editSurname" id="editSurname">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="text" class="form-control" v-model="editEmail" id="editEmail">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editRole" class="form-label">Nivo pristupa</label>
+                            <select class="form-select" aria-label="Default select example" id="editRole"
+                                v-model="editRole">
+                                <option value="USER">Korisnik</option>
+                                <option value="ADMIN">Administrator</option>
+                                <option value="SUPERADMIN">Super administrator</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -114,6 +129,10 @@ export default {
     data() {
         return {
             userRowID: null,
+            editName: "",
+            editSurname: "",
+            editEmail: "",
+            editRole: "",
         };
     },
     mounted() {
@@ -121,9 +140,30 @@ export default {
 
         this.usersTable();
 
-        // delere user modal
+        // delete user modal
         $(document).on('click', '#deleteAction', function (e) {
             th.userRowID = $(this).data("entry-id");
+        })
+
+        // edit user modal
+        $(document).on('click', '#editAction', function (e) {
+            th.userRowID = $(this).data("entry-id");
+            axios
+                .post("/administracija-korisnika/getUserDataForEdit", { id: th.userRowID })
+                .then((response) => {
+                    th.editName = response.data.data[0].name;
+                    th.editSurname = response.data.data[0].surname;
+                    th.editEmail = response.data.data[0].email;
+                    th.editRole = response.data.data[0].role
+                }).catch((error) => {
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Greška prilikom uzimanja podataka korisnika!",
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+                    });
+                    console.log(error);
+                });
         })
     },
 
@@ -187,7 +227,7 @@ export default {
                                 '<div class="dropdown justify-content-center">' +
                                 '<a type="button" class="" data-bs-toggle="dropdown"><i class="fa-solid fa-list fa-sm" style="color: #4eb3ac;"></i></a>' +
                                 '<div class="dropdown-menu bg-dark text-center">' +
-                                '<a type="button" data-bs-toggle="modal" data-bs-target="#editUserModal" id="editAction" class="dropdown-item disabled" data-entry-id="' +
+                                '<a type="button" data-bs-toggle="modal" data-bs-target="#editUserModal" id="editAction" class="dropdown-item" data-entry-id="' +
                                 row.id +
                                 '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>' +
                                 '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteUserModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
@@ -231,6 +271,54 @@ export default {
                         confirmButtonColor: "#4eb3ac"
                     });
                     console.log(error);
+                });
+        },
+
+        editUser() {
+            let th = this;
+            let editModal = $('#editUserModal');
+
+            const editData = {
+                id: th.userRowID,
+                name: th.editName,
+                surname: th.editSurname,
+                email: th.editEmail,
+                role: th.editRole,
+            };
+            $("#editUser").prop("disabled", true);
+            axios
+                .post("/administracija-korisnika/editUser", editData, {
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    },
+                }).then((response) => {
+
+                    $("#editUser").prop("disabled", true);
+
+                    Swal.fire({
+                        icon: "success",
+                        text: "Uspešno izmenjeno.",
+                        timer: 5000,
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+
+                    });
+
+                    th.usersTable();
+                    editModal.modal('hide');
+                    $("#editUser").prop("disabled", false);
+                }).catch((error) => {
+                    
+                    $("#editUser").prop("disabled", false);
+
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Greška prilikom izmene korisnika!",
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+                    });
+
+                    console.error(error);
                 });
         },
     }

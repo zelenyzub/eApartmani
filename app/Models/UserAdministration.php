@@ -11,7 +11,8 @@ class UserAdministration extends Model
 {
     use HasFactory;
 
-    public function usersTable($request) {
+    public function usersTable($request)
+    {
         $start = isset($request['start']) ? $request['start'] : 0;
         $length = isset($request['length']) ? $request['length'] : 0;
         $sort = 'users.id';
@@ -30,10 +31,10 @@ class UserAdministration extends Model
         }
 
         $getUserData = DB::table('users')
-                ->select('id', 'name', 'surname', 'email', 'role')
-                ->orderBy($sort, $sorting);
+            ->select('id', 'name', 'surname', 'email', 'role')
+            ->orderBy($sort, $sorting);
 
-        if(!empty($search)) {
+        if (!empty($search)) {
             $getUserData = $getUserData->whereRaw("name LIKE '%{$search}%' OR surname LIKE '%{$search}%' OR email LIKE '%{$search}%'");
         }
 
@@ -48,9 +49,30 @@ class UserAdministration extends Model
         ];
     }
 
-    public function deleteUser($id) {
+    public function deleteUser($id)
+    {
         DB::table('users')
             ->where('id', $id)
             ->delete();
+    }
+    public function getUserDataForEdit($id)
+    {
+        $query = DB::table('users')
+            // ->select('users.name', 'users.surname', 'users.email', 'users.role')
+            ->where('id', $id)
+            ->get();
+        return $query;
+    }
+
+    public function editUser($id, $name, $surname, $email, $role) {
+        $query = DB::table('users')
+            ->where('id',$id)
+            ->update([
+                'name' => $name,
+                'surname' => $surname,
+                'email' => $email,
+                'role' => $role,
+            ]);
+        return $query;
     }
 }

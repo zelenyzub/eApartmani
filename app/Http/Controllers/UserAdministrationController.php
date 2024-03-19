@@ -43,4 +43,39 @@ class UserAdministrationController extends Controller
             return response()->json(['error' => 'Greška prilikom brisanja korisnika!'], 500);
         }
     }
+
+    public function getUserDataForEdit(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $editUserData = new UserAdministration();
+            $data = $editUserData->getUserDataForEdit($id);
+
+            return response()->json(['data' => $data], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Greška prilikom uzimanja podataka korisnika!'], 500);
+        }
+    }
+
+    public function editUser(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $name = $request->name;
+            $surname = $request->surname;
+            $email = $request->email;
+            $role = $request->role;
+
+            $editData = new UserAdministration();
+            $editData->editUser($id, $name, $surname, $email, $role);
+            // dd($request->all());
+            return response()->json(['message' => 'Uspesno izmenjeno'], 200);
+
+        } catch (Exception $ex) {
+            return response() - json_encode(['error' => 'Greska prilikom izmene korisnika.'], 500);
+        }
+
+
+
+    }
 }

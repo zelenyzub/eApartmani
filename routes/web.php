@@ -26,6 +26,8 @@ Route::middleware('checkrole')->group(function () {
     Route::get('/administracija-korisnika', [App\Http\Controllers\UserAdministrationController::class, 'userAdministration'])->name('userAdministration');
     Route::post('/administracija-korisnika/getUserData', [App\Http\Controllers\UserAdministrationController::class, 'getUserData'])->name('getUserData');
     Route::post('/administracija-korisnika/deleteUser', [App\Http\Controllers\UserAdministrationController::class, 'deleteUser'])->name('deleteUser');
+    Route::post('/administracija-korisnika/getUserDataForEdit', [App\Http\Controllers\UserAdministrationController::class, 'getUserDataForEdit'])->name('getUserDataForEdit');
+    Route::post('/administracija-korisnika/editUser', [App\Http\Controllers\UserAdministrationController::class, 'editUser'])->name('editUser');
 });
 
 Auth::routes();
