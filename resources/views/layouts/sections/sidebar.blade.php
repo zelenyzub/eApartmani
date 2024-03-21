@@ -84,6 +84,7 @@
 
         {{-- @dd(session('user')->role) --}}
         @if (session('user')->role == 'SUPERADMIN')
+            <hr>
             <li class="nav-item mb-2">
                 <a href="/administracija-korisnika" class="nav-link" aria-current="page">
                     <span style="color: 

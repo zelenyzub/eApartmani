@@ -28,12 +28,37 @@ class Reservation extends Model
     ];
 
     public function getReservations($apartmentID){
-        // dd($apartmentID);
         $getRes = DB::table('reservations')
                 ->select('*')
                 ->where('apart_id', $apartmentID)
                 ->get();
-// dd($getRes);
         return $getRes;
+    }
+
+    public function updateGuestRegistered($id, $guestRegistered) {
+        $query = DB::table('reservations')
+            ->where('id',$id)
+            ->update([
+                'guestRegistered' => $guestRegistered
+            ]);
+        return $query;
+    }
+
+    public function updateGuestPaid($id, $guestPaid) {
+        $query = DB::table('reservations')
+            ->where('id',$id)
+            ->update([
+                'guestPaid' => $guestPaid
+            ]);
+        return $query;
+    }
+
+    public function updateGuestHasCar($id, $guestHasCar) {
+        $query = DB::table('reservations')
+            ->where('id',$id)
+            ->update([
+                'guestHasCar' => $guestHasCar
+            ]);
+        return $query;
     }
 }

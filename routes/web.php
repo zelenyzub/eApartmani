@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/kalendar', [App\Http\Controllers\CalendarController::class, 'calendar'])->name('kalendar');
     Route::post('/kalendar/apartName', [App\Http\Controllers\ApartmentController::class, 'getApartmentName'])->name('apartName');
     Route::post('/kalendar/reservations', [App\Http\Controllers\ReservationController::class, 'getReservations'])->name('getReservations');
+    Route::post('/kalendar/updateGuestRegistered', [App\Http\Controllers\ReservationController::class, 'updateGuestRegistered'])->name('updateGuestRegistered');
+    Route::post('/kalendar/updateGuestPaid', [App\Http\Controllers\ReservationController::class, 'updateGuestPaid'])->name('updateGuestPaid');
+    Route::post('/kalendar/updateGuestHasCar', [App\Http\Controllers\ReservationController::class, 'updateGuestHasCar'])->name('updateGuestHasCar');
 });
 
 Route::middleware('checkrole')->group(function () {

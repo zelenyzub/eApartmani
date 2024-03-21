@@ -93,30 +93,45 @@
             <div class="col-6">
               <div v-if="guestRegistered == 0" class="m-1">
                 <label style="font-weight:700;">Gost prijavljen:</label><br>
-                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Nije prijavljen</label>
+                <i class="fa-solid fa-circle mb-1" style="color: red;"></i><label>&nbsp;Nije
+                  prijavljen</label>&nbsp;<span><a type="button" id="guestRegisteredSwitch"
+                    @click="guestRegisteredChange"><i class="fa-regular fa-circle-check fa-lg"
+                      style="color: green;"></i></a></span>
+
               </div>
 
               <div v-else class="m-1">
                 <label style="font-weight:700;">Gost prijavljen:</label><br>
-                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Prijavljen</label>
+                <i class="fa-solid fa-circle mb-3"
+                  style="color: green;"></i><label>&nbsp;Prijavljen</label>&nbsp;<span><a type="button"
+                    id="guestRegisteredSwitch" @click="guestRegisteredChange"><i
+                      class="fa-regular fa-circle-xmark fa-lg" style="color: red;"></i></a></span>
               </div>
               <div v-if="guestPaid == 0" class="m-1">
                 <label style="font-weight:700;">Gost platio:</label><br>
-                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Nije platio</label>
+                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Nije
+                  platio</label>&nbsp;<span><a type="button" id="guestPaidChange" @click="guestPaidChange"><i
+                      class="fa-regular fa-circle-check fa-lg" style="color: green;"></i></a></span>
               </div>
 
               <div v-else class="m-1">
                 <label style="font-weight:700;">Gost platio:</label><br>
-                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Platio</label>
+                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Platio</label>&nbsp;<span><a
+                    type="button" id="guestPaidChange" @click="guestPaidChange"><i
+                      class="fa-regular fa-circle-xmark fa-lg" style="color: red;"></i></a></span>
               </div>
-              <div v-if="guestPaid == 0" class="m-1">
+              <div v-if="guestHasCar == 0" class="m-1">
                 <label style="font-weight:700;">Gost dolazi autom:</label><br>
-                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Ne</label>
+                <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Ne</label>&nbsp;<span><a
+                    type="button" id="guestHasCarChange" @click="guestHasCarChange"><i
+                      class="fa-regular fa-circle-check fa-lg" style="color: green;"></i></a></span>
               </div>
 
               <div v-else class="m-1">
                 <label style="font-weight:700;">Gost dolazi autom:</label><br>
-                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Da</label>
+                <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Da</label>&nbsp;<span><a
+                    type="button" id="guestHasCarChange" @click="guestHasCarChange"><i
+                      class="fa-regular fa-circle-xmark fa-lg" style="color: red;"></i></a></span>
               </div>
               <div v-if="guestDescription == ''" class="m-1">
                 <label style="font-weight:700;">Opis:</label><br>
@@ -184,6 +199,7 @@ export default {
 
       reservations: [],
 
+      guestId: null,
       guestFirstName: null,
       guestLastName: null,
       fullPrice: null,
@@ -251,6 +267,7 @@ export default {
             title: `${reservation.guestFirstName} ${reservation.guestLastName} ${reservation.fullPrice} <i class="fa-solid fa-euro-sign fa-sm"></i>`,
             start: reservation.date_start,
             end: reservation.date_end,
+            guestID: reservation.id,
             guestFirstName: reservation.guestFirstName,
             guestLastName: reservation.guestLastName,
             fullPrice: reservation.fullPrice,
@@ -302,6 +319,7 @@ export default {
 
     guestInfoModal(clickedEventInfo) {
       const event = clickedEventInfo.event;
+      this.guestId = event.extendedProps.guestID;
       this.guestFirstName = event.extendedProps.guestFirstName;
       this.guestLastName = event.extendedProps.guestLastName;
       this.fullPrice = event.extendedProps.fullPrice;
@@ -326,6 +344,80 @@ export default {
       return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
     },
 
+    guestRegisteredChange(clickedEventInfo) {
+      let th = this;
+      if (th.guestRegistered == 0) {
+        th.guestRegistered = 1;
+      }
+      else {
+        th.guestRegistered = 0;
+      }
+
+      const guestRegisteredUpdateData = {
+        id: th.guestId,
+        guestRegistered: th.guestRegistered,
+      }
+      axios
+        .post('/kalendar/updateGuestRegistered', guestRegisteredUpdateData, {
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+        }).then((response) => {
+
+        }).catch((error) => {
+          console.error(error);
+        });
+    },
+
+    guestPaidChange() {
+      let th = this;
+      if (this.guestPaid == 0) {
+        this.guestPaid = 1
+      }
+      else {
+        this.guestPaid = 0
+      }
+
+      const guestPaidUpdateData = {
+        id: th.guestId,
+        guestPaid: th.guestPaid,
+      }
+      axios
+        .post('/kalendar/updateGuestPaid', guestPaidUpdateData, {
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+        }).then((response) => {
+
+        }).catch((error) => {
+          console.error(error);
+        });
+    },
+
+    guestHasCarChange() {
+      let th = this;
+      if (this.guestHasCar == 0) {
+        this.guestHasCar = 1
+      }
+      else {
+        this.guestHasCar = 0
+      }
+
+      const guestHasCarUpdateData = {
+        id: th.guestId,
+        guestHasCar: th.guestHasCar,
+      }
+      axios
+        .post('/kalendar/updateGuestHasCar', guestHasCarUpdateData, {
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+        }).then((response) => {
+
+        }).catch((error) => {
+          console.error(error);
+        });
+    }
 
   },
 }
