@@ -8,7 +8,8 @@
             </ol>
         </div>
         <div class="col-6 d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newReservationModal"><i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#newReservationModal"><i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
                 Napravite novu rezervaciju</button>
         </div>
     </div>
@@ -24,6 +25,7 @@
                 id="reservationsTable">
                 <thead>
                     <tr>
+                        <th scope="col">ID</th>
                         <th scope="col">Ime</th>
                         <th scope="col">Prezime</th>
                         <th scope="col">Datum dolaska</th>
@@ -37,6 +39,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th scope="col">ID</th>
                         <th scope="col">Ime</th>
                         <th scope="col">Prezime</th>
                         <th scope="col">Datum dolaska</th>
@@ -127,88 +130,124 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            
+
         };
     },
     mounted() {
-        
+        this.reservationsTable()
     },
 
     methods: {
-        // reservationsTable() {
-        //     var th = this;
-        //     $("#reservationsTable").DataTable().clear().draw();
-        //     $("#reservationsTable").DataTable().clear().destroy();
-        //     var reservationsTable = $("#reservationsTable").DataTable({
-        //         oLanguage: {
-        //             oPaginate: {
-        //                 sNext: "Sledeća",
-        //                 sPrevious: "Prethodna",
-        //             },
-        //             sEmptyTable: "Nema podataka.",
-        //             sLengthMenu: "Prikaz _MENU_ rezervacija",
-        //             sZeroRecords: "Nema pronađenih unosa!",
-        //             sInfo: "Prikazano _START_ do _END_ od _TOTAL_ unosa",
-        //             sInfoEmpty: "Nema unosa",
-        //             sInfoFiltered: "(filtrirano od _MAX_ unosa)",
-        //             sSearch: "Pretraga:",
-        //             sProcessing: "Molimo sačekajte ...",
-        //         },
-        //         processing: true,
-        //         serverSide: true,
-        //         destroy: true,
-        //         ajax: {
-        //             url: "/administracija-korisnika/getUserData",
-        //             type: "POST",
-        //             error: function (xhr, textStatus, errorThrown) {
-        //                 if (xhr.status === 401 || xhr.status === 419) {
-        //                     window.location.replace("/login");
-        //                 }
-        //             },
-        //             data: {
+        reservationsTable() {
+            var th = this;
+            $("#reservationsTable").DataTable().clear().draw();
+            $("#reservationsTable").DataTable().clear().destroy();
+            var reservationsTable = $("#reservationsTable").DataTable({
+                oLanguage: {
+                    oPaginate: {
+                        sNext: "Sledeća",
+                        sPrevious: "Prethodna",
+                    },
+                    sEmptyTable: "Nema podataka.",
+                    sLengthMenu: "Prikaz _MENU_ rezervacija",
+                    sZeroRecords: "Nema pronađenih unosa!",
+                    sInfo: "Prikazano _START_ do _END_ od _TOTAL_ unosa",
+                    sInfoEmpty: "Nema unosa",
+                    sInfoFiltered: "(filtrirano od _MAX_ unosa)",
+                    sSearch: "Pretraga:",
+                    sProcessing: "Molimo sačekajte ...",
+                },
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: "/rezervacije/reservationsTable",
+                    type: "POST",
+                    // error: function (xhr, textStatus, errorThrown) {
+                    //     if (xhr.status === 401 || xhr.status === 419) {
+                    //         window.location.replace("/login");
+                    //     }
+                    // },
+                    data: {
 
-        //             },
-        //             headers: {
-        //                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        //             },
-        //         },
-        //         columnDefs: [
-        //             { targets: 0, orderable: true },
-        //             { targets: 1, orderable: true },
-        //             { targets: 2, orderable: true },
-        //             { targets: 3, orderable: true },
-        //             { targets: 4, orderable: true },
-        //             { targets: 5, orderable: false },
+                    },
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    },
+                },
+                columnDefs: [
+                    { targets: 0, orderable: true },
+                    { targets: 1, orderable: true },
+                    { targets: 2, orderable: true },
+                    { targets: 3, orderable: true },
+                    { targets: 4, orderable: true },
+                    { targets: 5, orderable: true },
+                    { targets: 6, orderable: false, width: "5%" },
 
-        //         ],
-        //         columns: [
-        //             { data: "id" },
-        //             { data: "name" },
-        //             { data: "surname" },
-        //             { data: "email" },
-        //             { data: "role" },
-        //             {
-        //                 data: "akcije",
-        //                 render: function (data, type, row) {
-        //                     return (
-        //                         '<div class="dropdown justify-content-center">' +
-        //                         '<a type="button" class="" data-bs-toggle="dropdown"><i class="fa-solid fa-list fa-sm" style="color: #4eb3ac;"></i></a>' +
-        //                         '<div class="dropdown-menu bg-dark text-center">' +
-        //                         '<a type="button" data-bs-toggle="modal" data-bs-target="#editUserModal" id="editAction" class="dropdown-item" data-entry-id="' +
-        //                         row.id +
-        //                         '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>' +
-        //                         '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteUserModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
-        //                         row.id +
-        //                         '" style="color: #4eb3ac;"><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>' +
-        //                         "</div>" +
-        //                         "</div>"
-        //                     );
-        //                 },
-        //             },
+                ],
+                columns: [
+                    { data: "id" },
+                    { data: "guestFirstName" },
+                    { data: "guestLastName" },
+                    {
+                        data: "date_start",
+                        render: function (data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                var startDate = new Date(data);
+                                var formattedStartDate = ('0' + startDate.getDate()).slice(-2) + '.' + ('0' + (startDate.getMonth() + 1)).slice(-2) + '.' + startDate.getFullYear();
+                                return formattedStartDate;
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: "date_end",
+                        render: function (data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                var endDate = new Date(data);
+                                var formattedEndDate = ('0' + endDate.getDate()).slice(-2) + '.' + ('0' + (endDate.getMonth() + 1)).slice(-2) + '.' + endDate.getFullYear();
+                                return formattedEndDate;
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: "fullPrice",
+                        render: function (data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return data + ' <i class="fa-solid fa-euro-sign fa-sm"></i>';
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: "akcije",
+                        render: function (data, type, row) {
+                            return (
+                                '<div class="dropdown justify-content-center">' +
+                                '<a type="button" class="" data-bs-toggle="dropdown"><i class="fa-solid fa-list fa-sm" style="color: #4eb3ac;"></i></a>' +
+                                '<div class="dropdown-menu bg-dark text-center">' +
 
-        //         ],
-        //     });
-        // },
+                                '<a type="button" data-bs-toggle="modal" data-bs-target="#reservationInfoModal" id="infoAction" class="dropdown-item" data-entry-id="' +
+                                row.id +
+                                '" style="color: #4eb3ac;"><i class="fa-solid fa-eye fa-sm" style="margin-right: 5px"></i>Pregled</a>' +
+
+                                '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
+                                row.id +
+                                '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>' +
+
+                                '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteReservationModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
+                                row.id +
+                                '" style="color: #4eb3ac;"><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>' +
+                                "</div>" +
+                                "</div>"
+                            );
+                        },
+                    },
+
+                ],
+            });
+        },
 
         // deleteUser() {
         //     let th = this;
@@ -275,7 +314,7 @@ export default {
         //             editModal.modal('hide');
         //             $("#editUser").prop("disabled", false);
         //         }).catch((error) => {
-                    
+
         //             $("#editUser").prop("disabled", false);
 
         //             Swal.fire({

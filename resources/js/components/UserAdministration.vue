@@ -211,7 +211,7 @@ export default {
                     { targets: 2, orderable: true },
                     { targets: 3, orderable: true },
                     { targets: 4, orderable: true },
-                    { targets: 5, orderable: false },
+                    { targets: 5, orderable: false, width: "5%" },
 
                 ],
                 columns: [

@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/rezervacije', [App\Http\Controllers\ReservationController::class, 'reservations'])->name('rezervacije');
+    Route::post('/rezervacije/reservationsTable', [App\Http\Controllers\ReservationController::class, 'reservationsTable'])->name('reservationsTable');
+
 
 });
 

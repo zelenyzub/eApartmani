@@ -63,4 +63,21 @@ class ReservationController extends Controller
             return response() - json_encode(['error' => 'Greska prilikom promene statusa prijave boravka.'], 500);
         }
     }
+
+    public function reservationsTable(Request $request)
+    {
+        try {
+            $getReservations = new Reservation();
+            $modalData = $getReservations->reservationsTable($request);
+
+            $data['draw'] = $request->input('draw');
+            $data['recordsFiltered'] = $modalData['recordsFiltered'];
+            $data['recordsTotal'] = count($modalData['recordsTotal']);
+            $data['data'] = $modalData['data'];
+
+            return json_encode($data, 200);
+        } catch (Exception $ex) {
+            return response() - json_encode(['error' => 'Greska prilikom ucitavanja tabele korisnika.'], 500);
+        }
+    }
 }
