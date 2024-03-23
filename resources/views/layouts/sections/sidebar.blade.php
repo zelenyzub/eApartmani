@@ -18,6 +18,14 @@
                 </span>
             </a>
         </li>
+        {{-- Rezervacije --}}
+        <li class="nav-item mb-2">
+            <a href="/rezervacije" class="nav-link" aria-current="page">
+                <span style="color: 
+                    <?php echo $_SERVER['REQUEST_URI'] == '/rezervacije' ? '#4eb3ac' : 'white'; ?>;"><i class="fa-solid fa-registered fa-lg" style=" margin-right: 13px"></i>Rezervacije
+                </span>
+            </a>
+        </li>
 
         {{-- Apartmani --}}
         <li class="nav-item mb-2">
@@ -32,11 +40,6 @@
                     <a href="#" class="nav-link" aria-current="page">
                         <span style="color: 
                             <?php echo $_SERVER['REQUEST_URI'] == '/lista-apartmana' ? '#4eb3ac' : 'white'; ?>;">Lista Apartmana
-                        </span>
-                    </a>
-                    <a href="#" class="nav-link" aria-current="page">
-                        <span style="color: 
-                            <?php echo $_SERVER['REQUEST_URI'] == '/lista-gostiju' ? '#4eb3ac' : 'white'; ?>;">Lista Gostiju
                         </span>
                     </a>
                     <a href="#" class="nav-link" aria-current="page">

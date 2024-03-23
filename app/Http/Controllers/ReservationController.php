@@ -9,6 +9,9 @@ use Exception;
 
 class ReservationController extends Controller
 {
+        public function reservations(){
+            return view('reservations');
+        }
     public function getReservations(Request $request) {
 
         try {

@@ -21,6 +21,8 @@ import Calendar from './components/Calendar.vue';
 app.component('calendar-component', Calendar);
 import UserAdministration from './components/UserAdministration.vue';
 app.component('user-administration-component', UserAdministration);
+import Reservations from './components/Reservations.vue';
+app.component('reservations-page', Reservations);
 
 /**
  * The following block of code may be used to automatically register your

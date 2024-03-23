@@ -367,6 +367,7 @@ export default {
         }).catch((error) => {
           console.error(error);
         });
+      this.reloadCalendar()
     },
 
     guestPaidChange() {
@@ -392,6 +393,7 @@ export default {
         }).catch((error) => {
           console.error(error);
         });
+      this.reloadCalendar()
     },
 
     guestHasCarChange() {
@@ -417,6 +419,12 @@ export default {
         }).catch((error) => {
           console.error(error);
         });
+      this.reloadCalendar()
+    },
+    
+    reloadCalendar() {
+      this.calendarPlugins.events = []; 
+      this.getReservations(this.selectedApartment);
     }
 
   },

@@ -152,7 +152,7 @@
                                         </div>
                                     </div> --}}
 
-                                        <div class="row mt-3">
+                                        <div class="row mt-3 mb-3">
                                             <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary" id="confirmButton">
                                                     {{ __('Registrujte novog korisnika') }}

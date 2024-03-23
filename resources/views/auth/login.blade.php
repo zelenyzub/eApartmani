@@ -130,7 +130,7 @@
                                             </div> --}}
                                             </div>
 
-                                            <div class="mt-5">
+                                            <div class="mt-5 mb-3">
                                                 <button type="submit" class="btn btn-primary">
                                                     {{ __('Prijavite se') }}
                                                 </button>

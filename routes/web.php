@@ -23,6 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/kalendar/updateGuestRegistered', [App\Http\Controllers\ReservationController::class, 'updateGuestRegistered'])->name('updateGuestRegistered');
     Route::post('/kalendar/updateGuestPaid', [App\Http\Controllers\ReservationController::class, 'updateGuestPaid'])->name('updateGuestPaid');
     Route::post('/kalendar/updateGuestHasCar', [App\Http\Controllers\ReservationController::class, 'updateGuestHasCar'])->name('updateGuestHasCar');
+
+
+    Route::get('/rezervacije', [App\Http\Controllers\ReservationController::class, 'reservations'])->name('rezervacije');
+
 });
 
 Route::middleware('checkrole')->group(function () {
