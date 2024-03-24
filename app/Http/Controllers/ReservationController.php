@@ -9,10 +9,12 @@ use Exception;
 
 class ReservationController extends Controller
 {
-        public function reservations(){
-            return view('reservations');
-        }
-    public function getReservations(Request $request) {
+    public function reservations()
+    {
+        return view('reservations');
+    }
+    public function getReservations(Request $request)
+    {
 
         try {
             $apartmentID = $request->apartID;
@@ -25,7 +27,8 @@ class ReservationController extends Controller
         }
     }
 
-    public function updateGuestRegistered(Request $request) {
+    public function updateGuestRegistered(Request $request)
+    {
         try {
             $id = $request->id;
             $guestRegistered = $request->guestRegistered;
@@ -38,7 +41,8 @@ class ReservationController extends Controller
         }
     }
 
-    public function updateGuestPaid(Request $request) {
+    public function updateGuestPaid(Request $request)
+    {
         try {
             $id = $request->id;
             $guestPaid = $request->guestPaid;
@@ -51,7 +55,8 @@ class ReservationController extends Controller
         }
     }
 
-    public function updateGuestHasCar(Request $request) {
+    public function updateGuestHasCar(Request $request)
+    {
         try {
             $id = $request->id;
             $guestHasCar = $request->guestHasCar;
@@ -79,5 +84,53 @@ class ReservationController extends Controller
         } catch (Exception $ex) {
             return response() - json_encode(['error' => 'Greska prilikom ucitavanja tabele korisnika.'], 500);
         }
+    }
+
+    public function newReservation(Request $request)
+    {
+        try {
+            $apartID = $request->apartID;
+            $guestFirstName = $request->guestFirstName;
+            $guestLastName = $request->guestLastName;
+            $dateStart = $request->dateStart;
+            $dateEnd = $request->dateEnd;
+            $fullPrice = $request->fullPrice;
+            $taxPrice = $request->taxPrice;
+            $guestNumber = $request->guestNumber;
+            $arrivalTime = $request->arrivalTime;
+            $reservationType = $request->reservationType;
+            $guestPaid = $request->guestPaid;
+            $guestDescription = $request->guestDescription;
+
+            // dd($guestPaid);
+            if(session('user')->role == "SUPERADMIN"){
+                $checkRole = 1;
+            }
+            else{
+                $checkRole = 0;
+            }
+
+            $query = new Reservation();
+            $addReservation = $query->newReservation(
+                $apartID,
+                $guestFirstName,
+                $guestLastName,
+                $dateStart,
+                $dateEnd,
+                $fullPrice,
+                $taxPrice,
+                $guestNumber,
+                $arrivalTime,
+                $reservationType,
+                $guestPaid,
+                $guestDescription,
+                $checkRole,
+            );
+            return json_encode($addReservation, 200);
+        } catch (Exception $ex) {
+            dd($ex->getMessage());
+            return response() - json_encode(['error' => 'Greska prilikom dodavanja nove rezervacije.'], 500);
+        }
+
     }
 }

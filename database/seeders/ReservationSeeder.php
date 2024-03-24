@@ -32,6 +32,7 @@ class ReservationSeeder extends Seeder
                 'guestPaid' => $faker->boolean,
                 'guestHasCar' => $faker->boolean,
                 'guestDescription' => $faker->sentence,
+                'checkRole' => $faker->boolean
             ]);
         }
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Carbon\Carbon;
 
 class Reservation extends Model
 {
@@ -27,35 +28,40 @@ class Reservation extends Model
         'guestDescription',
     ];
 
-    public function getReservations($apartmentID){
+    public function getReservations($apartmentID)
+    {
         $getRes = DB::table('reservations')
-                ->select('*')
-                ->where('apart_id', $apartmentID)
-                ->get();
+            ->select('*')
+            ->where('apart_id', $apartmentID)
+            ->where('checkRole', 1)
+            ->get();
         return $getRes;
     }
 
-    public function updateGuestRegistered($id, $guestRegistered) {
+    public function updateGuestRegistered($id, $guestRegistered)
+    {
         $query = DB::table('reservations')
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
                 'guestRegistered' => $guestRegistered
             ]);
         return $query;
     }
 
-    public function updateGuestPaid($id, $guestPaid) {
+    public function updateGuestPaid($id, $guestPaid)
+    {
         $query = DB::table('reservations')
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
                 'guestPaid' => $guestPaid
             ]);
         return $query;
     }
 
-    public function updateGuestHasCar($id, $guestHasCar) {
+    public function updateGuestHasCar($id, $guestHasCar)
+    {
         $query = DB::table('reservations')
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
                 'guestHasCar' => $guestHasCar
             ]);
@@ -64,31 +70,31 @@ class Reservation extends Model
 
     public function reservationsTable($request)
     {
-        $start = isset($request['start']) ? $request['start'] : 0;
-        $length = isset($request['length']) ? $request['length'] : 0;
-        $sort = 'reservations.id';
-        $sorting = 'asc';
-        $search = isset($request['search']['value']) ? $request['search']['value'] : 0;
+        $start = isset ($request['start']) ? $request['start'] : 0;
+        $length = isset ($request['length']) ? $request['length'] : 0;
+        $sort = 'reservations.date_start';
+        $sorting = 'desc';
+        $search = isset ($request['search']['value']) ? $request['search']['value'] : 0;
 
-        if (isset($request['order'][0]['column'])) {
+        if (isset ($request['order'][0]['column'])) {
             switch ($request['order'][0]['column']) {
                 case '0':
-                    $sort = 'reservations.id';
+                    $sort = 'reservations.date_start';
                     break;
                 case '1':
                     $sort = 'reservations.guestFirstName';
                     break;
                 case '2':
-                    $sort = 'reservations.date_start';
+                    $sort = 'reservations.id';
                     break;
             }
         }
 
         $getReservations = DB::table('reservations')
-            ->select('id', 'guestFirstName', 'guestLastName', 'date_start', 'date_end', 'fullPrice')
+            ->select('id', 'guestFirstName', 'guestLastName', 'date_start', 'date_end', 'fullPrice', 'checkRole')
             ->orderBy($sort, $sorting);
 
-        if (!empty($search)) {
+        if (!empty ($search)) {
             $getReservations = $getReservations->whereRaw("guestFirstName LIKE '%{$search}%' OR guestLastName LIKE '%{$search}%' OR date_start LIKE '%{$search}%' OR fullPrice LIKE '%{$search}%'");
         }
 
@@ -101,5 +107,46 @@ class Reservation extends Model
             'recordsTotal' => $recordsTotal,
             'data' => $data,
         ];
+    }
+
+    public function newReservation(
+        $apartID,
+        $guestFirstName,
+        $guestLastName,
+        $dateStart,
+        $dateEnd,
+        $fullPrice,
+        $taxPrice,
+        $guestNumber,
+        $arrivalTime,
+        $reservationType,
+        $guestPaid,
+        $guestDescription,
+        $checkRole
+    ) {
+        $hours = isset ($arrivalTime['HH']) ? $arrivalTime['HH'] : '00';
+        $minutes = isset ($arrivalTime['mm']) ? $arrivalTime['mm'] : '00';
+
+        $formattedArrivalTime = sprintf("%02d:%02d:00", $hours, $minutes);
+        $data = [
+            'apart_id' => $apartID,
+            'guestFirstName' => $guestFirstName,
+            'guestLastName' => $guestLastName,
+            'date_start' => $dateStart ? Carbon::parse($dateStart)->addDay()->toDateString() : null,
+            'date_end' => $dateEnd ? Carbon::parse($dateEnd)->addDay()->toDateString() : null,
+            'fullPrice' => $fullPrice,
+            'taxPrice' => $taxPrice,
+            'guestNumber' => $guestNumber,
+            'arrivalTime' => $formattedArrivalTime,
+            'reservationType' => $reservationType,
+            'guestPaid' => $guestPaid,
+            'guestDescription' => $guestDescription,
+            'created_at' => Carbon::now(),
+            'checkRole' => $checkRole,
+        ];
+
+        $query = DB::table('reservations')
+            ->insertGetId($data);
+        return $query;
     }
 }
