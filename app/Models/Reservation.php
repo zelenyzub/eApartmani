@@ -149,4 +149,12 @@ class Reservation extends Model
             ->insertGetId($data);
         return $query;
     }
+
+    public function allowReservation($id)
+    {
+        $query = DB::table('reservations')
+            ->where('id', $id)
+            ->update(['checkRole' => 1]);
+        return $query;
+    }
 }

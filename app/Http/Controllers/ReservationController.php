@@ -133,4 +133,16 @@ class ReservationController extends Controller
         }
 
     }
+
+    public function allowReservation(Request $request) {
+        try {
+            $id = $request->id;
+            $allowReservation = new Reservation();
+            $allowReservation->allowReservation($id);
+
+            return response()->json(['message' => 'Uspesno odobreno'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Greška prilikom odobravanja rezervacije!'], 500);
+        }
+    }
 }

@@ -187,6 +187,29 @@
     </div>
     <!-- modal za brisanje kraj -->
 
+    <!-- modal za odobravanje rezervacije -->
+    <div class="modal" tabindex="-1" id="allowReservationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Odobrite rezervaciju</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span>
+                        <strong>Da li ste sigurni da želite da odobrite rezervaciju?</strong>
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Odustani</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="allowReservation"
+                        @click="allowReservation">Odobri</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal za odobravanje rezervacije -->
+
     <!-- modal za izmenu -->
     <div class="modal" tabindex="-1" id="editReservationModal">
         <div class="modal-dialog modal-lg">
@@ -246,6 +269,7 @@ export default {
         Datepicker,
         VueTimepicker
     },
+    props: ['userRole'],
     data() {
         return {
             selectedApartment: 0,
@@ -261,10 +285,22 @@ export default {
             reservationType: null,
             guestPaid: 0,
             guestDescription: null,
+
+            role: this.userRole,
+
+            userRowID: null,
+
         };
     },
     mounted() {
+        let th = this;
+
         this.reservationsTable()
+
+        // allow action
+        $(document).on('click', '#allowAction', function (e) {
+            th.userRowID = $(this).data("entry-id");
+        })
     },
 
     methods: {
@@ -284,6 +320,7 @@ export default {
         },
         reservationsTable() {
             var th = this;
+            var role = this.userRole;
             $("#reservationsTable").DataTable().clear().draw();
             $("#reservationsTable").DataTable().clear().destroy();
             var reservationsTable = $("#reservationsTable").DataTable({
@@ -375,17 +412,29 @@ export default {
                                 row.id +
                                 '" style="color: #4eb3ac;"><i class="fa-solid fa-eye fa-sm" style="margin-right: 5px"></i>Pregled</a>';
 
-                            actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
-                                row.id +
-                                '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
+                            if (role === "SUPERADMIN" || role === "ADMIN") {
+                                actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
+                                    row.id +
+                                    '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
+                            }
+                            else {
+                                actionsHtml += "</div>" + "</div>";
+                            }
 
-                            actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteReservationModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
-                                row.id +
-                                '" style="color: #4eb3ac;"><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>';
+                            if (role === "SUPERADMIN") {
+                                actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteReservationModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
+                                    row.id +
+                                    '" style="color: #4eb3ac;"><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>';
+                            }
+                            else {
+                                actionsHtml += "</div>" + "</div>";
+                            }
 
                             // Additional action based on checkRole
-                            if (row.checkRole === 0) {
-                                actionsHtml += '<a type="button" class="dropdown-item" id="allowAction" style="color: #4eb3ac;"><i class="fa-solid fa-check fa-sm" style="margin-right: 5px"></i>Odobri</a>';
+                            if (row.checkRole === 0 && role === "SUPERADMIN") {
+                                actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#allowReservationModal" id="allowAction" class="dropdown-item" data-entry-id="' +
+                                    row.id +
+                                    '" style="color: #4eb3ac;"><i class="fa-solid fa-check fa-sm" style="margin-right: 5px"></i>Odobri</a>';
                             }
 
                             actionsHtml += "</div>" + "</div>";
@@ -394,7 +443,7 @@ export default {
                         },
                     },
                 ],
-                rowCallback: function(row, data) {
+                rowCallback: function (row, data) {
                     if (data.checkRole === 0) {
                         $(row).addClass("light-pink-bg");
                     }
@@ -456,6 +505,36 @@ export default {
                 });
         },
 
+        allowReservation() {
+            let th = this;
+            let allowReservationModal = $('#allowReservationModal');
+            axios
+                .post("/rezervacije/allowReservation", { id: th.userRowID })
+                .then((response) => {
+                    $("#allowAction").prop("disabled", true);
+                    th.reservationsTable();
+                    $("#allowReservation").prop("disabled", false);
+                    allowReservationModal.modal("hide");
+                    Swal.fire({
+                        icon: "success",
+                        text: "Uspešno odobreno.",
+                        timer: 5000,
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+
+                    });
+                })
+                .catch((error) => {
+                    $("#allowReservation").prop("disabled", false);
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Greška prilikom odobravanja rezervacije!",
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+                    });
+                    console.log(error);
+                });
+        },
 
 
         // deleteUser() {
@@ -580,12 +659,12 @@ export default {
 /* stilizacija datepickera kraj */
 
 .light-pink-bg {
-    background-color: #fce4ec; /* Light pink color */
+    background-color: #fce4ec;
+    /* Light pink color */
 }
 
 .light-pink-bg td {
     background-color: #fce4ec;
     color: black !important;
 }
-
 </style>
