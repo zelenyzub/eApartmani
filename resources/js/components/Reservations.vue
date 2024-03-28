@@ -66,35 +66,46 @@
                         <div class="col-md-6 mb-3">
                             <label for="apartDD" class="form-label">Naziv apartmana</label>
                             <select class="form-select" v-model="selectedApartment" id="apartDD"
-                                aria-label="Odabir apartmana">
+                                aria-label="Odabir apartmana" :class="{ 'is-invalid': errors.selectedApartment }">
                                 <option value="0" disabled selected>Odaberite apartman</option>
                                 <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id"
                                     apart-id="apartment.id">
                                     {{ apartment.apartmentName }}
                                 </option>
                             </select>
+                            <span v-if="errors.selectedApartment" class="invalid-feedback">{{ apartSelectedErrorMessage
+                                }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="guestFirstName" class="form-label">Ime gosta</label>
-                            <input type="text" class="form-control" v-model="guestFirstName" id="guestFirstName">
+                            <input type="text" class="form-control" v-model="guestFirstName" id="guestFirstName" placeholder="Unesite ime gosta"
+                                :class="{ 'is-invalid': errors.guestFirstName }">
+                            <span v-if="errors.guestFirstName" class="invalid-feedback">{{ guestFirstNameErrorMessage
+                                }}</span>
                         </div>
                         <div class="col-md-6">
                             <label for="guestLastName" class="form-label">Prezime gosta</label>
-                            <input type="text" class="form-control" v-model="guestLastName" id="guestLastName">
+                            <input type="text" class="form-control" v-model="guestLastName" id="guestLastName" placeholder="Unesite prezime gosta" :class="{ 'is-invalid': errors.guestLastName }">
+                            <span v-if="errors.guestLastName" class="invalid-feedback">{{ guestLastNameErrorMessage
+                                }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="dateStart" class="form-label">Datum dolaska</label><br>
                             <datepicker format="dd.MM.yyyy." v-model="dateStart" id="dateStart"
-                                style="min-width: 300px"></datepicker>
+                                style="min-width: 300px" :class="{ 'is-invalid': errors.dateStart }"></datepicker>
+                            <span v-if="errors.dateStart" class="invalid-feedback">{{ dateStartErrorMessage
+                            }}</span>
                         </div>
                         <div class="col-md-6">
                             <label for="dateEnd" class="form-label">Datum odlaska</label><br>
-                            <datepicker format="dd.MM.yyyy." v-model="dateEnd" id="dateEnd">
+                            <datepicker format="dd.MM.yyyy." v-model="dateEnd" id="dateEnd" :class="{ 'is-invalid': errors.dateEnd }">
                             </datepicker>
+                            <span v-if="errors.dateEnd" class="invalid-feedback">{{ dateEndErrorMessage
+                            }}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -102,23 +113,29 @@
                             <label for="fullPrice" class="form-label">Cena boravka</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fa-solid fa-euro-sign fa-sm"></i></span>
-                                <input type="text" class="form-control" id="fullPrice" v-model="fullPrice">
+                                <input type="text" class="form-control" id="fullPrice" v-model="fullPrice" placeholder="Unseite cenu boravka" :class="{ 'is-invalid': errors.fullPrice }">
                                 <span class="input-group-text">.00</span>
+                                <span v-if="errors.fullPrice" class="invalid-feedback">{{ fullPriceErrorMessage
+                                }}</span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="taxPrice" class="form-label">Cena takse</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fa-solid fa-euro-sign fa-sm"></i></span>
-                                <input type="text" class="form-control" id="taxPrice" v-model="taxPrice">
+                                <input type="text" class="form-control" id="taxPrice" v-model="taxPrice" placeholder="Unesite cenu takse" :class="{ 'is-invalid': errors.taxPrice }">
                                 <span class="input-group-text">.00</span>
+                                <span v-if="errors.taxPrice" class="invalid-feedback">{{ taxPriceErrorMessage
+                                }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="guestNumber" class="form-label">Broj gostiju</label>
-                            <input type="text" class="form-control" v-model="guestNumber" id="guestNumber">
+                            <input type="text" class="form-control" v-model="guestNumber" id="guestNumber" placeholder="Unesite broj gostiju" :class="{ 'is-invalid': errors.guestNumber }">
+                            <span v-if="errors.guestNumber" class="invalid-feedback">{{ guestNumberErrorMessage
+                            }}</span>
                         </div>
                         <div class="col-md-6">
                             <label for="arrivalTime" class="form-label">Vreme dolaska (opciono)</label><br>
@@ -129,17 +146,19 @@
                         <div class="col-md-6 mb-3">
                             <label for="reservationType" class="form-label">Izvor rezervacije</label>
                             <select class="form-select" aria-label="Default select example" v-model="reservationType"
-                                id="reservationType">
-                                <option selected>Odaberite izvor rezervacije</option>
+                                id="reservationType" :class="{ 'is-invalid': errors.reservationType }">
+                                <option value="0" disabled selected>Odaberite izvor rezervacije</option>
                                 <option value="airbnb">Airbnb</option>
                                 <option value="booking">Booking</option>
                                 <option value="private">Privatno</option>
                             </select>
+                            <span v-if="errors.reservationType" class="invalid-feedback">{{ reservationTypeErrorMessage
+                            }}</span>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="guestPaid" class="form-label">Gost platio</label>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="guestPaid"
+                            <div class="form-check form-switch" style="margin-left: 5px;">
+                                <input class="form-check-input switch-lg" type="checkbox" role="switch" id="guestPaid"
                                     v-model="guestPaid">
                             </div>
                         </div>
@@ -282,7 +301,7 @@ export default {
             taxPrice: null,
             guestNumber: null,
             arrivalTime: null,
-            reservationType: null,
+            reservationType: 0,
             guestPaid: 0,
             guestDescription: null,
 
@@ -290,6 +309,17 @@ export default {
 
             userRowID: null,
 
+            errors: {},
+            apartSelectedErrorMessage: "",
+            guestFirstNameErrorMessage: "",
+            guestLastNameErrorMessage: "",
+            dateStartErrorMessage: "",
+            dateEndErrorMessage: "",
+            fullPriceErrorMessage: "",
+            taxPriceErrorMessage: "",
+            guestNumberErrorMessage: "",
+            reservationTypeErrorMessage: "",
+            guestPaidErrorMessage: "",
         };
     },
     mounted() {
@@ -306,6 +336,72 @@ export default {
         $(document).on('click', '#deleteAction', function (e) {
             th.userRowID = $(this).data("entry-id");
         })
+    },
+
+    watch: {
+        selectedApartment(newVal) {
+            if (newVal !== 0) {
+                this.errors.selectedApartment = false;
+                this.apartSelectedErrorMessage = "";
+            }
+        },
+
+        guestFirstName(newVal) {
+            var tekstRegEx = /^[a-zA-Z]+$/;
+            if(newVal !== "" || newVal !== null) {
+                this.errors.guestFirstName = false;
+                this.guestFirstNameErrorMessage = "";
+            }
+        }, 
+
+        guestLastName(newVal) {
+            if(newVal !== "" || newVal !== null) {
+                this.errors.guestLastName = false;
+                this.guestLastNameErrorMessage = "";
+            }
+        },
+
+        dateStart(newVal) {
+            if(newVal !== "" || newVal !== null) {
+                this.errors.dateStart = false;
+                this.dateStartErrorMessage = "";
+            }
+        },
+
+        dateEnd(newVal) {
+            if(newVal !== "" || newVal !== null) {
+                this.errors.dateEnd = false;
+                this.dateEndErrorMessage = "";
+            }
+        },
+
+        fullPrice(newVal) {
+            if(newVal !== "" || newVal !== null || newVal !== 0) {
+                this.errors.fullPrice = false;
+                this.fullPriceErrorMessage = "";
+            }
+        },
+
+        taxPrice(newVal) {
+            if(newVal !== "" || newVal !== null || newVal !== 0) {
+                this.errors.taxPrice = false;
+                this.taxPriceErrorMessage = "";
+            }
+        }, 
+
+        guestNumber(newVal) {
+            if(newVal !== "" || newVal !== null || newVal !== 0) {
+                this.errors.guestNumber = false;
+                this.guestNumberErrorMessage = "";
+            }
+        },
+
+        reservationType(newVal) {
+            if(newVal !== "" || newVal !== null || newVal !== 0) {
+                this.errors.reservationType = false;
+                this.reservationTypeErrorMessage = "";
+            }
+        },
     },
 
     methods: {
@@ -459,6 +555,81 @@ export default {
         addNewreservation() {
             let th = this;
             let newReservationModal = $('#newReservationModal');
+            this.errors = {};
+            var tekstRegEx = /^[a-zA-Z]+$/;
+            var moneyRegEx = /^[1-9]+(?:[.][0-9]{1,2})?$/;
+            var jednocifrenBrRegEx = /^[1-6]{1}$/
+
+            if (this.selectedApartment === 0) {
+                this.errors.selectedApartment = true;
+                this.apartSelectedErrorMessage = "Morate odabrati apartman za koji pravite rezervaciju.";
+            }
+
+            if(this.guestFirstName === "" || this.guestFirstName === null) {
+                this.errors.guestFirstName = true;
+                this.guestFirstNameErrorMessage = "Morate uneti ime gosta.";
+            }
+            else if(!tekstRegEx.test(this.guestFirstName)) {
+                this.errors.guestFirstName = true;
+                this.guestFirstNameErrorMessage = "Ime se može sastojati samo od malih i velikih slova.";
+            }
+
+            if(this.guestLastName === "" || this.guestLastName === null) {
+                this.errors.guestLastName = true;
+                this.guestLastNameErrorMessage = "Morate uneti prezime gosta.";
+            }
+            else if(!tekstRegEx.test(this.guestLastName)) {
+                this.errors.guestLastName = true;
+                this.guestLastNameErrorMessage = "Prezime se može sastojati samo od malih i velikih slova.";
+            }
+
+            if(this.dateStart === null || this.dateStart === "") {
+                this.errors.dateStart = true;
+                this.dateStartErrorMessage = "Morete odabreti datum dolaska gosta.";
+            }
+
+            if(this.dateEnd === null || this.dateEnd === "") {
+                this.errors.dateEnd = true;
+                this.dateEndErrorMessage = "Morete odabreti datum odlaska gosta.";
+            }
+
+            if(this.fullPrice === null || this.fullPrice === "" || this.fullPrice === 0) {
+                this.errors.fullPrice = true;
+                this.fullPriceErrorMessage = "Morete uneti cenu boravka (ne može biti nula)";
+            }
+            else if(!moneyRegEx.test(this.fullPrice)) {
+                this.errors.fullPrice = true;
+                this.fullPriceErrorMessage = "Cena mora biti izražena u brojevima, i posle ( . ) može imati najviše dve cifre (ne može biti nula).";
+            }
+
+            if(this.taxPrice === "" || this.taxPrice === null || this.taxPrice === 0) {
+                this.errors.taxPrice = true;
+                this.taxPriceErrorMessage = "Morete uneti cenu takse (ne može biti nula)";
+            }
+            else if(!moneyRegEx.test(this.taxPrice)) {
+                this.errors.taxPrice = true;
+                this.taxPriceErrorMessage = "Boravišna taksa mora biti izražena u brojevima, i posle ( . ) može imati najviše dve cifre (ne može biti nula).";
+            }
+
+            if(this.guestNumber === null || this.guestNumber === "" || this.guestNumber === 0) {
+                this.errors.guestNumber = true;
+                this.guestNumberErrorMessage = "Morate uneti broj gostiju (ne može biti nula)";
+            }
+            else if(!jednocifrenBrRegEx.test(this.guestNumber)) {
+                this.errors.guestNumber = true;
+                this.guestNumberErrorMessage = "Broj gostiju moze biti od 1 od 6";
+            }
+
+            if(this.reservationType === null || this.reservationType === "" || this.reservationType === 0) {
+                this.errors.reservationType = true;
+                this.reservationTypeErrorMessage = "Morate odabrati izvor rezervacije."
+            }
+
+            if (Object.keys(this.errors).length > 0) {
+                newReservationModal.modal('show');
+                return;
+            }
+
 
             const reservationData = {
                 apartID: th.selectedApartment,
@@ -495,6 +666,8 @@ export default {
                     th.reservationsTable();
                     newReservationModal.modal('hide');
                     $("#addNewreservation").prop("disabled", false);
+                    th.reservationInputClean();
+
                 }).catch((error) => {
 
                     $("#addNewreservation").prop("disabled", false);
@@ -620,6 +793,27 @@ export default {
         //             console.error(error);
         //         });
         // },
+
+        // errosrClean() {
+        //     this.errors = {};
+        //     this.selectedApartment = 0;
+        //     this.apartSelectedErrorMessage = "";
+        // },
+
+        reservationInputClean(){
+            this.selectedApartment = 0;
+            this.guestFirstName = "";
+            this.guestLastName = "";
+            this.dateStart = null;
+            this.dateEnd = null;
+            this.guestPaid = 0;
+            this.arrivalTime = null;
+            this.guestDescription = "";
+            this.fullPrice = "";
+            this.taxPrice = "";
+            this.guestNumber = "";
+            this.reservationType = 0;
+        }
     }
 }
 </script>
@@ -665,11 +859,14 @@ export default {
 
 .light-pink-bg {
     background-color: #fce4ec;
-    /* Light pink color */
 }
 
 .light-pink-bg td {
     background-color: #fce4ec;
     color: black !important;
 }
+.switch-lg {
+    transform: scale(1.5);
+}
+
 </style>
