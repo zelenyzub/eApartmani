@@ -297,8 +297,13 @@ export default {
 
         this.reservationsTable()
 
-        // allow action
+        // allow reservation action
         $(document).on('click', '#allowAction', function (e) {
+            th.userRowID = $(this).data("entry-id");
+        })
+
+        // delete reservation action
+        $(document).on('click', '#deleteAction', function (e) {
             th.userRowID = $(this).data("entry-id");
         })
     },
@@ -537,36 +542,36 @@ export default {
         },
 
 
-        // deleteUser() {
-        //     let th = this;
-        //     let deleteUserModal = $('#deleteUserModal');
-        //     axios
-        //         .post("/administracija-korisnika/deleteUser", { id: th.userRowID })
-        //         .then((response) => {
-        //             $("#deleteAction").prop("disabled", true);
-        //             th.usersTable();
-        //             $("#deleteUser").prop("disabled", false);
-        //             deleteUserModal.modal("hide");
-        //             Swal.fire({
-        //                 icon: "success",
-        //                 text: "Uspešno obrisano.",
-        //                 timer: 5000,
-        //                 confirmButton: "confirmationBtn",
-        //                 confirmButtonColor: "#4eb3ac"
+        deleteReservation() {
+            let th = this;
+            let deleteReservationModal = $('#deleteReservationModal');
+            axios
+                .post("/rezervacije/deleteReservation", { id: th.userRowID })
+                .then((response) => {
+                    $("#deleteReservationAction").prop("disabled", true);
+                    th.reservationsTable();
+                    $("#deleteReservation").prop("disabled", false);
+                    deleteReservationModal.modal("hide");
+                    Swal.fire({
+                        icon: "success",
+                        text: "Uspešno obrisano.",
+                        timer: 5000,
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
 
-        //             });
-        //         })
-        //         .catch((error) => {
-        //             $("#deleteUser").prop("disabled", false);
-        //             Swal.fire({
-        //                 icon: "warning",
-        //                 text: "Greška prilikom brisanja korisnika!",
-        //                 confirmButton: "confirmationBtn",
-        //                 confirmButtonColor: "#4eb3ac"
-        //             });
-        //             console.log(error);
-        //         });
-        // },
+                    });
+                })
+                .catch((error) => {
+                    $("#deledeleteReservationteUser").prop("disabled", false);
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Greška prilikom brisanja rezervacije!",
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+                    });
+                    console.log(error);
+                });
+        },
 
         // editUser() {
         //     let th = this;

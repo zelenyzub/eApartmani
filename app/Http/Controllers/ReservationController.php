@@ -103,10 +103,9 @@ class ReservationController extends Controller
             $guestDescription = $request->guestDescription;
 
             // dd($guestPaid);
-            if(session('user')->role == "SUPERADMIN"){
+            if (session('user')->role == "SUPERADMIN") {
                 $checkRole = 1;
-            }
-            else{
+            } else {
                 $checkRole = 0;
             }
 
@@ -134,7 +133,8 @@ class ReservationController extends Controller
 
     }
 
-    public function allowReservation(Request $request) {
+    public function allowReservation(Request $request)
+    {
         try {
             $id = $request->id;
             $allowReservation = new Reservation();
@@ -143,6 +143,19 @@ class ReservationController extends Controller
             return response()->json(['message' => 'Uspesno odobreno'], 200);
         } catch (Exception $e) {
             return response()->json(['error' => 'Greška prilikom odobravanja rezervacije!'], 500);
+        }
+    }
+
+    public function deleteReservation(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $deleteReservation = new Reservation();
+            $deleteReservation->deleteReservation($id);
+
+            return response()->json(['message' => 'Uspesno obrisana rezervacija'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Greška prilikom brisanja rezervacije!'], 500);
         }
     }
 }

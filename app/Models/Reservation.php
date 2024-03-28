@@ -157,4 +157,11 @@ class Reservation extends Model
             ->update(['checkRole' => 1]);
         return $query;
     }
+
+    public function deleteReservation($id)
+    {
+        DB::table('reservations')
+            ->where('id', $id)
+            ->delete();
+    }
 }
