@@ -857,16 +857,13 @@ export default {
 
 /* stilizacija datepickera kraj */
 
-.light-pink-bg {
-    background-color: #fce4ec;
-}
-
 .light-pink-bg td {
     background-color: #fce4ec;
-    color: black !important;
+    color: rgb(255, 60, 60) !important;
 }
 .switch-lg {
     transform: scale(1.5);
+    /* background-color: red; */
 }
 
 </style>
