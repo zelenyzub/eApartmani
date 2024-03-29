@@ -11,12 +11,14 @@
                     <div class="dropdown me-1" id="ddNotification">
                         <a class="" href="#" data-bs-toggle="dropdown" aria-expanded="false"
                             data-bs-offset="0,70">
-                            <span
-                                class="position-absolute xs top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
-                                style="font-size: 10px;">
-                                {{$user->unreadNotifications->count()}}
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
+                            @if ($user->unreadNotifications->count() > 0)
+                                <span
+                                    class="position-absolute xs top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
+                                    style="font-size: 10px;">
+                                    {{ $user->unreadNotifications->count() }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
                             <i class="fa-regular fa-bell fa-lg" style="color: #4eb3ac;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end scrollable"
@@ -40,24 +42,28 @@
                             </li>
                             <hr>
                             @forelse ($user->unreadNotifications as $key => $notification)
-                            {{-- @dd(session('user')->id, $notification->notifiable_id) --}}
-                            @if (session('user')->id === $notification->notifiable_id)
-                                <li class="dropdown-item mb-3" onclick="event.stopPropagation()">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <div class="dropdown-content">
-                                                <p style="font-size: 13px">{{ $notification->data['message'] }} <a class="link-opacity-25-hover" href={{ $notification->data['notificationPath'] }}>Rezervacije</a></p>
+                                {{-- @dd(session('user')->id, $notification->notifiable_id) --}}
+                                @if (session('user')->id === $notification->notifiable_id)
+                                    <li class="dropdown-item mb-3" onclick="event.stopPropagation()">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="dropdown-content">
+                                                    <p style="font-size: 13px">{{ $notification->data['message'] }} <a
+                                                            class="link-opacity-25-hover"
+                                                            href={{ $notification->data['notificationPath'] }}>Rezervacije</a>
+                                                    </p>
 
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="{{ $key }}" data-id="{{ $notification->id }}">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-2">
-                                            <div class="form-check" >
-                                                <input class="form-check-input" type="checkbox" value="" id="{{$key}}" data-id="{{$notification->id}}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endif
+                                    </li>
+                                @endif
                             @empty
                                 <a class="dropdown-item mb-3">Nema notifikacija</a>
                             @endforelse
@@ -75,17 +81,18 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg-end scrollable" style="width: 270px;">
                     {{-- Ovde treba prikazati role korisnika --}}
-                    @if(session('user')->role == 'SUPERADMIN')
-                    <li class="text-center mt-1"><strong>Super administrator</strong></li>
+                    @if (session('user')->role == 'SUPERADMIN')
+                        <li class="text-center mt-1"><strong>Super administrator</strong></li>
                     @elseif (session('user')->role == 'ADMIN')
-                    <li class="text-center mt-1"><strong>Administrator</strong></li>
+                        <li class="text-center mt-1"><strong>Administrator</strong></li>
                     @else
-                    <li class="text-center mt-1"><strong>Korisnik</strong></li>
+                        <li class="text-center mt-1"><strong>Korisnik</strong></li>
                     @endif
                     <hr>
                     @if (session('user')->role == 'SUPERADMIN')
                         <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="/register"
-                                type="button" class="dropdown-item"><i class="fa-solid fa-address-card" style="color: #4eb3ac;"></i>&nbsp;&nbsp;Registrujte novog korisnika</a></li>
+                                type="button" class="dropdown-item"><i class="fa-solid fa-address-card"
+                                    style="color: #4eb3ac;"></i>&nbsp;&nbsp;Registrujte novog korisnika</a></li>
                     @endif
                     <li class="d-grid gap-2 col-6 mx-auto mb-2" style="width: 90%;"><a href="#" type="button"
                             class="dropdown-item"><i class="fa-solid fa-gear"
@@ -175,4 +182,50 @@
             console.error('Error:', error);
         });
     });
+
+    // oznaci sve notifikacije kao procitene
+    document.getElementById("select-all-checkbox").addEventListener("change", function() {
+        var checkboxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]');
+        var notificationsAll = []
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = event.target.checked;
+            var notificationId = checkbox.getAttribute('data-id');
+            notificationsAll.push(notificationId);
+        });
+        axios.post('/getAllCheckedNotifications', {
+                notificationsAll: notificationsAll
+            })
+            .then(function(response) {
+
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    });
+
+    // oznaci pojedinacno kao procitano notifikacije
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkboxes = document.querySelectorAll('.form-check-input');
+
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('click', function() {
+                var checkboxId = checkbox.getAttribute('id');
+                var notificationId = checkbox.getAttribute('data-id');
+
+                if (checkbox.checked) {
+                    axios.post('/getCheckedNotifications', {
+                            checkboxId: checkboxId,
+                            notificationId: notificationId
+                        })
+                        .then(function(response) {})
+                        .catch(function(error) {
+                            console.error('Error:', error);
+                        });
+                }
+            });
+        });
+
+    });
+
+    
 </script>

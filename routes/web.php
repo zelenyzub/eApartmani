@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/rezervacije/reservationsTable', [App\Http\Controllers\ReservationController::class, 'reservationsTable'])->name('reservationsTable');
     Route::post('/rezervacije/newReservation', [App\Http\Controllers\ReservationController::class, 'newReservation'])->name('newReservation');
 
+    Route::post('/getCheckedNotifications', [App\Http\Controllers\NotificationController::class, 'getCheckedNotifications'])->name('getCheckedNotifications')->middleware('auth');
+    Route::post('/getAllCheckedNotifications', [App\Http\Controllers\NotificationController::class, 'getAllCheckedNotifications'])->name('getAllCheckedNotifications')->middleware('auth');
+
 });
 
 Route::middleware('checkrole')->group(function () {
