@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apartment;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Exception;
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ReservationsNotifications;
 
 
 class ReservationController extends Controller
 {
     public function reservations()
     {
-        return view('reservations');
+        $user = User::find(session('user')->id);
+        return view('reservations', compact('user'));
     }
     public function getReservations(Request $request)
     {
@@ -125,6 +131,23 @@ class ReservationController extends Controller
                 $guestDescription,
                 $checkRole,
             );
+
+            $user = User::All();
+            // dd(session('user')->surname);
+            $apartName = Apartment::getApartmentNameForNotification($apartID);
+            if(session('user')->role === "SUPERADMIN") {
+                $message = session('user')->name . ' ' . session('user')->surname . ' je dodao novu rezervaciju za apartman - ' . $apartName[0]->apartmentName . '. ';
+            }
+            else {
+                $message = session('user')->name . ' ' . session('user')->surname . ' je dodao novi zahtev za rezervaciju za apartman - ' . $apartName[0]->apartmentName . '. ';
+                foreach ($user as $u) {
+                    if($u->role === "SUPERADMIN"){
+                        $user = $u;
+                    }
+                }
+            }
+            $notificationPath = "/rezervacije";
+            Notification::sendNow($user, new ReservationsNotifications($message, $notificationPath, $apartName));
             return json_encode($addReservation, 200);
         } catch (Exception $ex) {
             dd($ex->getMessage());

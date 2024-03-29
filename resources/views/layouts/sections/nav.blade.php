@@ -8,19 +8,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button> --}}
                 <div class="d-flex">
-                    <div class="dropdown me-1">
+                    <div class="dropdown me-1" id="ddNotification">
                         <a class="" href="#" data-bs-toggle="dropdown" aria-expanded="false"
                             data-bs-offset="0,70">
                             <span
                                 class="position-absolute xs top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
-                                style="font-size: 9px;">
-                                99+
+                                style="font-size: 10px;">
+                                {{$user->unreadNotifications->count()}}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                             <i class="fa-regular fa-bell fa-lg" style="color: #4eb3ac;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end scrollable"
-                            style="width: 370px; top: calc(100% + 17px);">
+                            style="width: 370px; top: calc(100% + 17px);" id="ddNotification">
                             <li class="text-center mt-1"><strong>Notifikacije</strong></li>
                             <hr>
                             <li class="d-grid gap-2 col-6 mx-auto mb-4" style="width: 90%;"><a href="#"
@@ -39,86 +39,28 @@
                                 </div>
                             </li>
                             <hr>
-                            <li class="dropdown-item" onclick="event.stopPropagation()">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <div class="dropdown-content">
-                                            Ovde treba da stoji sadrzaj porukeasd asdasdasdasdasdasdasd assafafaffa
-                                            afasfasf
+                            @forelse ($user->unreadNotifications as $key => $notification)
+                            {{-- @dd(session('user')->id, $notification->notifiable_id) --}}
+                            @if (session('user')->id === $notification->notifiable_id)
+                                <li class="dropdown-item mb-3" onclick="event.stopPropagation()">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <div class="dropdown-content">
+                                                <p style="font-size: 13px">{{ $notification->data['message'] }} <a class="link-opacity-25-hover" href={{ $notification->data['notificationPath'] }}>Rezervacije</a></p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="{{$key}}" data-id="{{$notification->id}}">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="dropdown-item" onclick="event.stopPropagation()">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <div class="dropdown-content">
-                                            Ovde treba da stoji sadrzaj porukeasd asdasdasdasdasdasdasd assafafaffa
-                                            afasfasf
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="dropdown-item" onclick="event.stopPropagation()">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <div class="dropdown-content">
-                                            Ovde treba da stoji sadrzaj porukeasd asdasdasdasdasdasdasd assafafaffa
-                                            afasfasf
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="dropdown-item" onclick="event.stopPropagation()">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <div class="dropdown-content">
-                                            Ovde treba da stoji sadrzaj porukeasd asdasdasdasdasdasdasd assafafaffa
-                                            afasfasf
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="dropdown-item" onclick="event.stopPropagation()">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <div class="dropdown-content">
-                                            Ovde treba da stoji sadrzaj porukeasd asdasdasdasdasdasdasd assafafaffa
-                                            afasfasf
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endif
+                            @empty
+                                <a class="dropdown-item mb-3">Nema notifikacija</a>
+                            @endforelse
                         </ul>
                         <div class="arrow-up"></div>
                     </div>

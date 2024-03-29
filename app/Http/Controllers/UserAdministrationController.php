@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\UserAdministration;
 use Illuminate\Http\Request;
 use Exception;
+use App\Models\User;
 
 
 class UserAdministrationController extends Controller
 {
     public function userAdministration()
     {
-        return view('userAdministration');
+        $user = User::find(session('user')->id);
+        return view('userAdministration', compact('user'));
     }
 
     public function getUserData(Request $request)

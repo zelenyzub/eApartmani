@@ -652,6 +652,7 @@ export default {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                     },
                 }).then((response) => {
+                    $("#ddNotifications").load(location.href + " #ddNotifications>*", "");
                     $("#addNewreservation").prop("disabled", true);
 
                     Swal.fire({

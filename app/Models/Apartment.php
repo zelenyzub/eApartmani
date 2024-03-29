@@ -28,7 +28,15 @@ class Apartment extends Model
         $queryApartName = DB::table('apartments')
                         ->select('id', 'apartmentName')
                         ->get();
-// dd($queryApartName);
+        return $queryApartName;
+    }
+
+    public static function getApartmentNameForNotification($apartID)
+    {
+        $queryApartName = DB::table('apartments')
+                        ->select('id', 'apartmentName')
+                        ->where('id',$apartID)
+                        ->get();
         return $queryApartName;
     }
 }
