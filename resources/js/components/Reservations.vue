@@ -589,6 +589,7 @@ export default {
             this.errors = {};
             var tekstRegEx = /^[a-zA-Z]+$/;
             var jednocifrenBrRegEx = /^[1-6]{1}$/
+            var priceRegEx = /^[0-9]+$/
 
             if (this.selectedApartment === 0) {
                 this.errors.selectedApartment = true;
@@ -627,10 +628,18 @@ export default {
                 this.errors.fullPrice = true;
                 this.fullPriceErrorMessage = "Morete uneti cenu boravka (ne može biti nula)";
             }
+            else if(!priceRegEx.test(this.fullPrice)) {
+                this.errors.fullPrice = true;
+                this.fullPriceErrorMessage = "Cena mora biti izražena u brojevima.";
+            }
 
             if(this.taxPrice === "" || this.taxPrice === null || this.taxPrice === 0) {
                 this.errors.taxPrice = true;
                 this.taxPriceErrorMessage = "Morete uneti cenu takse (ne može biti nula)";
+            }
+            else if(!priceRegEx.test(this.taxPrice)) {
+                this.errors.taxPrice = true;
+                this.taxPriceErrorMessage = "Boravišna taksa mora biti izražena u brojevima.";
             }
 
             if(this.guestNumber === null || this.guestNumber === "" || this.guestNumber === 0) {
