@@ -704,6 +704,7 @@ export default {
             axios
                 .post("/rezervacije/allowReservation", { id: th.userRowID })
                 .then((response) => {
+                    $("#notificationDropdown").load(location.href + " #notificationDropdown>*", "");
                     $("#allowAction").prop("disabled", true);
                     th.reservationsTable();
                     $("#allowReservation").prop("disabled", false);

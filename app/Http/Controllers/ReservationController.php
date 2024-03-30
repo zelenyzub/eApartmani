@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Apartment;
 use App\Models\Reservation;
+use App\Notifications\AllowReservationNotifications;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Exception;
@@ -138,13 +139,12 @@ class ReservationController extends Controller
             $user = User::All();
             // dd(session('user')->surname);
             $apartName = Apartment::getApartmentNameForNotification($apartID);
-            if(session('user')->role === "SUPERADMIN") {
+            if (session('user')->role === "SUPERADMIN") {
                 $message = session('user')->name . ' ' . session('user')->surname . ' je dodao novu rezervaciju za apartman - ' . $apartName[0]->apartmentName . '. ';
-            }
-            else {
+            } else {
                 $message = session('user')->name . ' ' . session('user')->surname . ' je dodao novi zahtev za rezervaciju za apartman - ' . $apartName[0]->apartmentName . '. ';
                 foreach ($user as $u) {
-                    if($u->role === "SUPERADMIN"){
+                    if ($u->role === "SUPERADMIN") {
                         $user = $u;
                     }
                 }
@@ -166,6 +166,11 @@ class ReservationController extends Controller
             $allowReservation = new Reservation();
             $allowReservation->allowReservation($id);
 
+            $user = User::All();
+            $message = session('user')->name . ' ' . session('user')->surname . ' je odobrio rezervaciju.';
+
+            $notificationPath = "/rezervacije";
+            Notification::sendNow($user, new AllowReservationNotifications($message, $notificationPath));
             return response()->json(['message' => 'Uspesno odobreno'], 200);
         } catch (Exception $e) {
             return response()->json(['error' => 'Greška prilikom odobravanja rezervacije!'], 500);
