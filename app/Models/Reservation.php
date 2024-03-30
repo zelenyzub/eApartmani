@@ -91,11 +91,12 @@ class Reservation extends Model
         }
 
         $getReservations = DB::table('reservations')
-            ->select('id', 'guestFirstName', 'guestLastName', 'date_start', 'date_end', 'fullPrice', 'checkRole')
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->select('reservations.id', 'reservations.guestFirstName', 'reservations.guestLastName', 'reservations.date_start', 'reservations.date_end', 'reservations.fullPrice', 'reservations.checkRole', 'users.name', 'users.surname')
             ->orderBy($sort, $sorting);
 
         if (!empty ($search)) {
-            $getReservations = $getReservations->whereRaw("guestFirstName LIKE '%{$search}%' OR guestLastName LIKE '%{$search}%' OR date_start LIKE '%{$search}%' OR fullPrice LIKE '%{$search}%'");
+            $getReservations = $getReservations->whereRaw("reservations.guestFirstName LIKE '%{$search}%' OR reservations.guestLastName LIKE '%{$search}%' OR reservations.date_start LIKE '%{$search}%' OR reservations.fullPrice LIKE '%{$search}%'  OR users.name LIKE '%{$search}%'  OR users.surname LIKE '%{$search}%'");
         }
 
         $recordsFiltered = $getReservations->count();
@@ -122,7 +123,8 @@ class Reservation extends Model
         $reservationType,
         $guestPaid,
         $guestDescription,
-        $checkRole
+        $checkRole,
+        $userID
     ) {
         $hours = isset ($arrivalTime['HH']) ? $arrivalTime['HH'] : '00';
         $minutes = isset ($arrivalTime['mm']) ? $arrivalTime['mm'] : '00';
@@ -143,6 +145,7 @@ class Reservation extends Model
             'guestDescription' => $guestDescription,
             'created_at' => Carbon::now(),
             'checkRole' => $checkRole,
+            'user_id' => $userID
         ];
 
         $query = DB::table('reservations')

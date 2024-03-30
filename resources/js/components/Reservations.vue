@@ -7,10 +7,15 @@
                 <li class="breadcrumb-item">Rezervacije</li>
             </ol>
         </div>
-        <div class="col-6 d-flex justify-content-end">
+        <div v-if="role === 'SUPERADMIN'" class="col-6 d-flex justify-content-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newReservationModal"
                 @click="newReservationModal"><i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
                 Dodajte novu rezervaciju</button>
+        </div>
+        <div v-else class="col-6 d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newReservationModal"
+                @click="newReservationModal"><i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
+                Dodajte zahtev za rezervaciju</button>
         </div>
     </div>
     <!-- zaglavlje kraj -->
@@ -31,6 +36,7 @@
                         <th scope="col">Datum dolaska</th>
                         <th scope="col">Datum odlaska</th>
                         <th scope="col">Cena boravka</th>
+                        <th scope="col">Korisnik</th>
                         <th scope="col">Akcije</th>
                     </tr>
                 </thead>
@@ -45,6 +51,7 @@
                         <th scope="col">Datum dolaska</th>
                         <th scope="col">Datum odlaska</th>
                         <th scope="col">Cena boravka</th>
+                        <th scope="col">Korisnik</th>
                         <th scope="col">Akcije</th>
                     </tr>
                 </tfoot>
@@ -324,7 +331,7 @@ export default {
     },
     mounted() {
         let th = this;
-
+        console.log(th.role)
         this.reservationsTable()
 
         // allow reservation action
@@ -463,8 +470,9 @@ export default {
                     { targets: 2, orderable: true },
                     { targets: 3, orderable: true },
                     { targets: 4, orderable: true },
-                    { targets: 5, orderable: true },
-                    { targets: 6, orderable: false, width: "5%" },
+                    { targets: 5, orderable: true, width: "10%" },
+                    { targets: 6, orderable: true },
+                    { targets: 7, orderable: false, width: "5%" },
 
                 ],
                 columns: [
@@ -500,6 +508,12 @@ export default {
                                 return data + ' <i class="fa-solid fa-euro-sign fa-sm"></i>';
                             }
                             return data;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return row.name + ' ' + row.surname;
                         }
                     },
                     {
@@ -652,7 +666,7 @@ export default {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                     },
                 }).then((response) => {
-                    $("#ddNotifications").load(location.href + " #ddNotifications>*", "");
+                    $("#notificationDropdown").load(location.href + " #notificationDropdown>*", "");
                     $("#addNewreservation").prop("disabled", true);
 
                     Swal.fire({

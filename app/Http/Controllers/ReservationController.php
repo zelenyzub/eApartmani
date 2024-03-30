@@ -108,6 +108,8 @@ class ReservationController extends Controller
             $guestPaid = $request->guestPaid;
             $guestDescription = $request->guestDescription;
 
+            $userID = session('user')->id;
+
             // dd($guestPaid);
             if (session('user')->role == "SUPERADMIN") {
                 $checkRole = 1;
@@ -130,6 +132,7 @@ class ReservationController extends Controller
                 $guestPaid,
                 $guestDescription,
                 $checkRole,
+                $userID
             );
 
             $user = User::All();
