@@ -92,11 +92,12 @@ class Reservation extends Model
 
         $getReservations = DB::table('reservations')
             ->join('users', 'reservations.user_id', '=', 'users.id')
-            ->select('reservations.id', 'reservations.guestFirstName', 'reservations.guestLastName', 'reservations.date_start', 'reservations.date_end', 'reservations.fullPrice', 'reservations.checkRole', 'users.name', 'users.surname')
+            ->join('apartments', 'reservations.apart_id', '=', 'apartments.id')
+            ->select('reservations.id', 'reservations.guestFirstName', 'reservations.guestLastName', 'reservations.date_start', 'reservations.date_end', 'reservations.fullPrice', 'reservations.checkRole', 'users.name', 'users.surname', 'apartments.apartmentName')
             ->orderBy($sort, $sorting);
 
         if (!empty ($search)) {
-            $getReservations = $getReservations->whereRaw("reservations.guestFirstName LIKE '%{$search}%' OR reservations.guestLastName LIKE '%{$search}%' OR reservations.date_start LIKE '%{$search}%' OR reservations.fullPrice LIKE '%{$search}%'  OR users.name LIKE '%{$search}%'  OR users.surname LIKE '%{$search}%'");
+            $getReservations = $getReservations->whereRaw("reservations.guestFirstName LIKE '%{$search}%' OR reservations.guestLastName LIKE '%{$search}%' OR reservations.date_start LIKE '%{$search}%' OR reservations.fullPrice LIKE '%{$search}%'  OR users.name LIKE '%{$search}%' OR users.surname LIKE '%{$search}%' OR apartments.apartmentName LIKE '%{$search}%'");
         }
 
         $recordsFiltered = $getReservations->count();

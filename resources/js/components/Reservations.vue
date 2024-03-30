@@ -31,6 +31,7 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
+                        <th scope="col">Apartman</th>
                         <th scope="col">Ime</th>
                         <th scope="col">Prezime</th>
                         <th scope="col">Datum dolaska</th>
@@ -46,6 +47,7 @@
                 <tfoot>
                     <tr>
                         <th scope="col">ID</th>
+                        <th scope="col">Apartman</th>
                         <th scope="col">Ime</th>
                         <th scope="col">Prezime</th>
                         <th scope="col">Datum dolaska</th>
@@ -120,7 +122,7 @@
                             <label for="fullPrice" class="form-label">Cena boravka</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fa-solid fa-euro-sign fa-sm"></i></span>
-                                <input type="text" class="form-control" id="fullPrice" v-model="fullPrice" placeholder="Unseite cenu boravka" :class="{ 'is-invalid': errors.fullPrice }">
+                                <input type="number" class="form-control" id="fullPrice" v-model="fullPrice" placeholder="Unseite cenu boravka" :class="{ 'is-invalid': errors.fullPrice }">
                                 <span class="input-group-text">.00</span>
                                 <span v-if="errors.fullPrice" class="invalid-feedback">{{ fullPriceErrorMessage
                                 }}</span>
@@ -130,7 +132,7 @@
                             <label for="taxPrice" class="form-label">Cena takse</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fa-solid fa-euro-sign fa-sm"></i></span>
-                                <input type="text" class="form-control" id="taxPrice" v-model="taxPrice" placeholder="Unesite cenu takse" :class="{ 'is-invalid': errors.taxPrice }">
+                                <input type="number" class="form-control" id="taxPrice" v-model="taxPrice" placeholder="Unesite cenu takse" :class="{ 'is-invalid': errors.taxPrice }">
                                 <span class="input-group-text">.00</span>
                                 <span v-if="errors.taxPrice" class="invalid-feedback">{{ taxPriceErrorMessage
                                 }}</span>
@@ -139,10 +141,24 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="guestNumber" class="form-label">Broj gostiju</label>
-                            <input type="text" class="form-control" v-model="guestNumber" id="guestNumber" placeholder="Unesite broj gostiju" :class="{ 'is-invalid': errors.guestNumber }">
-                            <span v-if="errors.guestNumber" class="invalid-feedback">{{ guestNumberErrorMessage
-                            }}</span>
+                            <div v-if="selectedApartment !== 0">
+                                <div v-for="apartment in apartments" :key="apartment.id">
+                                    <div v-if="apartment.id === selectedApartment">
+                                    <label for="guestNumber" class="form-label">Broj gostiju ( maksimalno {{apartment.apartmentCapacity}} )</label>  
+                                        <div class="form-outline">
+                                            <input min="1" :max="apartment.apartmentCapacity" type="number" class="form-control" v-model="guestNumber" id="guestNumber" placeholder="Unesite broj gostiju" :class="{ 'is-invalid': errors.guestNumber }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <label for="guestNumber" class="form-label">Broj gostiju</label>  
+                                <div class="form-outline">
+                                    <input min="1" max="0" type="number" class="form-control" v-model="guestNumber" id="guestNumber" placeholder="Morete odabrati apartman da omogućite unos" disabled readonly :class="{ 'is-invalid': errors.guestNumber }" />
+                                    <span v-if="errors.guestNumber" class="invalid-feedback">{{ guestNumberErrorMessage
+                                    }}</span>
+                                </div>
+                            </div>   
                         </div>
                         <div class="col-md-6">
                             <label for="arrivalTime" class="form-label">Vreme dolaska (opciono)</label><br>
@@ -331,7 +347,6 @@ export default {
     },
     mounted() {
         let th = this;
-        console.log(th.role)
         this.reservationsTable()
 
         // allow reservation action
@@ -465,18 +480,20 @@ export default {
                     },
                 },
                 columnDefs: [
-                    { targets: 0, orderable: true },
+                    { targets: 0, orderable: true, width: "5%" },
                     { targets: 1, orderable: true },
-                    { targets: 2, orderable: true },
-                    { targets: 3, orderable: true },
-                    { targets: 4, orderable: true },
+                    { targets: 2, orderable: true, width: "15%" },
+                    { targets: 3, orderable: true, width: "15%" },
+                    { targets: 4, orderable: true, width: "10%" },
                     { targets: 5, orderable: true, width: "10%" },
-                    { targets: 6, orderable: true },
-                    { targets: 7, orderable: false, width: "5%" },
+                    { targets: 6, orderable: true, width: "10%" },
+                    { targets: 7, orderable: true, width: "15%" },
+                    { targets: 8, orderable: false, width: "5%" },
 
                 ],
                 columns: [
                     { data: "id" },
+                    { data: "apartmentName" },
                     { data: "guestFirstName" },
                     { data: "guestLastName" },
                     {
@@ -571,7 +588,6 @@ export default {
             let newReservationModal = $('#newReservationModal');
             this.errors = {};
             var tekstRegEx = /^[a-zA-Z]+$/;
-            var moneyRegEx = /^[1-9]+(?:[.][0-9]{1,2})?$/;
             var jednocifrenBrRegEx = /^[1-6]{1}$/
 
             if (this.selectedApartment === 0) {
@@ -611,18 +627,10 @@ export default {
                 this.errors.fullPrice = true;
                 this.fullPriceErrorMessage = "Morete uneti cenu boravka (ne može biti nula)";
             }
-            else if(!moneyRegEx.test(this.fullPrice)) {
-                this.errors.fullPrice = true;
-                this.fullPriceErrorMessage = "Cena mora biti izražena u brojevima, i posle ( . ) može imati najviše dve cifre (ne može biti nula).";
-            }
 
             if(this.taxPrice === "" || this.taxPrice === null || this.taxPrice === 0) {
                 this.errors.taxPrice = true;
                 this.taxPriceErrorMessage = "Morete uneti cenu takse (ne može biti nula)";
-            }
-            else if(!moneyRegEx.test(this.taxPrice)) {
-                this.errors.taxPrice = true;
-                this.taxPriceErrorMessage = "Boravišna taksa mora biti izražena u brojevima, i posle ( . ) može imati najviše dve cifre (ne može biti nula).";
             }
 
             if(this.guestNumber === null || this.guestNumber === "" || this.guestNumber === 0) {

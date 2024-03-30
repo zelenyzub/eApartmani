@@ -26,7 +26,7 @@ class Apartment extends Model
     public function getApartmentName()
     {
         $queryApartName = DB::table('apartments')
-                        ->select('id', 'apartmentName')
+                        ->select('id', 'apartmentName', 'apartmentCapacity')
                         ->get();
         return $queryApartName;
     }
