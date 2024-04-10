@@ -225,13 +225,13 @@ export default {
                             return (
                                 '<div class="dropdown justify-content-center">' +
                                 '<a type="button" class="" data-bs-toggle="dropdown"><i class="fa-solid fa-list fa-sm" style="color: #4eb3ac;"></i></a>' +
-                                '<div class="dropdown-menu bg-dark text-center">' +
+                                '<div class="dropdown-menu text-center">' +
                                 '<a type="button" data-bs-toggle="modal" data-bs-target="#editUserModal" id="editAction" class="dropdown-item" data-entry-id="' +
                                 row.id +
-                                '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>' +
+                                '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>' +
                                 '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteUserModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
                                 row.id +
-                                '" style="color: #4eb3ac;"><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>' +
+                                '" ><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>' +
                                 "</div>" +
                                 "</div>"
                             );

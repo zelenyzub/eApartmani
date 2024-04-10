@@ -179,9 +179,12 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="guestPaid" class="form-label">Gost platio</label>
-                            <div class="form-check form-switch" style="margin-left: 5px;">
-                                <input class="form-check-input switch-lg" type="checkbox" role="switch" id="guestPaid"
-                                    v-model="guestPaid">
+                            <div class="form-check form-switch form-check-custom form-check-success form-check-solid">
+                                <input class="form-check-input " type="checkbox" value="" checked id="guestPaid"
+                                    v-model="guestPaid"/>
+                                <label class="form-check-label" for="guestPaid">
+                                    Success color
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -537,16 +540,16 @@ export default {
                         render: function (data, type, row) {
                             var actionsHtml = '<div class="dropdown justify-content-center">' +
                                 '<a type="button" class="" data-bs-toggle="dropdown"><i class="fa-solid fa-list fa-sm" style="color: #4eb3ac;"></i></a>' +
-                                '<div class="dropdown-menu bg-dark text-center">';
+                                '<div class="dropdown-menu text-center">';
 
                             actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#reservationInfoModal" id="infoAction" class="dropdown-item" data-entry-id="' +
                                 row.id +
-                                '" style="color: #4eb3ac;"><i class="fa-solid fa-eye fa-sm" style="margin-right: 5px"></i>Pregled</a>';
+                                '" ><i class="fa-solid fa-eye fa-sm" style="margin-right: 5px"></i>Pregled</a>';
 
                             if (role === "SUPERADMIN" || role === "ADMIN") {
                                 actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
                                     row.id +
-                                    '" style="color: #4eb3ac;"><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
+                                    '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
                             }
                             else {
                                 actionsHtml += "</div>" + "</div>";
@@ -555,7 +558,7 @@ export default {
                             if (role === "SUPERADMIN") {
                                 actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteReservationModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
                                     row.id +
-                                    '" style="color: #4eb3ac;"><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>';
+                                    '" ><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>';
                             }
                             else {
                                 actionsHtml += "</div>" + "</div>";
@@ -565,7 +568,7 @@ export default {
                             if (row.checkRole === 0 && role === "SUPERADMIN") {
                                 actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#allowReservationModal" id="allowAction" class="dropdown-item" data-entry-id="' +
                                     row.id +
-                                    '" style="color: #4eb3ac;"><i class="fa-solid fa-check fa-sm" style="margin-right: 5px"></i>Odobri</a>';
+                                    '" ><i class="fa-solid fa-check fa-sm" style="margin-right: 5px"></i>Odobri</a>';
                             }
 
                             actionsHtml += "</div>" + "</div>";
@@ -890,7 +893,7 @@ export default {
 /* stilizacija datepickera kraj */
 
 .light-pink-bg td {
-    background-color: #fce4ec;
+    background-color: #fce4ec !important;
     color: rgb(255, 60, 60) !important;
 }
 .switch-lg {
