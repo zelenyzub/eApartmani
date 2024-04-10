@@ -12,16 +12,7 @@
 </head>
 
 <body>
-    @include('layouts.sections.nav')
-    <div id="app">
-        <div id="layoutSidenav">
-            @include('layouts.sections.sidebar')
-            <div id="layoutSidenav_content">
-                @yield('content')
-                {{-- @include('layouts.sections.footer') --}}
-            </div>
-        </div>
-    </div>
+    @include('layouts.sections.layout')
     <script src="{{ asset('theme/js/jQuery.min.js') }}"></script>
     <script src="{{ asset('theme/js/popper.min.js') }}"></script>
     <script src="{{ asset('theme/js/bootstrap.min.js') }}"></script>
@@ -30,23 +21,7 @@
     <script src="{{ asset('theme/js/datatable.min.js') }}"></script>
     <script src="{{ asset('theme/js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
-    <style>
-        #layoutSidenav {
-    display: flex;
-    height: 100%;
-}
 
-#layoutSidenav_content {
-    flex: 1; /* Take remaining space */
-    padding: 20px; /* Adjust padding as needed */
-}
-
-#layoutSidenav_sidebar {
-    /* Add styling for sidebar as needed */
-    width: 250px; /* Adjust width as needed */
-}
-
-    </style>
 </body>
 
 </html>

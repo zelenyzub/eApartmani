@@ -9,59 +9,58 @@
         </div>
         <div v-if="role === 'SUPERADMIN'" class="col-6 d-flex justify-content-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newReservationModal"
-                @click="newReservationModal"><i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
+                @click="newReservationModal"><i class="fa-solid fa-registered fs-3"></i>&nbsp;&nbsp;
                 Dodajte novu rezervaciju</button>
         </div>
         <div v-else class="col-6 d-flex justify-content-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newReservationModal"
-                @click="newReservationModal"><i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
+                @click="newReservationModal"><i class="fa-solid fa-registered fs-3"></i>&nbsp;&nbsp;
                 Dodajte zahtev za rezervaciju</button>
         </div>
     </div>
     <!-- zaglavlje kraj -->
 
     <!-- Tabela korisnika -->
-    <div class="card mb-4 bg-dark" style="color: #4eb3ac;">
-        <div class="card-header d-flex justify-content-center">
-            <span><i class="fa-solid fa-table fa-lg"></i> Rezervacije</span>
-        </div>
-        <div class="card-body">
-            <table class="display responsive table table-bordered table-hower table-striped pt-2" width="100%"
-                id="reservationsTable">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Apartman</th>
-                        <th scope="col">Ime</th>
-                        <th scope="col">Prezime</th>
-                        <th scope="col">Datum dolaska</th>
-                        <th scope="col">Datum odlaska</th>
-                        <th scope="col">Cena boravka</th>
-                        <th scope="col">Korisnik</th>
-                        <th scope="col">Akcije</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="card card-flush shadow-sm">
+        <div class="card-body py-5">
+            <div class="table-responsive">
+                <table class="table table-rounded table-striped border gy-7 gs-7" width="100%"
+                    id="reservationsTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Apartman</th>
+                            <th scope="col">Ime</th>
+                            <th scope="col">Prezime</th>
+                            <th scope="col">Datum dolaska</th>
+                            <th scope="col">Datum odlaska</th>
+                            <th scope="col">Cena boravka</th>
+                            <th scope="col">Korisnik</th>
+                            <th scope="col">Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Apartman</th>
-                        <th scope="col">Ime</th>
-                        <th scope="col">Prezime</th>
-                        <th scope="col">Datum dolaska</th>
-                        <th scope="col">Datum odlaska</th>
-                        <th scope="col">Cena boravka</th>
-                        <th scope="col">Korisnik</th>
-                        <th scope="col">Akcije</th>
-                    </tr>
-                </tfoot>
-            </table>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Apartman</th>
+                            <th scope="col">Ime</th>
+                            <th scope="col">Prezime</th>
+                            <th scope="col">Datum dolaska</th>
+                            <th scope="col">Datum odlaska</th>
+                            <th scope="col">Cena boravka</th>
+                            <th scope="col">Korisnik</th>
+                            <th scope="col">Akcije</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
     <!-- Tabela kraj -->
-
+    
     <!-- modal za kreiranje nove rezervacije -->
     <div class="modal" tabindex="-1" id="newReservationModal">
         <div class="modal-dialog modal-lg">

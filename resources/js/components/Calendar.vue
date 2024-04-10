@@ -23,7 +23,11 @@
     </div>
   </div>
   <div>
-    <FullCalendar :options="calendarPlugins" />
+    <div class="card card-flush shadow-sm">
+        <div class="card-body py-5">
+          <FullCalendar :options="calendarPlugins" />
+        </div>
+    </div>
   </div>
 
   <!-- Modal za legendu kalendara -->

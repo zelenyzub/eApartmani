@@ -16,15 +16,13 @@
     <!-- zaglavlje kraj -->
 
     <!-- Tabela korisnika -->
-    <div class="card mb-4 bg-dark" style="color: #4eb3ac;">
-        <div class="card-header d-flex justify-content-center">
-            <span><i class="fa-solid fa-table fa-lg"></i> Korisnici</span>
-        </div>
-        <div class="card-body">
-            <table class="display responsive table table-bordered table-hower table-striped pt-2" width="100%"
-                id="usersTable">
-                <thead>
-                    <tr>
+    <div class="card card-flush shadow-sm">
+        <div class="card-body py-5">
+            <div class="table-responsive">
+                <table class="table table-rounded table-striped border gy-7 gs-7" width="100%"
+                    id="usersTable">
+                    <thead>
+                        <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Ime</th>
                         <th scope="col">Prezime</th>
@@ -32,12 +30,12 @@
                         <th scope="col">Nivo pristupa</th>
                         <th scope="col">Akcije</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-                <tfoot>
-                    <tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Ime</th>
                         <th scope="col">Prezime</th>
@@ -45,8 +43,9 @@
                         <th scope="col">Nivo pristupa</th>
                         <th scope="col">Akcije</th>
                     </tr>
-                </tfoot>
-            </table>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
     <!-- Tabela kraj -->
