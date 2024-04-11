@@ -43,6 +43,7 @@ Route::middleware('checkrole')->group(function () {
 
     Route::post('/rezervacije/allowReservation', [App\Http\Controllers\ReservationController::class, 'allowReservation'])->name('allowReservation');
     Route::post('/rezervacije/deleteReservation', [App\Http\Controllers\ReservationController::class, 'deleteReservation'])->name('deleteReservation');
+
 });
 
 Auth::routes();

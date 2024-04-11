@@ -8,7 +8,7 @@
     <link href="{{ asset('theme/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/datatable.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/sweetalert2.min.css') }}" rel="stylesheet">
-    <title>@yield('title', 'E-Apartman')</title>
+    <title>@yield('title', 'E-Apartmani')</title>
 </head>
 
 <body>
