@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="apartDD" class="form-label">Naziv apartmana</label>
-                            <select class="form-select" v-model="selectedApartment" id="apartDD"
+                            <select class="form-select" data-control="select2" data-placeholder="Select an option" v-model="selectedApartment" id="apartDD"
                                 aria-label="Odabir apartmana" :class="{ 'is-invalid': errors.selectedApartment }">
                                 <option value="0" disabled selected>Odaberite apartman</option>
                                 <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id"

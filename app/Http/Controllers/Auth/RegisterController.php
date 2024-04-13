@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'string', 'in:USER,ADMIN,SUPERADMIN'],
-            // 'image' => ['image', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'image' => ['image', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
     }
 
@@ -66,11 +66,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // $imagePath = null;
+        $imagePath = null;
 
-        // if (isset($data['image'])) {
-        //     $imagePath = $data['image']->store('images', 'public'); 
-        // }
+        if (isset($data['avatar'])) {
+            // Store the uploaded image in the storage directory
+            $imagePath = $data['avatar']->store('public/avatar');
+    
+            // Get the file name from the stored path
+            $fileName = basename($imagePath);
+    
+            // Update the path to match the storage directory
+            $imagePath = $fileName;
+    
+            // Copy the uploaded image to the public assets directory
+            $publicPath = public_path('assets/media/avatars');
+            if (!file_exists($publicPath)) {
+                mkdir($publicPath, 0777, true); // Create the directory if it doesn't exist
+            }
+            copy(storage_path('app/public/avatar/' . $imagePath), $publicPath . '/' . $fileName);
+        }
 
         return User::create([
             'name' => $data['name'],
@@ -78,7 +92,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
-            // 'image' => $imagePath,
+            'image' => $imagePath
         ]);
     }
 

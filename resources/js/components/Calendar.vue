@@ -13,8 +13,7 @@
         Legenda</button>
     </div>
     <div class="col-3" style="text-align-last: center;">
-      <select class="form-select theme-color-dark col-2" v-model="selectedApartment" id="apartDD"
-        aria-label="Odabir apartmana">
+      <select class="form-select" data-control="select2" data-placeholder="Odaberite apartman" v-model="selectedApartment" id="apartDD">
         <option value="0" disabled selected>Odaberite apartman</option>
         <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id" apart-id="apartment.id">
           {{ apartment.apartmentName }}
@@ -170,6 +169,8 @@ import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import axios from 'axios';
 import { getRelevantEvents } from '@fullcalendar/core/internal'
+
+
 
 export default {
   components: { FullCalendar }, // corrected component name

@@ -237,6 +237,60 @@ License: For each use you must have a valid license purchased only from above li
                             </div>
                             {{-- TIP KORISNIKA --}}
 
+                            {{-- COVER IMAGE --}}
+                            <!--begin::Image input placeholder-->
+
+                            <!--end::Image input placeholder-->
+
+                            <!--begin::Image input-->
+                            <div class="fv-row mb-8">
+                                <label for="avatar">Profilna fotografija:</label>
+                            </div>
+                            <div class="fv-row mb-8">
+
+                                <div class="image-input image-input-empty" data-kt-image-input="true">
+                                    <!--begin::Image preview wrapper-->
+                                    <div class="image-input-wrapper w-125px h-125px"
+                                        style="background-image: url('assets/media/svg/avatars/blank.svg');"></div>
+                                    <!--end::Image preview wrapper-->
+
+                                    <!--begin::Edit button-->
+                                    <label
+                                        class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                        data-kt-image-input-action="change" data-bs-toggle="tooltip"
+                                        data-bs-dismiss="click" title="Change avatar">
+                                        <i class="ki-duotone ki-pencil fs-6"><span class="path1"></span><span
+                                                class="path2"></span></i>
+
+                                        <!--begin::Inputs-->
+                                        <input id="avatar"  type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                        <input type="hidden" name="avatar_remove" />
+                                        <!--end::Inputs-->
+                                    </label>
+                                    <!--end::Edit button-->
+
+                                    <!--begin::Cancel button-->
+                                    <span
+                                        class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                        data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+                                        data-bs-dismiss="click" title="Cancel avatar">
+                                        <i class="ki-outline ki-cross fs-3"></i>
+                                    </span>
+                                    <!--end::Cancel button-->
+
+                                    <!--begin::Remove button-->
+                                    <span
+                                        class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                        data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+                                        data-bs-dismiss="click" title="Remove avatar">
+                                        <i class="ki-outline ki-cross fs-3"></i>
+                                    </span>
+                                    <!--end::Remove button-->
+                                </div>
+                            </div>
+                            <!--end::Image input-->
+                            {{-- COVER IMAGE --}}
+
                             <!--end::Input group=-->
                             <!--begin::Accept-->
                             {{-- <div class="fv-row mb-8">
@@ -365,8 +419,8 @@ License: For each use you must have a valid license purchased only from above li
                     {{-- <a href="index.html" class="mb-0 mb-lg-12 d-block text-center">
                         <img alt="Logo" src="assets/media/logos/ELOGO.png" class="h-100px h-lg-125px mt-3 mt-lg-0" />
                     </a> --}}
-                    
-                    
+
+
                     <!--end::Logo-->
                     <!--begin::Image-->
                     <a href="/kalendar">
