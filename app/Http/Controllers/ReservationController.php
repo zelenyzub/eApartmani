@@ -89,7 +89,7 @@ class ReservationController extends Controller
 
             return json_encode($data, 200);
         } catch (Exception $ex) {
-            return response() - json_encode(['error' => 'Greska prilikom ucitavanja tabele korisnika.'], 500);
+            return response() - json_encode(['error' => 'Greska prilikom ucitavanja tabele rezervacija.'], 500);
         }
     }
 

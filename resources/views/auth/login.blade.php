@@ -123,14 +123,14 @@ License: For each use you must have a valid license purchased only from above li
                             {{-- EMAIL --}}
                             <div class="fv-row mb-8">
                                 <input id="email" type="email"
-                                                    class="form-control @error('email') is-invalid @enderror"
-                                                    name="email" value="{{ old('email') }}" required autofocus
-                                                    placeholder="Unesite Vašu email adresu">
-                                                @error('email')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
+                                    class="form-control @error('email') is-invalid @enderror" name="email"
+                                    value="{{ old('email') }}" required autofocus
+                                    placeholder="Unesite Vašu email adresu">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
 
                             </div>
                             {{-- EMAIL --}}
@@ -143,14 +143,14 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--begin::Input wrapper-->
                                     <div class="position-relative mb-3">
                                         <input id="password" type="password"
-                                                    class="form-control @error('password') is-invalid @enderror"
-                                                    name="password" required autocomplete="current-password" autofocus
-                                                    placeholder="Unesite Vašu šufru">
-                                                @error('password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required autocomplete="current-password" autofocus
+                                            placeholder="Unesite Vašu šufru">
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <!--end::Input wrapper-->
                                 </div>

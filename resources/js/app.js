@@ -23,7 +23,8 @@ import UserAdministration from './components/UserAdministration.vue';
 app.component('user-administration-component', UserAdministration);
 import Reservations from './components/Reservations.vue';
 app.component('reservations-page', Reservations);
-
+import ApartmentListComponent from './components/ApartmentListComponent.vue';
+app.component('apartmentlist-page', ApartmentListComponent);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
