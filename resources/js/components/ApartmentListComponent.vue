@@ -7,6 +7,12 @@
         <li class="breadcrumb-item">Lista apartmana</li>
       </ol>
     </div>
+    <div v-if="role === 'SUPERADMIN'" class="col-6 d-flex justify-content-end">
+      <a href="/dodaj-apartman" class="btn btn-primary">
+        <i class="fa fa-home fs-6" aria-hidden="true"></i>&nbsp;&nbsp; Dodajte
+        novi apartman
+      </a>
+    </div>
     <div class="col-6 d-flex justify-content-end"></div>
   </div>
   <!-- zaglavlje kraj -->
@@ -50,13 +56,39 @@
 export default {
   props: ["userRole"],
   data() {
-    return {};
+    return {
+      role: this.userRole,
+    };
   },
   mounted() {
     this.apartmentList();
+    this.copyToClipboard();
   },
   // Your methods, computed properties, etc. go here
   methods: {
+    copyToClipboard() {
+      $(document).on("click", ".copy-text", function (event) {
+        event.preventDefault();
+        var text = $(this).data("text");
+        var tempInput = $("<input>");
+        $("body").append(tempInput);
+        tempInput.val(text).select();
+        document.execCommand("copy");
+        tempInput.remove();
+        var $badge = $(this).find("span");
+        $badge
+          .text("Kopirano")
+          .attr("data-bs-original-title", "Kopirano")
+          .tooltip("dispose")
+          .tooltip("show");
+        setTimeout(function () {
+          $badge
+            .text("Kopirajte geo lokaciju")
+            .attr("data-bs-original-title", "Kopiraj")
+            .tooltip("dispose");
+        }, 2000);
+      });
+    },
     apartmentList() {
       var th = this;
       var role = this.userRole;
@@ -131,7 +163,17 @@ export default {
               return html;
             },
           },
-          { data: "gmLocation" },
+          {
+            render: function (data, type, row) {
+              var badge =
+                '<a href="#" class="copy-text" data-text="' +
+                row.gmLocation +
+                '"><span class="badge badge-light-success fs-7 fw-bold" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Kopiraj">' +
+                "Kopirajte geo lokaciju" +
+                "</span></a>";
+              return badge;
+            },
+          },
           { data: "apartmentCapacity" },
           {
             data: "akcije",

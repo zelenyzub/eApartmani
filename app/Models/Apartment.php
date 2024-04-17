@@ -80,4 +80,29 @@ class Apartment extends Model
             'data' => $data,
         ];
     }
+
+    public static function addApartment($parkingStatus, $gmLocation, $apartmentName, $apartmentAddress, $apartmentCapacity, $wifiPassword, $apartmentDescription, $ownerFirstName, $ownerLastName, $aditionalApartInfo, $avatar)
+    {
+        try {
+            $apartment = DB::table('apartments')->insertGetId([
+                'parking' => $parkingStatus,
+                'gmLocation' => $gmLocation,
+                'apartmentName' => $apartmentName,
+                'apartmentAddress' => $apartmentAddress,
+                'apartmentCapacity' => $apartmentCapacity,
+                'wifiPassword' => $wifiPassword,
+                'apartmentDescription' => $apartmentDescription,
+                'ownerFirstName' => $ownerFirstName,
+                'ownerLastName' => $ownerLastName,
+                'aditionalApartInfo' => $aditionalApartInfo,
+                'apartmentPhotos' => $avatar,
+            ]);
+            // dd($apartment);
+
+            return $apartment;
+        } catch (\Exception $e) {
+            // Uhvati izuzetak i rukuj s njim
+            throw new \Exception('Došlo je do greške prilikom dodavanja apartmana: ' . $e->getMessage());
+        }
+    }
 }

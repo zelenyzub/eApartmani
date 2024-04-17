@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/lista-apartmana', [App\Http\Controllers\ApartmentController::class, 'apartmentListPage'])->name('lista-apartmana');
     Route::post('/lista-apartmana/apartmentList', [App\Http\Controllers\ApartmentController::class, 'apartmentList'])->name('apartmentList');
     Route::get('/dodaj-apartman', [App\Http\Controllers\ApartmentController::class, 'addApartmentPage'])->name('addApartmentPage');
+    Route::post('/dodaj-apartman/addApartment', [App\Http\Controllers\ApartmentController::class, 'addApartment'])->name('addApartment');
+    Route::post('/dodaj-apartman/uploadPhoto', [App\Http\Controllers\ApartmentController::class, 'uploadImage'])->name('uploadImage');
 
 });
 // SUPERADMIN MIDLEWARE
