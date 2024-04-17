@@ -497,6 +497,29 @@ License: For each use you must have a valid license purchased only from above li
 
                                         {{-- DROPDOWN APARTMANI --}}
                                         <div class="menu-sub menu-sub-accordion">
+
+                                            {{-- DODAJ APARTMAN --}}
+                                            @if (session('user')->role == 'SUPERADMIN')
+                                            <div class="menu-item">
+                                                <a class="menu-link" href="/dodaj-apartman">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Dodaj apartman</span>
+                                                </a>
+                                            </div>
+                                            @else
+                                            <div class="menu-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Ova opcija je dostupna samo super administratoru">
+                                                <a class="menu-link disabled" href="/dodaj-apartman">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Dodaj apartman</span>
+                                                </a>
+                                            </div>
+                                            @endif
+                                            {{-- DODAJ APARTMAN --}}
+
                                             {{-- LISTA APARTMANA --}}
                                             <div class="menu-item">
                                                 <a class="menu-link" href="/lista-apartmana">
@@ -5046,6 +5069,13 @@ License: For each use you must have a valid license purchased only from above li
             box-shadow: var(--bs-app-sidebar-base-toggle-btn-box-shadow) !important;
             background-color: #0d0e12 !important;
             border: none !important;
+        }
+
+        .menu-link.disabled {
+            pointer-events: none;
+            color: #999;
+            cursor: not-allowed;
+            text-decoration: none;
         }
     </style>
     <script src="{{ asset('theme/js/popper.min.js') }}"></script>

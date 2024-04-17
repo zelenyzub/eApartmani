@@ -25,6 +25,8 @@ import Reservations from './components/Reservations.vue';
 app.component('reservations-page', Reservations);
 import ApartmentListComponent from './components/ApartmentListComponent.vue';
 app.component('apartmentlist-page', ApartmentListComponent);
+import AddApartmentComponent from './components/AddApartmentComponent.vue';
+app.component('add-apartment-page', AddApartmentComponent);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

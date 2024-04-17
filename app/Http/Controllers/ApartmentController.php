@@ -14,6 +14,12 @@ class ApartmentController extends Controller
         $user = User::find(session('user')->id);
         return view('apartmentList', compact('user'));
     }
+
+    public function addApartmentPage()
+    {
+        $user = User::find(session('user')->id);
+        return view('addApartmentPage', compact('user'));
+    }
     
     public function getApartmentName()
     {
