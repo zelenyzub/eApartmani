@@ -122,4 +122,11 @@ class ApartmentController extends Controller
         }
     }
 
+    public function getApartDeailedInfo(Request $request){
+        $apartID = $request->apartID;
+        $details = Apartment::getApartDeailedInfo($apartID);
+        
+        return response()->json($details);
+    }
+
 }

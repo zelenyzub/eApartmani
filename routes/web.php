@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dodaj-apartman', [App\Http\Controllers\ApartmentController::class, 'addApartmentPage'])->name('addApartmentPage');
     Route::post('/dodaj-apartman/addApartment', [App\Http\Controllers\ApartmentController::class, 'addApartment'])->name('addApartment');
     Route::post('/dodaj-apartman/uploadPhoto', [App\Http\Controllers\ApartmentController::class, 'uploadImage'])->name('uploadImage');
+    Route::post('/getApartDeailedInfo', [App\Http\Controllers\ApartmentController::class, 'getApartDeailedInfo'])->name('getApartDeailedInfo');
 
 });
 // SUPERADMIN MIDLEWARE

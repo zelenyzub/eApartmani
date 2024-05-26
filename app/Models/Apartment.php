@@ -105,4 +105,11 @@ class Apartment extends Model
             throw new \Exception('Došlo je do greške prilikom dodavanja apartmana: ' . $e->getMessage());
         }
     }
+
+    public static function getApartDeailedInfo($apartID){
+        $apartmentDetails = DB::table('apartments')
+                                ->where('id', $apartID)
+                                ->first();
+        return $apartmentDetails;
+    }
 }

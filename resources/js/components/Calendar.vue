@@ -66,7 +66,7 @@
               <div class="m-1">
                 <label style="font-weight:700;">Apartman:</label>
                 <p style="font-size: 14px;">{{ selectedApartment ? apartments.find(apartment => apartment.id ===
-          selectedApartment).apartmentName : '' }}</p>
+                  selectedApartment).apartmentName : '' }}</p>
               </div>
               <div class="m-1">
                 <label style="font-weight:700;">Ime gosta:</label>
@@ -269,7 +269,7 @@ export default {
           // Postavite reservationType na osnovu podataka iz baze
 
           return {
-            title: `${reservation.guestFirstName} ${reservation.guestLastName} ${reservation.fullPrice} <i class="fa-solid fa-euro-sign fa-sm"></i>`,
+            title: `<a href='#' style="color: white;">${reservation.guestFirstName} ${reservation.guestLastName} ${reservation.fullPrice} <i class="fa-solid fa-euro-sign fa-sm"></i></a>`,
             start: reservation.date_start,
             end: reservation.date_end,
             guestID: reservation.id,

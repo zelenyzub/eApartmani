@@ -50,21 +50,116 @@
     </div>
   </div>
   <!-- Lista apartmana kraj -->
+
+  <!-- Apartment info modal pocetak -->
+  <div class="modal fade" tabindex="-1" id="apartmentInfoModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Informacije o apartmanu</h3>
+
+          <!--begin::Close-->
+          <div
+            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i class="ki-duotone ki-cross fs-1"
+              ><span class="path1"></span><span class="path2"></span
+            ></i>
+          </div>
+          <!--end::Close-->
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="m-1">
+                <label style="font-weight: 700">Apartman:</label>
+                <p style="font-size: 14px">{{this.apartName}}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Kapacitet:</label>
+                <p style="font-size: 14px">{{this.apartCapacity}}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Wi-fi šifra:</label>
+                <p style="font-size: 14px">{{ this.wifi }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Status parkinga:</label>
+                <p style="font-size: 14px">{{ this.parkingStatus == 1 ? 'Ima parking' : 'Nema parking' }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Opis:</label>
+                <p style="font-size: 14px">{{ this.apartDescription ? this.apartDescription : '/' }}</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="m-1">
+                <label style="font-weight: 700">Ime vlasnika:</label>
+                <p style="font-size: 14px">{{ this.ownerFN }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Prezime vlasnika:</label>
+                <p style="font-size: 14px">{{ this.ownerLN }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Adresa:</label>
+                <p style="font-size: 14px">{{ this.apartAddress }}</p>
+              </div>
+              <div class="m-1">
+                <label style="font-weight: 700">Dodatne informacije:</label>
+                <p style="font-size: 14px">{{ this.aditionalApartInfo ? this.aditionalApartInfo : '/' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Zatvori
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Apartment info modal kraj -->
 </template>
   
   <script>
+import axios from "axios";
 export default {
   props: ["userRole"],
   data() {
     return {
       role: this.userRole,
+
+      apartID: null,
+
+      apartName: '',
+      apartCapacity: 0,
+      apartDescription: '',
+      ownerFN: '',
+      ownerLN: '',
+      apartAddress: '',
+      aditionalInfo: '',
+      wifi: '',
+      parkingStatus: 0,
     };
   },
   mounted() {
     this.apartmentList();
     this.copyToClipboard();
+
+    // apart info id pocetak
+    $(document).on("click", "#infoAction", (e) => {
+      this.apartID = $(e.currentTarget).data("entry-id");
+      this.getApartDetailelData();
+    });
+
+    // apart info id kraj
   },
-  // Your methods, computed properties, etc. go here
   methods: {
     copyToClipboard() {
       $(document).on("click", ".copy-text", function (event) {
@@ -218,6 +313,32 @@ export default {
         //   }
         // },
       });
+    },
+    getApartDetailelData() {
+      try {
+        axios
+          .post("/getApartDeailedInfo", { apartID: this.apartID }, {})
+          .then((response) => {
+            const data = response.data;
+            this.apartName = data.apartmentName;
+            this.apartCapacity = data.apartmentCapacity;
+            this.apartDescription = data.apartmentDescription;
+            this.ownerFN = data.ownerFirstName;
+            this.ownerLN = data.ownerLastName;
+            this.apartAddress = data.apartmentAddress;
+            this.aditionalInfo = data.aditionalApartInfo;
+            this.wifi = data.wifiPassword;
+            this.parkingStatus = data.parking;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(
+          "Došlo je do greške prilikom dohvatanja detalja apartmana: ",
+          error
+        );
+      }
     },
   },
 };
