@@ -49,7 +49,7 @@
               <div
                 class="image-input-wrapper w-150px h-150px"
                 style="
-                  background-image: url('assets/media/svg/avatars/blank.svg');
+                  background-image: url('assets/media/svg/avatars/blank-image.svg');
                 "
               ></div>
               <!--end::Preview existing avatar-->
@@ -145,24 +145,17 @@
           <!--begin::Card body-->
           <div class="card-body pt-0">
             <!--begin::Select2-->
-            <label class="required form-label">Stetus parkinga</label>
-            <select
-              class="form-select mb-2"
-              data-control="select2"
-              data-hide-search="true"
-              data-placeholder="Status parkinga"
-              id="parking"
-              v-model="parkingStatus"
-              data-select2-id="select2-data-kt_ecommerce_add_product_status_select"
-              aria-hidden="true"
-              data-kt-initialized="1"
-            >
-              <option value="2" selected="selected" disabled>
-                Status parkinga
-              </option>
-              <option value="0">Nema parking</option>
-              <option value="1">Ima parking</option>
-            </select>
+            <label class="required form-label">Stetus parkinga</label><br>
+            <div class="form-check form-check-custom form-check-solid">
+                <input class="form-check-input" type="radio" value="0" id="flexRadioDefault1" v-model="parkingStatus" name="parkingOption"/>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Nema parking
+                </label>&nbsp;&nbsp;
+                <input class="form-check-input" type="radio" value="1" id="flexRadioDefault2" v-model="parkingStatus" name="parkingOption"/>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Ima parking
+                </label>
+            </div><br>
             <!--end::Select2-->
             <!--begin::Description-->
             <div class="text-muted fs-7">
