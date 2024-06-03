@@ -84,7 +84,11 @@
               </div>
               <div class="m-1">
                 <label style="font-weight: 700">Wi-fi šifra:</label>
-                <p style="font-size: 14px">{{ this.wifi }}</p>
+                <p style="font-size: 14px">{{ this.wifi }}
+                  <a href="#">
+                    <span class="badge badge-light-success fs-7 fw-bold" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Kopiraj" @click="copyToClipboardWifi">Kopiraj</span>
+                  </a>
+                </p>
               </div>
               <div class="m-1">
                 <label style="font-weight: 700">Status parkinga:</label>
@@ -161,6 +165,16 @@ export default {
     // apart info id kraj
   },
   methods: {
+    copyToClipboardWifi() {
+      navigator.clipboard.writeText(this.wifi).then(
+        () => {
+          console.log('Text copied to clipboard');
+        },
+        (err) => {
+          console.error('Could not copy text: ', err);
+        }
+      );
+    },
     copyToClipboard() {
       $(document).on("click", ".copy-text", function (event) {
         event.preventDefault();
