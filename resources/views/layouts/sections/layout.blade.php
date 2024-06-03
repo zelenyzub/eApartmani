@@ -5078,7 +5078,7 @@ License: For each use you must have a valid license purchased only from above li
             text-decoration: none;
         }
     </style>
-    <script src="{{ asset('theme/js/popper.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="{{ asset('theme/js/bootstrap.min.js') }}"></script>
     <script>
         //Logout funkcija
