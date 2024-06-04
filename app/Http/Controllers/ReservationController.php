@@ -189,4 +189,45 @@ class ReservationController extends Controller
             return response()->json(['error' => 'Greška prilikom brisanja rezervacije!'], 500);
         }
     }
+
+    public function editReservation(Request $request) {
+        try {
+            // dd($request);
+            $id = $request->id;
+            $apartID = $request->apartID;
+            $firstName = $request->firstName;
+            $lastName = $request->lastName;
+            $dateStart = $request->dateStart;
+            $dateEnd = $request->dateEnd;
+            $fullPrice = $request->fullPrice;
+            $taxPrice = $request->taxPrice;
+            $guestNumber = $request->guestNumber;
+            $arrivalTime = $request->arrivalTime;
+            $reservationType = $request->reservationType;
+            $guestPaid = $request->guestPaid;
+            $guestDescription = $request->guestDescription;
+
+            $editReservation = new Reservation();
+            $editReservation->editReservation($id, $apartID, $firstName, $lastName, $dateStart, $dateEnd, 
+            $fullPrice, $taxPrice, $guestNumber, $arrivalTime, $reservationType, $guestPaid, $guestDescription);
+
+            return response()->json(['message' => 'Uspesno izmenjeno'], 200);
+
+        } catch (Exception $ex) {
+            return response() - json_encode(['error' => 'Greska prilikom izmene rezervacije.'], 500);
+        }
+    }
+
+    public function getReservationDataForEdit(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $editReservationData = new Reservation();
+            $data = $editReservationData->getReservationDataForEdit($id);
+
+            return response()->json(['data' => $data], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Greška prilikom uzimanja podataka o rezervaciji!'], 500);
+        }
+    }
 }

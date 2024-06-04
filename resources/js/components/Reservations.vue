@@ -317,8 +317,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Odustani</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="addNewreservation"
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Odustani</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="addNewreservation"
                         @click="addNewreservation">Sačuvaj</button>
                 </div>
             </div>
@@ -340,8 +340,8 @@
                     </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Odustani</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteReservation"
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Odustani</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="deleteReservation"
                         @click="deleteReservation">Obriši</button>
                 </div>
             </div>
@@ -381,35 +381,137 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="editName" class="form-label">Ime</label>
-                            <input type="text" class="form-control" v-model="editName" id="editName">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="apartDD" class="form-label">Naziv apartmana</label>
+                                <select class="form-select" data-control="select2" data-placeholder="Select an option" v-model="editSelectedApartment" id="apartDD"
+                                    aria-label="Odabir apartmana" :class="{ 'is-invalid': errors.selectedApartment }">
+                                    <option value="0" disabled selected>Odaberite apartman</option>
+                                    <option v-for="apartment in apartments" :key="apartment.id" :value="apartment.id"
+                                        apart-id="apartment.id">
+                                        {{ apartment.apartmentName }}
+                                    </option>
+                                </select>
+                                <span v-if="errors.selectedApartment" class="invalid-feedback">{{ apartSelectedErrorMessage
+                                    }}</span>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="editSurname" class="form-label">Prezime</label>
-                            <input type="text" class="form-control" v-model="editSurname" id="editSurname">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="guestFirstName" class="form-label">Ime gosta</label>
+                                <input type="text" class="form-control" v-model="editGuestFirstName" id="guestFirstName" placeholder="Unesite ime gosta"
+                                    :class="{ 'is-invalid': errors.guestFirstName }">
+                                <span v-if="errors.guestFirstName" class="invalid-feedback">{{ guestFirstNameErrorMessage
+                                    }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="guestLastName" class="form-label">Prezime gosta</label>
+                                <input type="text" class="form-control" v-model="editGuestLastName" id="guestLastName" placeholder="Unesite prezime gosta" :class="{ 'is-invalid': errors.guestLastName }">
+                                <span v-if="errors.guestLastName" class="invalid-feedback">{{ guestLastNameErrorMessage
+                                    }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dateStart" class="form-label">Datum dolaska</label><br>
+                                <datepicker format="dd.MM.yyyy." v-model="editDateStart" id="dateStart"
+                                    style="min-width: 300px" :class="{ 'is-invalid': errors.dateStart }"></datepicker>
+                                <span v-if="errors.dateStart" class="invalid-feedback">{{ dateStartErrorMessage
+                                }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dateEnd" class="form-label">Datum odlaska</label><br>
+                                <datepicker format="dd.MM.yyyy." v-model="editDateEnd" id="dateEnd" :class="{ 'is-invalid': errors.dateEnd }">
+                                </datepicker>
+                                <span v-if="errors.dateEnd" class="invalid-feedback">{{ dateEndErrorMessage
+                                }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fullPrice" class="form-label">Cena boravka</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-euro-sign fa-sm"></i></span>
+                                    <input type="number" class="form-control" id="fullPrice" v-model="editFullPrice" placeholder="Unseite cenu boravka" :class="{ 'is-invalid': errors.fullPrice }">
+                                    <span class="input-group-text">.00</span>
+                                    <span v-if="errors.fullPrice" class="invalid-feedback">{{ fullPriceErrorMessage
+                                    }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="taxPrice" class="form-label">Cena takse</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-euro-sign fa-sm"></i></span>
+                                    <input type="number" class="form-control" id="taxPrice" v-model="editTaxPrice" placeholder="Unesite cenu takse" :class="{ 'is-invalid': errors.taxPrice }">
+                                    <span class="input-group-text">.00</span>
+                                    <span v-if="errors.taxPrice" class="invalid-feedback">{{ taxPriceErrorMessage
+                                    }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div v-if="selectedApartment !== 0">
+                                    <div v-for="apartment in apartments" :key="apartment.id">
+                                        <div v-if="apartment.id === selectedApartment">
+                                        <label for="guestNumber" class="form-label">Broj gostiju ( maksimalno {{apartment.apartmentCapacity}} )</label>  
+                                            <div class="form-outline">
+                                                <input min="1" :max="apartment.apartmentCapacity" type="number" class="form-control" v-model="editGuestNumber" id="guestNumber" placeholder="Unesite broj gostiju" :class="{ 'is-invalid': errors.guestNumber }" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <label for="guestNumber" class="form-label">Broj gostiju</label>  
+                                    <div class="form-outline">
+                                        <input min="1" max="0" type="number" class="form-control" v-model="editGuestNumber" id="guestNumber" placeholder="Morete odabrati apartman da omogućite unos" disabled readonly :class="{ 'is-invalid': errors.guestNumber }" />
+                                        <span v-if="errors.guestNumber" class="invalid-feedback">{{ guestNumberErrorMessage
+                                        }}</span>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class="col-md-6">
+                                <label for="arrivalTime" class="form-label">Vreme dolaska (opciono)</label><br>
+                                <vue-timepicker id="arrivalTime" v-model="editArrivalTime"></vue-timepicker>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reservationType" class="form-label">Izvor rezervacije</label>
+                                <select class="form-select" aria-label="Default select example" v-model="editReservationType"
+                                    id="reservationType" :class="{ 'is-invalid': errors.reservationType }">
+                                    <option value="0" disabled selected>Odaberite izvor rezervacije</option>
+                                    <option value="airbnb">Airbnb</option>
+                                    <option value="booking">Booking</option>
+                                    <option value="private">Privatno</option>
+                                </select>
+                                <span v-if="errors.reservationType" class="invalid-feedback">{{ reservationTypeErrorMessage
+                                }}</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="guestPaid" class="form-label">Gost platio</label>
+                                <div class="form-check form-switch form-check-custom form-check-success form-check-solid">
+                                    <input class="form-check-input " type="checkbox" value="" checked id="guestPaid"
+                                        v-model="editGuestPaid"/>
+                                    <label class="form-check-label" for="guestPaid">
+                                        Success color
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="guestDescription" class="form-label">Opis gosta (opciono)</label>
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="guestDescription" style="height: 120px"
+                                        v-model="editGuestDescription"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="editEmail" class="form-label">Email</label>
-                            <input type="text" class="form-control" v-model="editEmail" id="editEmail">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="editRole" class="form-label">Nivo pristupa</label>
-                            <select class="form-select" aria-label="Default select example" id="editRole"
-                                v-model="editRole">
-                                <option value="USER">Korisnik</option>
-                                <option value="ADMIN">Administrator</option>
-                                <option value="SUPERADMIN">Super administrator</option>
-                            </select>
-                        </div>
-                    </div> -->
-                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Odustani</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="editReservation"
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Odustani</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="editReservation"
                         @click="editReservation">Izmeni</button>
                 </div>
             </div>
@@ -467,6 +569,19 @@ export default {
             filterApartments: '',
             filterResType: '',
             filterResStatus: '',
+
+            editSelectedApartment: 0,
+            editGuestFirstName: null,
+            editGuestLastName: null,
+            editDateStart: null,
+            editDateEnd: null,
+            editFullPrice: null,
+            editTaxPrice: null,
+            editGuestNumber: null,
+            editArrivalTime: null,
+            editReservationType: 0,
+            editGuestPaid: 0,
+            editGuestDescription: null,
         };
     },
     mounted() {
@@ -481,6 +596,36 @@ export default {
         // delete reservation action
         $(document).on('click', '#deleteAction', function (e) {
             th.userRowID = $(this).data("entry-id");
+        })
+        this.getApartName();
+
+        // edit reservation action
+        $(document).on('click', '#editAction', function (e) {
+            th.userRowID = $(this).data("entry-id");
+            axios
+                .post("/rezervacije/getReservationDataForEdit", { id: th.userRowID })
+                .then((response) => {
+                    th.editSelectedApartment = response.data.data[0].apart_id;
+                    th.editGuestFirstName = response.data.data[0].guestFirstName;
+                    th.editGuestLastName = response.data.data[0].guestLastName;
+                    th.editDateStart = response.data.data[0].date_start;
+                    th.editDateEnd = response.data.data[0].date_end;
+                    th.editFullPrice = response.data.data[0].fullPrice;
+                    th.editTaxPrice = response.data.data[0].taxPrice;
+                    th.editGuestNumber = response.data.data[0].guestNumber;
+                    th.editArrivalTime = response.data.data[0].arrivalTime;
+                    th.editReservationType = response.data.data[0].reservationType;
+                    th.editGuestPaid = response.data.data[0].guestPaid;
+                    th.editGuestDescription = response.data.data[0].guestDescription;
+                }).catch((error) => {
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Greška prilikom uzimanja podataka o rezervaciji!",
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+                    });
+                    console.log(error);
+                });
         })
     },
 
@@ -554,6 +699,64 @@ export default {
         newReservationModal() {
             this.getApartName();
         },
+        // edit reservation pocetak
+        editReservation(){
+            let th = this;
+            let editReservationModal = $('#editReservationModal');
+
+            const editData = {
+                id: th.userRowID,
+                apartID: th.editSelectedApartment,
+                firstName: th.editGuestFirstName,
+                lastName: th.editGuestLastName,
+                dateStart: th.editDateStart,
+                dateEnd: th.editDateEnd,
+                fullPrice: th.editFullPrice,
+                taxPrice: th.editTaxPrice,
+                guestNumber: th.editGuestNumber,
+                arrivalTime: th.editArrivalTime,
+                reservationType: th.editReservationType,
+                guestPaid: th.editGuestPaid,
+                guestDescription: th.editGuestDescription,
+            };
+            $("#editReservation").prop("disabled", true);
+            axios
+                .post("/rezervacije/editReservation", editData, {
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    },
+                }).then((response) => {
+
+                    $("#editReservation").prop("disabled", true);
+
+                    Swal.fire({
+                        icon: "success",
+                        text: "Uspešno izmenjeno.",
+                        timer: 5000,
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+
+                    });
+
+                    th.reservationsTable();
+                    editReservationModal.modal('hide');
+                    $("#editReservation").prop("disabled", false);
+                }).catch((error) => {
+                    
+                    $("#editReservation").prop("disabled", false);
+
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Greška prilikom izmene rezervacije!",
+                        confirmButton: "confirmationBtn",
+                        confirmButtonColor: "#4eb3ac"
+                    });
+
+                    console.error(error);
+                });
+        },
+        // edit reservation kraj
+        
         // filters pocetak
         resFilters(){
             this.getApartName();

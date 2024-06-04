@@ -70,13 +70,13 @@ class Reservation extends Model
 
     public function reservationsTable($request)
     {
-        $start = isset ($request['start']) ? $request['start'] : 0;
-        $length = isset ($request['length']) ? $request['length'] : 0;
+        $start = isset($request['start']) ? $request['start'] : 0;
+        $length = isset($request['length']) ? $request['length'] : 0;
         $sort = 'reservations.date_start';
         $sorting = 'desc';
-        $search = isset ($request['search']['value']) ? $request['search']['value'] : 0;
+        $search = isset($request['search']['value']) ? $request['search']['value'] : 0;
 
-        if (isset ($request['order'][0]['column'])) {
+        if (isset($request['order'][0]['column'])) {
             switch ($request['order'][0]['column']) {
                 case '0':
                     $sort = 'reservations.date_start';
@@ -106,7 +106,7 @@ class Reservation extends Model
             ->select('reservations.id', 'reservations.guestFirstName', 'reservations.guestLastName', 'reservations.date_start', 'reservations.date_end', 'reservations.fullPrice', 'reservations.checkRole', 'users.name', 'users.surname', 'apartments.apartmentName')
             ->orderBy($sort, $sorting);
 
-        if (!empty ($search)) {
+        if (!empty($search)) {
             $getReservations = $getReservations->whereRaw("reservations.guestFirstName LIKE '%{$search}%' OR reservations.guestLastName LIKE '%{$search}%' OR reservations.date_start LIKE '%{$search}%' OR reservations.fullPrice LIKE '%{$search}%'  OR users.name LIKE '%{$search}%' OR users.surname LIKE '%{$search}%' OR apartments.apartmentName LIKE '%{$search}%'");
         }
         if (!empty($filterApart)) {
@@ -145,16 +145,16 @@ class Reservation extends Model
         $checkRole,
         $userID
     ) {
-        $hours = isset ($arrivalTime['HH']) ? $arrivalTime['HH'] : '00';
-        $minutes = isset ($arrivalTime['mm']) ? $arrivalTime['mm'] : '00';
+        $hours = isset($arrivalTime['HH']) ? $arrivalTime['HH'] : '00';
+        $minutes = isset($arrivalTime['mm']) ? $arrivalTime['mm'] : '00';
 
         $formattedArrivalTime = sprintf("%02d:%02d:00", $hours, $minutes);
         $data = [
             'apart_id' => $apartID,
             'guestFirstName' => $guestFirstName,
             'guestLastName' => $guestLastName,
-            'date_start' => $dateStart ? Carbon::parse($dateStart)->addDay()->toDateString() : null,
-            'date_end' => $dateEnd ? Carbon::parse($dateEnd)->addDay()->toDateString() : null,
+            'date_start' => $dateStart ? Carbon::parse($dateStart)->toDateString() : null,
+            'date_end' => $dateEnd ? Carbon::parse($dateEnd)->toDateString() : null,
             'fullPrice' => $fullPrice,
             'taxPrice' => $taxPrice,
             'guestNumber' => $guestNumber,
@@ -185,5 +185,47 @@ class Reservation extends Model
         DB::table('reservations')
             ->where('id', $id)
             ->delete();
+    }
+
+    public function getReservationDataForEdit($id)
+    {
+        $query = DB::table('reservations')
+            ->where('id', $id)
+            ->get();
+        return $query;
+    }
+
+    public function editReservation(
+        $id,
+        $apartID,
+        $firstName,
+        $lastName,
+        $dateStart,
+        $dateEnd,
+        $fullPrice,
+        $taxPrice,
+        $guestNumber,
+        $arrivalTime,
+        $reservationType,
+        $guestPaid,
+        $guestDescription
+    ) {
+        $query = DB::table('reservations')
+            ->where('id', $id)
+            ->update([
+                'apart_id' => $apartID,
+                'guestFirstName' => $firstName,
+                'guestLastName' => $lastName,
+                'date_start' => $dateStart ? Carbon::parse($dateStart)->toDateString() : null,
+                'date_end' => $dateEnd ? Carbon::parse($dateEnd)->toDateString() : null,
+                'fullPrice' => $fullPrice,
+                'taxPrice' => $taxPrice,
+                'guestNumber' => $guestNumber,
+                'arrivalTime' => $arrivalTime,
+                'reservationType' => $reservationType,
+                'guestPaid' => $guestPaid,
+                'guestDescription' => $guestDescription,
+            ]);
+        return $query;
     }
 }

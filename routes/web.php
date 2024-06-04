@@ -32,6 +32,8 @@ Route::get('/', function () {
     Route::post('/rezervacije/reservationsTable', [App\Http\Controllers\ReservationController::class, 'reservationsTable'])->name('reservationsTable');
     Route::post('/rezervacije/newReservation', [App\Http\Controllers\ReservationController::class, 'newReservation'])->name('newReservation');
     Route::post('/rezervacije/filtersReservations', [App\Http\Controllers\ReservationController::class, 'filtersReservations'])->name('filtersReservations');
+    Route::post('/rezervacije/editReservation', [App\Http\Controllers\ReservationController::class, 'editReservation'])->name('editReservation');
+    Route::post('/rezervacije/getReservationDataForEdit', [App\Http\Controllers\ReservationController::class, 'getReservationDataForEdit'])->name('getReservationDataForEdit');
 
     // NOTIFIKACIJE
     Route::post('/getCheckedNotifications', [App\Http\Controllers\NotificationController::class, 'getCheckedNotifications'])->name('getCheckedNotifications')->middleware('auth');
