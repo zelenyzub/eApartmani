@@ -90,6 +90,16 @@ class Reservation extends Model
             }
         }
 
+        if (isset($request['filterApart'])) {
+            $filterApart = $request['filterApart'];
+        }
+        if (isset($request['filterResStatus'])) {
+            $filterResStatus = $request['filterResStatus'];
+        }
+        if (isset($request['filterResType'])) {
+            $filterResType = $request['filterResType'];
+        }
+
         $getReservations = DB::table('reservations')
             ->join('users', 'reservations.user_id', '=', 'users.id')
             ->join('apartments', 'reservations.apart_id', '=', 'apartments.id')
@@ -99,7 +109,15 @@ class Reservation extends Model
         if (!empty ($search)) {
             $getReservations = $getReservations->whereRaw("reservations.guestFirstName LIKE '%{$search}%' OR reservations.guestLastName LIKE '%{$search}%' OR reservations.date_start LIKE '%{$search}%' OR reservations.fullPrice LIKE '%{$search}%'  OR users.name LIKE '%{$search}%' OR users.surname LIKE '%{$search}%' OR apartments.apartmentName LIKE '%{$search}%'");
         }
-
+        if (!empty($filterApart)) {
+            $getReservations = $getReservations->where('reservations.apart_id', $filterApart);
+        }
+        if ($filterResStatus != '') {
+            $getReservations = $getReservations->where('reservations.checkRole', $filterResStatus);
+        }
+        if (!empty($filterResType)) {
+            $getReservations = $getReservations->where('reservations.reservationType', $filterResType);
+        }
         $recordsFiltered = $getReservations->count();
         $recordsTotal = $getReservations->offset($start)->limit($length)->get();
         $data = $getReservations->get();

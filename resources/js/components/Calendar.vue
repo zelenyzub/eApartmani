@@ -8,7 +8,7 @@
       </ol>
     </div>
     <div class="col-3 d-flex justify-content-end">
-      <button type="button" id="btnLegenda" class="btn btn-primary" data-bs-toggle="modal"
+      <button type="button" id="btnLegenda" class="btn btn-warning" data-bs-toggle="modal"
         data-bs-target="#modalLegend"><i class="fa-solid fa-info fa-sm"></i>
         Legenda</button>
     </div>
