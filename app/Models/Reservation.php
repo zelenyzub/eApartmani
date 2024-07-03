@@ -228,4 +228,26 @@ class Reservation extends Model
             ]);
         return $query;
     }
+
+    public static function getDisabledDates($apartId)
+    {
+        $reservation = DB::table('reservations')
+            ->select('date_start', 'date_end')
+            ->where('apart_id', $apartId)
+            ->first();
+
+            $startDate = $reservation->date_start;
+            $endDate = $reservation->date_end;
+
+            $datesInRange = [];
+            $currentDate = $startDate;
+
+            while ($currentDate < $endDate) {
+                $datesInRange[] = $currentDate;
+                $currentDate = date('Y-m-d', strtotime($currentDate . ' +1 day'));
+            }
+
+        // dd($datesInRange);
+        return $datesInRange;
+    }
 }

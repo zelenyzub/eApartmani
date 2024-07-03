@@ -230,4 +230,11 @@ class ReservationController extends Controller
             return response()->json(['error' => 'Greška prilikom uzimanja podataka o rezervaciji!'], 500);
         }
     }
+
+    public function getDisabledDates(Request $request){
+        $apartId = $request->apartID;
+        $reservations = Reservation::getDisabledDates($apartId);
+
+        return response()->json($reservations);
+    }
 }

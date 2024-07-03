@@ -221,7 +221,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="dateStart" class="form-label">Datum dolaska</label><br>
-                            <datepicker format="dd.MM.yyyy." v-model="dateStart" id="dateStart"
+                            <datepicker format="dd.MM.yyyy." disableDates v-model="dateStart" id="dateStart"
                                 style="min-width: 300px" :class="{ 'is-invalid': errors.dateStart }"></datepicker>
                             <span v-if="errors.dateStart" class="invalid-feedback">{{ dateStartErrorMessage
                             }}</span>
@@ -414,14 +414,14 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="dateStart" class="form-label">Datum dolaska</label><br>
-                                <datepicker format="dd.MM.yyyy." v-model="editDateStart" id="dateStart"
+                                <datepicker format="dd.MM.yyyy." v-model="editDateStart" id="dateStart" :disabledDates="disabledDates"
                                     style="min-width: 300px" :class="{ 'is-invalid': errors.dateStart }"></datepicker>
                                 <span v-if="errors.dateStart" class="invalid-feedback">{{ dateStartErrorMessage
                                 }}</span>
                             </div>
                             <div class="col-md-6">
                                 <label for="dateEnd" class="form-label">Datum odlaska</label><br>
-                                <datepicker format="dd.MM.yyyy." v-model="editDateEnd" id="dateEnd" :class="{ 'is-invalid': errors.dateEnd }">
+                                <datepicker format="dd.MM.yyyy." v-model="editDateEnd" id="dateEnd" :class="{ 'is-invalid': errors.dateEnd }" :disabledDates="disabledDates">
                                 </datepicker>
                                 <span v-if="errors.dateEnd" class="invalid-feedback">{{ dateEndErrorMessage
                                 }}</span>
@@ -519,6 +519,112 @@
     </div>
     <!-- modal za izmenu krej -->
 
+    <!-- Informacije o gostu modal -->
+    <!-- <div class="modal" tabindex="-1" id="reservationInfoModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Informacije o rezervaciji</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                    <div class="m-1">
+                        <label style="font-weight:700;">Apartman:</label>
+                        <p style="font-size: 14px;">{{ editSelectedApartment }}</p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Ime gosta:</label>
+                        <p style="font-size: 14px;">{{ guestFirstName + ' ' + guestLastName }}</p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Period boravka:</label>
+                        <p style="font-size: 14px;">{{ startDate + ' - ' + endDate }}</p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Cena boravka:</label>
+                        <p style="font-size: 14px;">{{ fullPrice }}&nbsp;<i class="fa-solid fa-euro-sign fa-sm"></i></p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Vreme dolaska:</label>
+                        <p style="font-size: 14px;">{{ arrivalTime }}</p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Broj gostiju:</label>
+                        <p style="font-size: 14px;">{{ guestNumber }}</p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Cena takse:</label>
+                        <p style="font-size: 14px;">{{ taxPrice }}&nbsp;<i class="fa-solid fa-euro-sign fa-sm"></i></p>
+                    </div>
+                    </div>
+                    <div class="col-6">
+                    <div v-if="guestRegistered == 0" class="m-1">
+                        <label style="font-weight:700;">Gost prijavljen:</label><br>
+                        <i class="fa-solid fa-circle mb-1" style="color: red;"></i><label>&nbsp;Nije
+                        prijavljen</label>&nbsp;<span><a type="button" id="guestRegisteredSwitch"
+                            @click="guestRegisteredChange"><i class="fa-regular fa-circle-check fa-lg"
+                            style="color: green;"></i></a></span>
+
+                    </div>
+
+                    <div v-else class="m-1">
+                        <label style="font-weight:700;">Gost prijavljen:</label><br>
+                        <i class="fa-solid fa-circle mb-3"
+                        style="color: green;"></i><label>&nbsp;Prijavljen</label>&nbsp;<span><a type="button"
+                            id="guestRegisteredSwitch" @click="guestRegisteredChange"><i
+                            class="fa-regular fa-circle-xmark fa-lg" style="color: red;"></i></a></span>
+                    </div>
+                    <div v-if="guestPaid == 0" class="m-1">
+                        <label style="font-weight:700;">Gost platio:</label><br>
+                        <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Nije
+                        platio</label>&nbsp;<span><a type="button" id="guestPaidChange" @click="guestPaidChange"><i
+                            class="fa-regular fa-circle-check fa-lg" style="color: green;"></i></a></span>
+                    </div>
+
+                    <div v-else class="m-1">
+                        <label style="font-weight:700;">Gost platio:</label><br>
+                        <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Platio</label>&nbsp;<span><a
+                            type="button" id="guestPaidChange" @click="guestPaidChange"><i
+                            class="fa-regular fa-circle-xmark fa-lg" style="color: red;"></i></a></span>
+                    </div>
+                    <div v-if="guestHasCar == 0" class="m-1">
+                        <label style="font-weight:700;">Gost dolazi autom:</label><br>
+                        <i class="fa-solid fa-circle mb-3" style="color: red;"></i><label>&nbsp;Ne</label>&nbsp;<span><a
+                            type="button" id="guestHasCarChange" @click="guestHasCarChange"><i
+                            class="fa-regular fa-circle-check fa-lg" style="color: green;"></i></a></span>
+                    </div>
+
+                    <div v-else class="m-1">
+                        <label style="font-weight:700;">Gost dolazi autom:</label><br>
+                        <i class="fa-solid fa-circle mb-3" style="color: green;"></i><label>&nbsp;Da</label>&nbsp;<span><a
+                            type="button" id="guestHasCarChange" @click="guestHasCarChange"><i
+                            class="fa-regular fa-circle-xmark fa-lg" style="color: red;"></i></a></span>
+                    </div>
+                    <div v-if="guestDescription == ''" class="m-1">
+                        <label style="font-weight:700;">Opis:</label><br>
+                        <p>/</p>
+                    </div>
+
+                    <div v-else class="m-1">
+                        <label style="font-weight:700;">Opis:</label><br>
+                        <p style="font-size: 14px;">{{ guestDescription }}</p>
+                    </div>
+                    <div class="m-1">
+                        <label style="font-weight:700;">Datum rezervisanja:</label>
+                        <p style="font-size: 14px;">{{ reservationSetDay }}</p>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- kraj informacija o gostu modal -->
 
 </template>
 
@@ -582,6 +688,8 @@ export default {
             editReservationType: 0,
             editGuestPaid: 0,
             editGuestDescription: null,
+
+            disabledDates: [],
         };
     },
     mounted() {
@@ -617,6 +725,7 @@ export default {
                     th.editReservationType = response.data.data[0].reservationType;
                     th.editGuestPaid = response.data.data[0].guestPaid;
                     th.editGuestDescription = response.data.data[0].guestDescription;
+                    console.log("RIMTIM",th.editDateEnd);
                 }).catch((error) => {
                     Swal.fire({
                         icon: "warning",
@@ -631,9 +740,26 @@ export default {
 
     watch: {
         selectedApartment(newVal) {
-            if (newVal !== 0) {
-                this.errors.selectedApartment = false;
-                this.apartSelectedErrorMessage = "";
+      if (newVal !== 0) {
+        axios.post('/rezervacije/getDisabledDates', { apartID: newVal })
+          .then(response => {
+            console.log(response.data);
+            // Ensure date conversion is correct
+            this.disabledDates = response.data.map(dateString => {
+              const date = new Date(dateString);
+              if (isNaN(date)) {
+                console.error(`Invalid date format: ${dateString}`);
+                return null;
+              }
+              return date;
+            }).filter(date => date !== null); // Filter out any invalid dates
+            console.log("RIMTIMTAGITIM", this.disabledDates);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        this.errors.selectedApartment = false;
+        this.apartSelectedErrorMessage = "";
             }
         },
 
@@ -896,6 +1022,11 @@ export default {
                                     row.id +
                                     '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
                             }
+                            else if (role === "USER" && row.checkRole === 0) {
+                                actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
+                                    row.id +
+                                    '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
+                            }
                             else {
                                 actionsHtml += "</div>" + "</div>";
                             }
@@ -1125,60 +1256,6 @@ export default {
                     console.log(error);
                 });
         },
-
-        // editUser() {
-        //     let th = this;
-        //     let editModal = $('#editUserModal');
-
-        //     const editData = {
-        //         id: th.userRowID,
-        //         name: th.editName,
-        //         surname: th.editSurname,
-        //         email: th.editEmail,
-        //         role: th.editRole,
-        //     };
-        //     $("#editUser").prop("disabled", true);
-        //     axios
-        //         .post("/administracija-korisnika/editUser", editData, {
-        //             headers: {
-        //                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        //             },
-        //         }).then((response) => {
-
-        //             $("#editUser").prop("disabled", true);
-
-        //             Swal.fire({
-        //                 icon: "success",
-        //                 text: "Uspešno izmenjeno.",
-        //                 timer: 5000,
-        //                 confirmButton: "confirmationBtn",
-        //                 confirmButtonColor: "#4eb3ac"
-
-        //             });
-
-        //             th.usersTable();
-        //             editModal.modal('hide');
-        //             $("#editUser").prop("disabled", false);
-        //         }).catch((error) => {
-
-        //             $("#editUser").prop("disabled", false);
-
-        //             Swal.fire({
-        //                 icon: "warning",
-        //                 text: "Greška prilikom izmene korisnika!",
-        //                 confirmButton: "confirmationBtn",
-        //                 confirmButtonColor: "#4eb3ac"
-        //             });
-
-        //             console.error(error);
-        //         });
-        // },
-
-        // errosrClean() {
-        //     this.errors = {};
-        //     this.selectedApartment = 0;
-        //     this.apartSelectedErrorMessage = "";
-        // },
 
         reservationInputClean(){
             this.selectedApartment = 0;
