@@ -71,13 +71,13 @@ class RegisterController extends Controller
         if (isset($data['avatar'])) {
             // Store the uploaded image in the storage directory
             $imagePath = $data['avatar']->store('public/avatar');
-    
+
             // Get the file name from the stored path
             $fileName = basename($imagePath);
-    
+
             // Update the path to match the storage directory
             $imagePath = $fileName;
-    
+
             // Copy the uploaded image to the public assets directory
             $publicPath = public_path('assets/media/avatars');
             if (!file_exists($publicPath)) {
@@ -86,14 +86,31 @@ class RegisterController extends Controller
             copy(storage_path('app/public/avatar/' . $imagePath), $publicPath . '/' . $fileName);
         }
 
-        return User::create([
+        $permissions = [
+            'canEditReservations' => 0,
+            'canDeleteReservations' => 0,
+            'canAllowReservations' => 0,
+            'canAddReservations' => 0,
+        ];
+
+        if ($data['role'] === 'SUPERADMIN') {
+            $permissions = [
+                'canEditReservations' => 1,
+                'canDeleteReservations' => 1,
+                'canAllowReservations' => 1,
+                'canAddReservations' => 1,
+            ];
+        }
+
+        return User::create(array_merge([
             'name' => $data['name'],
-            'surname' =>$data['surname'],
+            'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
             'image' => $imagePath
-        ]);
+        ], $permissions));
     }
+
 
 }

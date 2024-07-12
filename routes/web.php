@@ -58,6 +58,8 @@ Route::middleware('checkrole')->group(function () {
     Route::post('/administracija-korisnika/deleteUser', [App\Http\Controllers\UserAdministrationController::class, 'deleteUser'])->name('deleteUser');
     Route::post('/administracija-korisnika/getUserDataForEdit', [App\Http\Controllers\UserAdministrationController::class, 'getUserDataForEdit'])->name('getUserDataForEdit');
     Route::post('/administracija-korisnika/editUser', [App\Http\Controllers\UserAdministrationController::class, 'editUser'])->name('editUser');
+    Route::get('/administracija-korisnika/permisije/{id}', [App\Http\Controllers\Permissions::class, 'permissionsPage'])->name('permissionsPage');
+    Route::post('/administracija-korisnika/permisije/savePermissionChanges', [App\Http\Controllers\Permissions::class, 'savePermissionChanges'])->name('savePermissionChanges');
 
     // REZERVACIJE SA
     Route::post('/rezervacije/allowReservation', [App\Http\Controllers\ReservationController::class, 'allowReservation'])->name('allowReservation');

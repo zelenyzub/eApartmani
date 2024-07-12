@@ -24,6 +24,10 @@ class User extends Authenticatable
         'password',
         'role',
         'image',
+        'canEditReservations',
+        'canDeleteReservations',
+        'canAllowReservations',
+        'canAddReservations'
     ];
 
     /**

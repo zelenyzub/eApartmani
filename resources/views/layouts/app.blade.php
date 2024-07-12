@@ -9,6 +9,7 @@
     <link href="{{ asset('theme/css/datatable.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/sweetalert2.min.css') }}" rel="stylesheet">
     <title>@yield('title', 'E-Apartmani')</title>
+    <base href="{{ url('/') }}/">
 </head>
 
 <body>

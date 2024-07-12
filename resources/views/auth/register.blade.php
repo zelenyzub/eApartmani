@@ -231,8 +231,8 @@ License: For each use you must have a valid license purchased only from above li
                                     <option value="" disabled selected>
                                         {{ __('Odaberite nivo pristupa') }}</option>
                                     <option value="USER">Korisnik</option>
-                                    <option value="ADMIN">Administrator</option>
-                                    <option value="SUPERADMIN">Super Administrator</option>
+                                    {{-- <option value="ADMIN">Administrator</option> --}}
+                                    <option value="SUPERADMIN">Administrator</option>
                                 </select>
                             </div>
                             {{-- TIP KORISNIKA --}}

@@ -27,6 +27,8 @@ import ApartmentListComponent from './components/ApartmentListComponent.vue';
 app.component('apartmentlist-page', ApartmentListComponent);
 import AddApartmentComponent from './components/AddApartmentComponent.vue';
 app.component('add-apartment-page', AddApartmentComponent);
+import PermissionsComponent from './components/PermissionsComponent.vue';
+app.component('permissions-page', PermissionsComponent);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

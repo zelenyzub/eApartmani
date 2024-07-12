@@ -132,6 +132,7 @@ export default {
             editSurname: "",
             editEmail: "",
             editRole: "",
+            userPermissionsID: null,
         };
     },
     mounted() {
@@ -164,6 +165,21 @@ export default {
                     console.log(error);
                 });
         })
+
+        //PERMISSION CONTROLL START
+        $(document).on('click', '#permissions', function (e) {
+            let userPermissionsID = $(this).data("entry-id");
+
+            // Axios request to send userPermissionsID to the specified route
+            axios.get(`/administracija-korisnika/permisije/${userPermissionsID}`)
+                .then(response => {
+                    window.location.href = `/administracija-korisnika/permisije/${userPermissionsID}`;
+                })
+                .catch(error => {
+                    console.error("Greska prilikom otvaranja permisija", error);
+                });
+        });
+        //PERMISSION CONTROLL END
     },
 
     methods: {
@@ -232,6 +248,9 @@ export default {
                                 '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteUserModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
                                 row.id +
                                 '" ><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>' +
+                                '<a type="button" id="permissions" class="dropdown-item" data-entry-id="' +
+                                row.id +
+                                '" ><i class="fa-solid fa-user-shield fa-sm" style="margin-right: 5px"></i>Permisije</a>' +
                                 "</div>" +
                                 "</div>"
                             );
