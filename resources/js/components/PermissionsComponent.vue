@@ -1,192 +1,11 @@
 <template>
   <!-- zaglavlje -->
-  <div class="row mt-3 mb-5 d-flex justify-content-end">
+  <div class="row mt-3 mb-5">
     <div class="col-4">
       <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item"><a href="/kalendar">Kalendar</a></li>
         <li class="breadcrumb-item">Permisije</li>
       </ol>
-    </div>
-    <div v-if="role === 'SUPERADMIN'" class="col-8 d-flex justify-content-end">
-      <div>
-        <!--begin::Menu toggle-->
-        <a
-          href="#"
-          class="btn btn-flex btn-secondary fw-bold"
-          data-kt-menu-trigger="click"
-          data-kt-menu-placement="bottom-end"
-          @click="resFilters"
-        >
-          <i class="ki-duotone ki-filter fs-3 text-muted me-1">
-            <span class="path1"></span>
-            <span class="path2"></span> </i
-          >Filteri</a
-        >
-        <!--end::Menu toggle-->
-        <!--begin::Menu 1-->
-        <div
-          class="menu menu-sub menu-sub-dropdown w-250px w-md-300px"
-          data-kt-menu="true"
-          id="kt_menu_6606384e560f7"
-          style=""
-        >
-          <!--begin::Header-->
-          <div class="px-7 py-5">
-            <div class="fs-5 text-gray-900 fw-bold">Odabir filtera</div>
-          </div>
-          <!--end::Header-->
-          <!--begin::Menu separator-->
-          <div class="separator border-gray-200"></div>
-          <!--end::Menu separator-->
-          <!--begin::Form-->
-          <div class="px-7 py-5">
-            <!--begin::Input group-->
-            <div class="mb-10">
-              <!--begin::Label-->
-              <label class="form-label fw-semibold">Apartman:</label>
-              <!--end::Label-->
-              <!--begin::Input-->
-              <div>
-                <select
-                  class="form-select"
-                  data-control="select2"
-                  data-placeholder="Select an option"
-                  v-model="filterApartments"
-                  id="apartDD"
-                  aria-label="Odabir apartmana"
-                  :class="{ 'is-invalid': errors.selectedApartment }"
-                >
-                  <option value="" selected>Odaberite apartman</option>
-                  <option
-                    v-for="apartment in apartments"
-                    :key="apartment.id"
-                    :value="apartment.id"
-                    apart-id="apartment.id"
-                  >
-                    {{ apartment.apartmentName }}
-                  </option>
-                </select>
-              </div>
-              <!--end::Input-->
-            </div>
-            <div class="mb-10">
-              <!--begin::Label-->
-              <label class="form-label fw-semibold">Izvor rezervacije:</label>
-              <!--end::Label-->
-              <!--begin::Input-->
-              <div>
-                <select
-                  class="form-select"
-                  aria-label="Default select example"
-                  v-model="filterResType"
-                  id="reservationType"
-                  :class="{ 'is-invalid': errors.reservationType }"
-                >
-                  <option value="" selected>Odaberite izvor rezervacije</option>
-                  <option value="airbnb">Airbnb</option>
-                  <option value="booking">Booking</option>
-                  <option value="private">Privatno</option>
-                </select>
-              </div>
-              <!--end::Input-->
-            </div>
-            <div class="mb-10">
-              <!--begin::Label-->
-              <label class="form-label fw-semibold">Status rezervacije:</label>
-              <!--end::Label-->
-              <!--begin::Input-->
-              <div>
-                <select
-                  class="form-select"
-                  aria-label="Default select example"
-                  v-model="filterResStatus"
-                  id="reservationType"
-                  :class="{ 'is-invalid': errors.reservationType }"
-                >
-                  <option value="" selected>Odaberite status</option>
-                  <option value="0">Zahtevi za rezervaciju</option>
-                  <option value="1">Odobrene rezervacije</option>
-                </select>
-              </div>
-              <!--end::Input-->
-            </div>
-            <!--end::Input group-->
-            <!--begin::Actions-->
-            <div class="d-flex justify-content-end">
-              <button
-                type="reset"
-                class="btn btn-sm btn-light btn-danger me-2"
-                @click.stop="resetFilters"
-              >
-                Poništi
-              </button>
-              <button
-                type="submit"
-                class="btn btn-sm btn-primary"
-                data-kt-menu-dismiss="true"
-                @click="getFilteredData"
-              >
-                Filtriraj
-              </button>
-            </div>
-            <!--end::Actions-->
-          </div>
-          <!--end::Form-->
-        </div>
-        <!--end::Menu 1-->
-      </div>
-      &nbsp;
-      <button
-        type="button"
-        id="btnLegenda"
-        class="btn btn-warning"
-        data-bs-toggle="modal"
-        data-bs-target="#modalLegend"
-      >
-        <i class="fa-solid fa-info fa-sm"></i> Legenda</button
-      >&nbsp;
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#newReservationModal"
-        @click="newReservationModal"
-      >
-        <i class="fa-solid fa-registered fs-3"></i>&nbsp;&nbsp; Dodajte novu
-        rezervaciju
-      </button>
-    </div>
-    <div v-else class="col-8 d-flex justify-content-end">
-      <a
-        href="#"
-        class="btn btn-sm btn-flex btn-secondary fw-bold"
-        data-kt-menu-trigger="click"
-        data-kt-menu-placement="bottom-end"
-      >
-        <i class="ki-duotone ki-filter fs-6 text-muted me-1">
-          <span class="path1"></span>
-          <span class="path2"></span> </i
-        >Filter</a
-      >&nbsp;
-      <button
-        type="button"
-        id="btnLegenda"
-        class="btn btn-warning"
-        data-bs-toggle="modal"
-        data-bs-target="#modalLegend"
-      >
-        <i class="fa-solid fa-info fa-sm"></i> Legenda</button
-      >&nbsp;
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#newReservationModal"
-        @click="newReservationModal"
-      >
-        <i class="fa-solid fa-registered fs-3"></i>&nbsp;&nbsp; Dodajte zahtev
-        za rezervaciju
-      </button>
     </div>
   </div>
   <!-- zaglavlje kraj -->
@@ -514,22 +333,15 @@
 import axios from "axios";
 
 export default {
-  props: ["permissions"],
+  props: ["permissions", "user"],
   data() {
     return {
       permissionsData: this.permissions,
     };
   },
   mounted() {
-    console.log(this.permissionsData[0]);
   },
   methods: {
-    logChange() {
-      console.log(
-        "Checkbox changed:",
-        this.permissionsData[0].canAddReservations
-      );
-    },
     savePermissionsChanges(event) {
       let th = this;
       event.preventDefault();

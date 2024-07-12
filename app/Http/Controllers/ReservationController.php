@@ -11,6 +11,7 @@ use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ReservationsNotifications;
+use App\Models\PermissionsModel;
 
 
 class ReservationController extends Controller
@@ -18,7 +19,12 @@ class ReservationController extends Controller
     public function reservations()
     {
         $user = User::find(session('user')->id);
-        return view('reservations', compact('user'));
+        $canEditReservations = $user->canEditReservations;
+        $canAddReservations = $user->canAddReservations;
+        $canAllowReservations = $user->canAllowReservations;
+        $canDeleteReservations = $user->canDeleteReservations;
+
+        return view('reservations', compact('user', 'canEditReservations', 'canAddReservations', 'canAllowReservations', 'canDeleteReservations'));
     }
     public function getReservations(Request $request)
     {

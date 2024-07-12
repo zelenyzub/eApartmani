@@ -7,7 +7,7 @@
                 <li class="breadcrumb-item">Rezervacije</li>
             </ol>
         </div>
-        <div v-if="role === 'SUPERADMIN'" class="col-8 d-flex justify-content-end">
+        <div v-if="permissionAddReservations === 1" class="col-8 d-flex justify-content-end">
             <div>
 											<!--begin::Menu toggle-->
 											<a href="#" class="btn btn-flex btn-secondary fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" @click="resFilters">
@@ -639,7 +639,7 @@ export default {
         Datepicker,
         VueTimepicker
     },
-    props: ['userRole'],
+    props: ['userRole','canEditReservations','canAddReservations','canAllowReservations','canDeleteReservations'],
     data() {
         return {
             selectedApartment: 0,
@@ -657,6 +657,10 @@ export default {
             guestDescription: null,
 
             role: this.userRole,
+            permissionEditReservations: this.canEditReservations,
+            permissionAddReservations: this.canAddReservations,
+            permissionAllowReservations: this.canAllowReservations,
+            permissionDeleteReservations: this.canDeleteReservations,
 
             userRowID: null,
 
@@ -915,6 +919,9 @@ export default {
         reservationsTable() {
             var th = this;
             var role = this.userRole;
+            var permissionEditReservations = this.canEditReservations;
+            var permissionDeleteReservations = this.canDeleteReservations;
+            var permissionAllowReservations = this.canAllowReservations;
             $("#reservationsTable").DataTable().clear().draw();
             $("#reservationsTable").DataTable().clear().destroy();
             var reservationsTable = $("#reservationsTable").DataTable({
@@ -1016,39 +1023,24 @@ export default {
                             actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#reservationInfoModal" id="infoAction" class="dropdown-item" data-entry-id="' +
                                 row.id +
                                 '" ><i class="fa-solid fa-eye fa-sm" style="margin-right: 5px"></i>Pregled</a>';
-
-                            if (role === "SUPERADMIN" || role === "ADMIN") {
+                            if (permissionEditReservations === 1) {
                                 actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
                                     row.id +
                                     '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
                             }
-                            else if (role === "USER" && row.checkRole === 0) {
-                                actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#editReservationModal" id="editAction" class="dropdown-item" data-entry-id="' +
-                                    row.id +
-                                    '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
-                            }
-                            else {
-                                actionsHtml += "</div>" + "</div>";
-                            }
 
-                            if (role === "SUPERADMIN") {
+                            if (permissionDeleteReservations === 1) {
                                 actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteReservationModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
                                     row.id +
                                     '" ><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>';
                             }
-                            else {
-                                actionsHtml += "</div>" + "</div>";
-                            }
 
-                            // Additional action based on checkRole
-                            if (row.checkRole === 0 && role === "SUPERADMIN") {
+                            // Additional action based on checkRole, checkRole JE POKAZATELJ DA LI JE ODOBRENO ILI NIJE
+                            if (permissionAllowReservations === 1 && row.checkRole === 0) {
                                 actionsHtml += '<a type="button" data-bs-toggle="modal" data-bs-target="#allowReservationModal" id="allowAction" class="dropdown-item" data-entry-id="' +
                                     row.id +
                                     '" ><i class="fa-solid fa-check fa-sm" style="margin-right: 5px"></i>Odobri</a>';
                             }
-
-                            actionsHtml += "</div>" + "</div>";
-
                             return actionsHtml;
                         },
                     },
