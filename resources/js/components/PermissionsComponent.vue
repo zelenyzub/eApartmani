@@ -219,7 +219,7 @@
                         :false-value="0"
                       />
                       <label class="form-check-label" for="canEditReservations">
-                        Korisnik može da vrši izmenu na rezervacijama
+                        Korisnik može da vrši izmene na rezervacijama
                       </label>
                     </div>
 
@@ -284,7 +284,7 @@
                       ></i>
                     </span>
                     <h3 class="fs-4 fw-semibold mb-0 ms-4">
-                      What are the support terms & conditions ?
+                      Permisije Apartmani
                     </h3>
                   </div>
                   <!--end::Header-->
@@ -295,8 +295,60 @@
                     class="collapse fs-6 ps-10"
                     data-bs-parent="#kt_accordion_3"
                   >
-                    ...
+                    <!-- PERMISIJE APARTMANI -->
+                    <div class="form-check mt-3 mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="canAddApartments"
+                        v-model="permissionsData[0].canAddApartments"
+                        :true-value="1"
+                        :false-value="0"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="canAddApartments"
+                      >
+                        Korisnik može da dodaje nove apartmane
+                      </label>
+                    </div>
+                    <div class="form-check mt-3 mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="canEditApartments"
+                        v-model="permissionsData[0].canEditApartments"
+                        :true-value="1"
+                        :false-value="0"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="canEditApartments"
+                      >
+                        Korisnik može da vrši izmene na apartmanima
+                      </label>
+                    </div>
+                    <div class="form-check mt-3 mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="canDeleteApartments"
+                        v-model="permissionsData[0].canDeleteApartments"
+                        :true-value="1"
+                        :false-value="0"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="canDeleteApartments"
+                      >
+                        Korisnik može da obriše apartmane
+                      </label>
+                    </div>
                   </div>
+                  <!-- PERMISIJE APARTMANI -->
                   <!--end::Body-->
                 </div>
                 <!--end::Item-->
@@ -340,17 +392,22 @@ export default {
     };
   },
   mounted() {
+    console.log(this.permissionsData);
   },
   methods: {
     savePermissionsChanges(event) {
       let th = this;
       event.preventDefault();
       const permissionsDataChanged = {
-        id:th.permissionsData[0].id,
+        id: th.permissionsData[0].id,
         canAddReservations: th.permissionsData[0].canAddReservations,
         canAllowReservations: th.permissionsData[0].canAllowReservations,
         canDeleteReservations: th.permissionsData[0].canDeleteReservations,
         canEditReservations: th.permissionsData[0].canEditReservations,
+
+        canAddApartments: th.permissionsData[0].canAddApartments,
+        canEditApartments: th.permissionsData[0].canEditApartments,
+        canDeleteApartments: th.permissionsData[0].canDeleteApartments,
       };
       axios
         .post(

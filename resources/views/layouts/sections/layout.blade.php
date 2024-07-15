@@ -499,7 +499,8 @@ License: For each use you must have a valid license purchased only from above li
                                         <div class="menu-sub menu-sub-accordion">
 
                                             {{-- DODAJ APARTMAN --}}
-                                            @if (session('user')->role == 'SUPERADMIN')
+                                            {{-- @dd(session('user')) --}}
+                                            {{-- @if (session('user')->canAddApartmentss === 1)
                                             <div class="menu-item">
                                                 <a class="menu-link" href="/dodaj-apartman">
                                                     <span class="menu-bullet">
@@ -517,7 +518,7 @@ License: For each use you must have a valid license purchased only from above li
                                                     <span class="menu-title">Dodaj apartman</span>
                                                 </a>
                                             </div>
-                                            @endif
+                                            @endif --}}
                                             {{-- DODAJ APARTMAN --}}
 
                                             {{-- LISTA APARTMANA --}}

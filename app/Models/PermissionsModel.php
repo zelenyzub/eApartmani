@@ -17,14 +17,17 @@ class PermissionsModel extends Model
             ->get();
     }
 
-    public function savePermissionChanges($id, $canAddReservations, $canAllowReservations, $canDeleteReservations, $canEditReservations){
+    public function savePermissionChanges($id, $canAddReservations, $canAllowReservations, $canDeleteReservations, $canEditReservations, $canAddApartments, $canEditApartments, $canDeleteApartments){
         $query = DB::table('users')
             ->where('id', $id)
             ->update([
                 'canAddReservations' => $canAddReservations,
                 'canAllowReservations' => $canAllowReservations,
                 'canDeleteReservations' => $canDeleteReservations,
-                'canEditReservations' => $canEditReservations
+                'canEditReservations' => $canEditReservations,
+                'canAddApartments' => $canAddApartments,
+                'canEditApartments' => $canEditApartments,
+                'canDeleteApartments' => $canDeleteApartments
             ]);
         return $query;
     }

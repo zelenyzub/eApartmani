@@ -7,7 +7,7 @@
         <li class="breadcrumb-item">Lista apartmana</li>
       </ol>
     </div>
-    <div v-if="role === 'SUPERADMIN'" class="col-6 d-flex justify-content-end">
+    <div v-if="permissionAddApartments === 1" class="col-6 d-flex justify-content-end">
       <a href="/dodaj-apartman" class="btn btn-primary">
         <i class="fa fa-home fs-6" aria-hidden="true"></i>&nbsp;&nbsp; Dodajte
         novi apartman
@@ -134,10 +134,13 @@
   <script>
 import axios from "axios";
 export default {
-  props: ["userRole"],
+  props: ["userRole", "canAddApartments", "canEditApartments", "canDeleteApartments"],
   data() {
     return {
       role: this.userRole,
+      permissionAddApartments: this.canAddApartments,
+      permissionEditApartments: this.canEditApartments,
+      permissionDeleteApartments: this.canDeleteApartments,
 
       apartID: null,
 
@@ -201,6 +204,8 @@ export default {
     apartmentList() {
       var th = this;
       var role = this.userRole;
+      var permissionEditApartments = this.canEditApartments;
+      var permissionDeleteApartments = this.canDeleteApartments;
       $("#apartmentList").DataTable().clear().draw();
       $("#apartmentList").DataTable().clear().destroy();
       var apartmentList = $("#apartmentList").DataTable({
@@ -297,22 +302,18 @@ export default {
                 row.id +
                 '" ><i class="fa-solid fa-eye fa-sm" style="margin-right: 5px"></i>Pregled</a>';
 
-              if (role === "SUPERADMIN" || role === "ADMIN") {
+              if (permissionEditApartments === 1) {
                 actionsHtml +=
                   '<a type="button" data-bs-toggle="modal" data-bs-target="#editApartmentModal" id="editAction" class="dropdown-item" data-entry-id="' +
                   row.id +
                   '" ><i class="fa-regular fa-pen-to-square fa-sm" style="margin-right: 5px"></i>Izmeni</a>';
-              } else {
-                actionsHtml += "</div>" + "</div>";
               }
 
-              if (role === "SUPERADMIN") {
+              if (permissionDeleteApartments === 1) {
                 actionsHtml +=
                   '<a type="button" data-bs-toggle="modal" data-bs-target="#deleteApartmentModal" id="deleteAction" class=" deleteAction dropdown-item" data-entry-id="' +
                   row.id +
                   '" ><i class="fa-solid fa-trash-can fa-sm" style="margin-right: 5px"></i> Obriši</a>';
-              } else {
-                actionsHtml += "</div>" + "</div>";
               }
 
               actionsHtml += "</div>" + "</div>";

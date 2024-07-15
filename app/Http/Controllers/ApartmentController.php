@@ -12,7 +12,11 @@ class ApartmentController extends Controller
     public function apartmentListPage()
     {
         $user = User::find(session('user')->id);
-        return view('apartmentList', compact('user'));
+        $canAddApartments = $user->canAddApartments;
+        $canEditApartments = $user->canEditApartments;
+        $canDeleteApartments = $user->canDeleteApartments;
+
+        return view('apartmentList', compact('user', 'canAddApartments', 'canEditApartments', 'canDeleteApartments'));
     }
 
     public function addApartmentPage()
