@@ -29,6 +29,8 @@ import AddApartmentComponent from './components/AddApartmentComponent.vue';
 app.component('add-apartment-page', AddApartmentComponent);
 import PermissionsComponent from './components/PermissionsComponent.vue';
 app.component('permissions-page', PermissionsComponent);
+import IncomeComponent from './components/IncomeComponent.vue';
+app.component('income-component', IncomeComponent);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

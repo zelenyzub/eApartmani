@@ -567,20 +567,20 @@ License: For each use you must have a valid license purchased only from above li
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
-                                                    <span class="menu-title">Lista prihoda</span>
+                                                    <span class="menu-title">Lista prihoda po apartmanima</span>
                                                 </a>
                                             </div>
                                             {{-- LISTA PRIHODA --}}
 
                                             {{-- LISTA RASHODA --}}
-                                            <div class="menu-item">
+                                            {{-- <div class="menu-item">
                                                 <a class="menu-link" href="/lista-rashoda">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
                                                     <span class="menu-title">Lista rashoda</span>
                                                 </a>
-                                            </div>
+                                            </div> --}}
                                             {{-- LISTA RASHODA --}}
                                         </div>
                                         {{-- DROPDOWN FINANSIJE --}}

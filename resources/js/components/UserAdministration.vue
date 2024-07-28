@@ -234,7 +234,20 @@ export default {
                     { data: "name" },
                     { data: "surname" },
                     { data: "email" },
-                    { data: "role" },
+                    {
+                        data: "role",
+                        render: function (data, type, row) {
+                            // Convert role data to human-readable format
+                            switch (data) {
+                                case "SUPERADMIN":
+                                    return "Administrator";
+                                case "USER":
+                                    return "Korisnik";
+                                default:
+                                    return data; // Return the original data if it doesn't match any case
+                            }
+                        }
+                    },
                     {
                         data: "akcije",
                         render: function (data, type, row) {
@@ -256,7 +269,6 @@ export default {
                             );
                         },
                     },
-
                 ],
             });
         },

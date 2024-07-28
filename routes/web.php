@@ -49,6 +49,10 @@ Route::get('/', function () {
     Route::post('/dodaj-apartman/uploadPhoto', [App\Http\Controllers\ApartmentController::class, 'uploadImage'])->name('uploadImage');
     Route::post('/getApartDeailedInfo', [App\Http\Controllers\ApartmentController::class, 'getApartDeailedInfo'])->name('getApartDeailedInfo');
 
+    //FINANSIJE
+    Route::get('/lista-prihoda', [App\Http\Controllers\IncomeController::class, 'incomeListPage'])->name('lista-prihoda');
+    Route::post('/lista-prihoda/saveNewExpence', [App\Http\Controllers\IncomeController::class, 'saveNewExpence'])->name('saveNewExpence');
+
 });
 // SUPERADMIN MIDLEWARE
 Route::middleware('checkrole')->group(function () {
