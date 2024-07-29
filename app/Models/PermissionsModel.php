@@ -17,7 +17,7 @@ class PermissionsModel extends Model
             ->get();
     }
 
-    public function savePermissionChanges($id, $canAddReservations, $canAllowReservations, $canDeleteReservations, $canEditReservations, $canAddApartments, $canEditApartments, $canDeleteApartments){
+    public function savePermissionChanges($id, $canAddReservations, $canAllowReservations, $canDeleteReservations, $canEditReservations, $canAddApartments, $canEditApartments, $canDeleteApartments, $canManagePercentage, $canManageAdditionalExpences, $canExportExpences){
         $query = DB::table('users')
             ->where('id', $id)
             ->update([
@@ -27,7 +27,10 @@ class PermissionsModel extends Model
                 'canEditReservations' => $canEditReservations,
                 'canAddApartments' => $canAddApartments,
                 'canEditApartments' => $canEditApartments,
-                'canDeleteApartments' => $canDeleteApartments
+                'canDeleteApartments' => $canDeleteApartments,
+                'canManagePercentage' => $canManagePercentage,
+                'canManageAdditionalExpences' => $canManageAdditionalExpences,
+                'canExportExpences' => $canExportExpences
             ]);
         return $query;
     }

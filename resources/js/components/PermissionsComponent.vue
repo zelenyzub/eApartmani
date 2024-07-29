@@ -352,6 +352,95 @@
                   <!--end::Body-->
                 </div>
                 <!--end::Item-->
+
+                <!--begin::Item-->
+                <div class="mb-5">
+                  <!--begin::Header-->
+                  <div
+                    class="accordion-header py-3 d-flex collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#kt_accordion_3_item_4"
+                  >
+                    <span class="accordion-icon">
+                      <i
+                        class="ki-duotone ki-plus-square fs-3 accordion-icon-off"
+                        ><span class="path1"></span><span class="path2"></span
+                        ><span class="path3"></span
+                      ></i>
+                      <i
+                        class="ki-duotone ki-minus-square fs-3 accordion-icon-on"
+                        ><span class="path1"></span><span class="path2"></span
+                      ></i>
+                    </span>
+                    <h3 class="fs-4 fw-semibold mb-0 ms-4">
+                      Permisije Finansije
+                    </h3>
+                  </div>
+                  <!--end::Header-->
+
+                  <!--begin::Body-->
+                  <div
+                    id="kt_accordion_3_item_4"
+                    class="collapse fs-6 ps-10"
+                    data-bs-parent="#kt_accordion_3"
+                  >
+                    <!-- PERMISIJE FINANSIJE -->
+                    <div class="form-check mt-3 mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="canManagePercentage"
+                        v-model="permissionsData[0].canManagePercentage"
+                        :true-value="1"
+                        :false-value="0"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="canManagePercentage"
+                      >
+                        Korisnik može da postavlja vrednost procenta
+                      </label>
+                    </div>
+                    <div class="form-check mt-3 mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="canManageAdditionalExpences"
+                        v-model="permissionsData[0].canManageAdditionalExpences"
+                        :true-value="1"
+                        :false-value="0"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="canManageAdditionalExpences"
+                      >
+                        Korisnik može da dodaje dodatne troškove
+                      </label>
+                    </div>
+                    <div class="form-check mt-3 mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="canExportExpences"
+                        v-model="permissionsData[0].canExportExpences"
+                        :true-value="1"
+                        :false-value="0"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="canExportExpences"
+                      >
+                        Korisnik može da napravi izvod finansija apartmana
+                      </label>
+                    </div>
+                  </div>
+                  <!-- PERMISIJE APARTMANI -->
+                  <!--end::Body-->
+                </div>
+                <!--end::Item-->
               </div>
               <!--end::Accordion-->
 
@@ -408,6 +497,10 @@ export default {
         canAddApartments: th.permissionsData[0].canAddApartments,
         canEditApartments: th.permissionsData[0].canEditApartments,
         canDeleteApartments: th.permissionsData[0].canDeleteApartments,
+
+        canManagePercentage: th.permissionsData[0].canManagePercentage,
+        canManageAdditionalExpences: th.permissionsData[0].canManageAdditionalExpences,
+        canExportExpences: th.permissionsData[0].canExportExpences
       };
       axios
         .post(

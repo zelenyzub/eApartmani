@@ -554,7 +554,7 @@ License: For each use you must have a valid license purchased only from above li
                                             <span class="menu-icon">
                                                 <i class="fa fa-credit-card fs-1"></i>
                                             </span>
-                                            <span class="menu-title">Finansije</span>
+                                            <span class="menu-title">Finansije&nbsp;&nbsp;<span class="badge badge-success">Novo</span></span>
                                             <span class="menu-arrow"></span>
                                         </span>
                                         {{-- FINANSIJE LINK --}}

@@ -18,7 +18,7 @@ class Income extends Model
         $incomeData = DB::table('apartments')
             ->leftJoin('reservations', function ($join) use ($currentYear) {
                 $join->on('apartments.id', '=', 'reservations.apart_id')
-                    ->whereYear('reservations.created_at', $currentYear);
+                    ->whereYear('reservations.date_start', $currentYear);
             })
             ->leftJoin(DB::raw('(SELECT apart_id, SUM(expencesPrice) as totalExpencesPrice 
             FROM expences 
@@ -38,9 +38,6 @@ class Income extends Model
         return $incomeData;
     }
 
-
-
-
     public function saveNewExpence($apartID, $description, $amount)
     {
         $data = [
@@ -54,4 +51,38 @@ class Income extends Model
             ->insertGetId($data);
         return $query;
     }
+    public function getInvoiceExportData($apartID)
+    {
+        $currentYear = date('Y');
+
+        $reservationsInvoice = DB::table('reservations')
+            ->join('apartments', 'reservations.apart_id', '=', 'apartments.id')
+            ->where('reservations.apart_id', $apartID)
+            ->whereYear('reservations.date_start', $currentYear)
+            ->select(
+                'reservations.date_start',
+                'reservations.date_end',
+                'reservations.fullPrice',
+                'apartments.apartmentName'
+            )
+            ->get();
+
+        $expencesInvoice = DB::table('expences')
+            ->join('apartments', 'expences.apart_id', '=', 'apartments.id')
+            ->where('expences.apart_id', $apartID)
+            ->whereYear('expences.created_at', $currentYear)
+            ->select(
+                'expences.expencesDescription',
+                'expences.expencesPrice',
+                'apartments.apartmentName'
+            )
+            ->get();
+
+        // dd($reservationsInvoice, $expencesInvoice);
+        return [
+            'reservationsInvoice' => $reservationsInvoice,
+            'expencesInvoice' => $expencesInvoice
+        ];
+    }
+
 }

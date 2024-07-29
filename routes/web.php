@@ -52,6 +52,7 @@ Route::get('/', function () {
     //FINANSIJE
     Route::get('/lista-prihoda', [App\Http\Controllers\IncomeController::class, 'incomeListPage'])->name('lista-prihoda');
     Route::post('/lista-prihoda/saveNewExpence', [App\Http\Controllers\IncomeController::class, 'saveNewExpence'])->name('saveNewExpence');
+    Route::post('/lista-prihoda/exportInvoiceTxt', [App\Http\Controllers\IncomeController::class, 'exportInvoiceTxt'])->name('exportInvoiceTxt');
 
 });
 // SUPERADMIN MIDLEWARE

@@ -31,8 +31,12 @@ class Permissions extends Controller
         $canEditApartments = $request->canEditApartments;
         $canDeleteApartments = $request->canDeleteApartments;
 
+        $canManagePercentage = $request->canManagePercentage;
+        $canManageAdditionalExpences = $request->canManageAdditionalExpences;
+        $canExportExpences = $request->canExportExpences;
+
         $savePermissionChanges = new PermissionsModel();
-        $savePermissionChanges->savePermissionChanges($id, $canAddReservations, $canAllowReservations, $canDeleteReservations, $canEditReservations, $canAddApartments, $canEditApartments, $canDeleteApartments);
+        $savePermissionChanges->savePermissionChanges($id, $canAddReservations, $canAllowReservations, $canDeleteReservations, $canEditReservations, $canAddApartments, $canEditApartments, $canDeleteApartments, $canManagePercentage, $canManageAdditionalExpences, $canExportExpences);
 
         return response()->json(['message' => 'Uspesno sačuvano'], 200);
     }
