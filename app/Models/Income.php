@@ -14,7 +14,7 @@ class Income extends Model
     public static function incomeData()
     {
         $currentYear = date('Y');
-
+    
         $incomeData = DB::table('apartments')
             ->leftJoin('reservations', function ($join) use ($currentYear) {
                 $join->on('apartments.id', '=', 'reservations.apart_id')
@@ -30,11 +30,11 @@ class Income extends Model
                 'apartments.apartmentPhotos',
                 DB::raw('SUM(reservations.fullPrice) as totalFullPrice'),
                 DB::raw('SUM(reservations.taxPrice) as totalTaxPrice'),
-                DB::raw('COALESCE(exp.totalExpencesPrice, 0) as totalExpencesPrice')
+                DB::raw('IFNULL(SUM(exp.totalExpencesPrice), 0) as totalExpencesPrice')
             )
             ->groupBy('apartments.id', 'apartments.apartmentName', 'apartments.apartmentPhotos')
             ->get();
-
+    
         return $incomeData;
     }
 
