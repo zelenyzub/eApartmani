@@ -143,7 +143,7 @@
                   <div class="input-group input-group-solid mb-5">
                     <span class="input-group-text">€</span>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       v-model="amount"
                       @input="formatAmount"
