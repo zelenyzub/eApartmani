@@ -145,10 +145,9 @@
                     <input
                       type="text"
                       class="form-control"
-                      aria-label="Amount (to the nearest dollar)"
                       v-model="amount"
+                      @input="formatAmount"
                     />
-                    <span class="input-group-text">.00</span>
                   </div>
                   <div class="text-muted fs-7">
                     Ovde unesite iznos dodatnog troška.
@@ -178,7 +177,7 @@
       </div>
     </div>
   </template>
-    
+  
   <script>
   export default {
     props: [
@@ -215,7 +214,7 @@
         const percentageAmount =
           item.totalFullPrice * (item.percentageInput / 100);
         const amountAfterPercentage = item.totalFullPrice - percentageAmount;
-        return (amountAfterPercentage + item.totalExpencesPrice).toFixed(2);
+        return (amountAfterPercentage - item.totalExpencesPrice).toFixed(2);
       },
       getStoredPercentage(apartmentName) {
         const storedValue = localStorage.getItem(`percentage-${apartmentName}`);
@@ -279,11 +278,18 @@
             console.error(error);
           });
       },
+      formatAmount() {
+        // Proveri da li amount sadrži broj
+        if (this.amount && !isNaN(this.amount)) {
+          // Ukloni eventualne suvišne nule posle decimale
+          this.amount = parseFloat(this.amount).toString();
+        }
+      },
     },
     mounted() {},
   };
   </script>
-    
+  
   <style scoped>
   .card-img-top {
     width: 100%;
